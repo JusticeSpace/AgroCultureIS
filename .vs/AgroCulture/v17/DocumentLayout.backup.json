@@ -1,0 +1,118 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\resources\\styles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\resources\\styles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 331,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T16:27:42.933Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.config",
+              "RelativeDocumentMoniker": "AgroCulture\\App.config",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.config",
+              "RelativeToolTip": "AgroCulture\\App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-10-27T16:16:25.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Styles.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Resources\\Styles.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\Resources\\Styles.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Resources\\Styles.xaml",
+              "RelativeToolTip": "AgroCulture\\Resources\\Styles.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-27T16:14:08.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml",
+              "RelativeToolTip": "AgroCulture\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-27T16:13:04.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\LoginWindow.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\LoginWindow.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\LoginWindow.xaml",
+              "RelativeToolTip": "AgroCulture\\LoginWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-27T16:12:41.616Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\App.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.xaml",
+              "RelativeToolTip": "AgroCulture\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-27T16:11:16.619Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
