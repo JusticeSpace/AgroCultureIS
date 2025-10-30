@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1909fdd5528a4b17a804e470b8766766" Name="Diagram1">
+        <EntityTypeShape EntityType="AgroCultureModel.Amenities" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgroCultureModel.Bookings" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgroCultureModel.Cabins" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgroCultureModel.Guests" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgroCultureModel.Users" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgroCultureModel.BookingsDetails" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgroCultureModel.CabinsStatistics" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgroCultureModel.CabinsWithAmenities" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="AgroCultureModel.FK__Bookings__CabinI__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="AgroCultureModel.FK__Bookings__Create__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="AgroCultureModel.FK__Bookings__GuestI__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="AgroCultureModel.CabinAmenities" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Media;
+using AgroCulture.Services;
 
 namespace AgroCulture
 {
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        public static DatabaseService Database { get; private set; }
+        public static Users CurrentUser { get; set; }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            // ✅ ГЛОБАЛЬНЫЕ НАСТРОЙКИ КАЧЕСТВА РЕНДЕРИНГА
+            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.Default;
+
+            // Инициализация БД
+            Database = new DatabaseService();
+        }
     }
 }

@@ -1,14 +1,18 @@
 ﻿<Window x:Class="AgroCulture.MainWindow"
-         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Лесная усадьба - Система бронирования" 
-        Height="800" Width="1280"
+        Height="1080" Width="1920"
         MinHeight="600" MinWidth="1024"
         WindowStartupLocation="CenterScreen"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="#f9fafb"
-        FontFamily="{materialDesign:MaterialDesignFont}">
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        RenderOptions.BitmapScalingMode="HighQuality">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -20,9 +24,7 @@
                 <ResourceDictionary Source="Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- ========================================
-                 СТИЛЬ ДЛЯ КНОПОК-ТАБОВ (улучшенный)
-            ========================================= -->
+            <!-- Стили табов -->
             <Style x:Key="ModernTabButton" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="0"/>
@@ -39,11 +41,9 @@
                                                 VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <!-- Hover эффект -->
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="border" Property="Background" Value="#f3f4f6"/>
                                 </Trigger>
-                                <!-- Pressed эффект -->
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter TargetName="border" Property="Background" Value="#e5e7eb"/>
                                 </Trigger>
@@ -53,25 +53,20 @@
                 </Setter>
             </Style>
 
-            <!-- Стиль для активного таба -->
             <Style x:Key="ActiveTabButton" TargetType="Button" BasedOn="{StaticResource ModernTabButton}">
                 <Setter Property="Background" Value="#15803d"/>
             </Style>
-
         </ResourceDictionary>
     </Window.Resources>
 
+    <!-- ⚠️ ДОЛЖЕН БЫТЬ ТОЛЬКО ОДИН Grid (НЕ ДВА!) -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Header -->
             <RowDefinition Height="*"/>
-            <!-- Content -->
         </Grid.RowDefinitions>
 
-        <!-- ========================================
-             HEADER (Улучшенная шапка)
-        ========================================= -->
+        <!-- HEADER -->
         <Border Grid.Row="0" 
                 Background="White"
                 BorderBrush="#e5e7eb" 
@@ -83,26 +78,23 @@
                                 Opacity="0.06"/>
             </Border.Effect>
 
-            <Grid Height="80" 
-                  Margin="32,0">
-
-                <!-- Левая часть: Логотип и название -->
+            <Grid Height="80" Margin="32,0">
+                <!-- Левая часть: Логотип -->
                 <StackPanel Orientation="Horizontal" 
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Left">
 
-                    <!-- Логотип в круге -->
                     <Border Width="48" Height="48"
                             Background="#15803d"
                             CornerRadius="24"
                             Margin="0,0,16,0">
-                        <TextBlock Text="🌲" 
-                                  FontSize="24" 
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Kind="PineTree" 
+                                                Width="28" Height="28"
+                                                Foreground="White"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"/>
                     </Border>
 
-                    <!-- Текст -->
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Text="Лесная усадьба" 
                                   FontSize="20"
@@ -120,16 +112,13 @@
                            HorizontalAlignment="Right" 
                            VerticalAlignment="Center">
 
-                    <!-- Карточка пользователя -->
                     <materialDesign:Card Padding="12,8"
                                         UniformCornerRadius="8"
                                         materialDesign:ElevationAssist.Elevation="Dp0"
                                         Background="#f9fafb"
                                         Margin="0,0,12,0">
                         <StackPanel>
-                            <!-- Имя пользователя -->
-                            <StackPanel Orientation="Horizontal" 
-                                       Margin="0,0,0,4">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                                 <materialDesign:PackIcon Kind="Account" 
                                                         Width="14" Height="14"
                                                         Foreground="#6b7280" 
@@ -143,7 +132,6 @@
                                           VerticalAlignment="Center"/>
                             </StackPanel>
 
-                            <!-- Badge роли -->
                             <Border x:Name="UserRoleBadge"
                                    Background="#7c3aed"
                                    CornerRadius="10"
@@ -158,7 +146,6 @@
                         </StackPanel>
                     </materialDesign:Card>
 
-                    <!-- Кнопка профиля -->
                     <Button Style="{StaticResource MaterialDesignIconButton}"
                            Width="40" Height="40" 
                            Margin="0,0,8,0"
@@ -169,7 +156,6 @@
                                                 Foreground="#6b7280"/>
                     </Button>
 
-                    <!-- Кнопка выхода -->
                     <Button Style="{StaticResource MaterialDesignRaisedButton}"
                            Height="40"
                            Padding="16,0"
@@ -190,11 +176,8 @@
             </Grid>
         </Border>
 
-        <!-- ========================================
-             CONTENT AREA
-        ========================================= -->
+        <!-- CONTENT AREA -->
         <Grid Grid.Row="1">
-            <!-- Градиентный фон -->
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#f0fdf4" Offset="0"/>
@@ -203,21 +186,16 @@
                 </LinearGradientBrush>
             </Grid.Background>
 
-            <!-- Контейнер с max-width -->
             <Grid MaxWidth="1400" 
                  HorizontalAlignment="Stretch"
                  Margin="32,24">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <!-- Табы -->
                     <RowDefinition Height="*"/>
-                    <!-- Контент -->
                 </Grid.RowDefinitions>
 
-                <!-- ========================================
-                     NAVIGATION TABS (улучшенные)
-                ========================================= -->
+                <!-- NAVIGATION TABS -->
                 <materialDesign:Card Grid.Row="0"
                                     Padding="8"
                                     Margin="0,0,0,24"
@@ -233,14 +211,13 @@
 
                         <!-- TAB 1: Сотрудники -->
                         <Button x:Name="StaffTabButton" 
-                                       Grid.Column="0"
-                                        Background="#F3E8FF"
-                                       Style="{StaticResource ActiveTabButton}"
-                                       Click="StaffTabButton_Click"
-                                       Margin="0,0,4,0"
-                                       Tag="Staff">
-                            <StackPanel Orientation="Horizontal" 
-                                       HorizontalAlignment="Center">
+                               Grid.Column="0"
+                               Background="#F3E8FF"
+                               Style="{StaticResource ActiveTabButton}"
+                               Click="StaffTabButton_Click"
+                               Margin="0,0,4,0"
+                               Tag="Staff">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="AccountGroup" 
                                                         Width="20" Height="20"
                                                         Foreground="#7c3aed"
@@ -257,13 +234,12 @@
                         <!-- TAB 2: Бронирование -->
                         <Button x:Name="BookingTabButton" 
                                Grid.Column="1"
-                                Background="Transparent"
+                               Background="Transparent"
                                Style="{StaticResource ModernTabButton}"
                                Click="BookingTabButton_Click"
                                Margin="4,0"
                                Tag="Booking">
-                            <StackPanel Orientation="Horizontal" 
-                                       HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Home" 
                                                         Width="20" Height="20"
                                                         Foreground="#6b7280"
@@ -280,12 +256,12 @@
                         <!-- TAB 3: Список бронирований -->
                         <Button x:Name="ListTabButton" 
                                Grid.Column="2"
+                               Background="Transparent"
                                Style="{StaticResource ModernTabButton}"
                                Click="ListTabButton_Click"
                                Margin="4,0,0,0"
                                Tag="List">
-                            <StackPanel Orientation="Horizontal" 
-                                       HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="FormatListBulleted" 
                                                         Width="20" Height="20"
                                                         Foreground="#6b7280"
@@ -301,9 +277,7 @@
                     </Grid>
                 </materialDesign:Card>
 
-                <!-- ========================================
-                     CONTENT FRAME
-                ========================================= -->
+                <!-- CONTENT FRAME -->
                 <Border Grid.Row="1"
                         Background="White"
                         CornerRadius="12"
