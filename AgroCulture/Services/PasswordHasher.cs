@@ -1,40 +1,29 @@
 ﻿using System;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace AgroCulture.Services
 {
+    /// <summary>
+    /// Упрощенная версия для курсовой работы
+    /// </summary>
     public static class PasswordHasher
     {
         /// <summary>
-        /// Хеширование пароля SHA256
+        /// Возвращает пароль как есть (без хеширования)
         /// </summary>
         public static string HashPassword(string password)
         {
             if (string.IsNullOrWhiteSpace(password))
                 throw new ArgumentException("Пароль не может быть пустым");
 
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-
-                foreach (byte b in bytes)
-                {
-                    builder.Append(b.ToString("x2"));
-                }
-
-                return builder.ToString();
-            }
+            return password.Trim(); // ✅ ПРОСТАЯ ВЕРСИЯ
         }
 
         /// <summary>
-        /// Проверка пароля
+        /// Проверка пароля (простое сравнение)
         /// </summary>
         public static bool VerifyPassword(string password, string hash)
         {
-            string hashOfInput = HashPassword(password);
-            return hashOfInput.Equals(hash, StringComparison.OrdinalIgnoreCase);
+            return password?.Trim() == hash?.Trim();
         }
     }
 }

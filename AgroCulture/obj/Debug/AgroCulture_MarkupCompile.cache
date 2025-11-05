@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Admin\Source\Repos\AgroCultureIS\AgroCulture\obj\Debug\
+C:\Users\nurul\source\repos\AgroCulture\AgroCulture\obj\Debug\
 AgroCulture
 none
 false
 DEBUG;TRACE
-C:\Users\Admin\Source\Repos\AgroCultureIS\AgroCulture\App.xaml
-41644720625
+C:\Users\nurul\source\repos\AgroCulture\AgroCulture\App.xaml
+9-1430910566
 22035508349
-242078227611
-21-577028662
-LoginWindow.xaml;MainWindow.xaml;Resources\Styles.xaml;Views\StaffManagementView.xaml;
+35-907915982
+43-1715503488
+LoginWindow.xaml;MainWindow.xaml;Resources\Styles.xaml;Views\BookingEditWindow.xaml;Views\BookingsListView.xaml;Views\CabinBookingView.xaml;Views\ProfilePage.xaml;Views\StaffEditWindow.xaml;Views\StaffManagementView.xaml;
 
 False
 

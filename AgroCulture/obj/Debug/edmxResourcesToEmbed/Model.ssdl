@@ -60,6 +60,16 @@
     <Property Name="Notes" Type="nvarchar" MaxLength="500" />
     <Property Name="CreatedAt" Type="datetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="UserId" />
@@ -160,7 +170,7 @@
     <Property Name="AmenitiesList" Type="nvarchar" MaxLength="4000" />
     <Property Name="AmenitiesIcons" Type="nvarchar" MaxLength="4000" />
   </EntityType>
-  <Association Name="FK__Bookings__CabinI__440B1D61">
+  <Association Name="FK__Bookings__CabinI__571DF1D5">
     <End Role="Cabins" Type="Self.Cabins" Multiplicity="1" />
     <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
     <ReferentialConstraint>
@@ -172,7 +182,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Bookings__Create__45F365D3">
+  <Association Name="FK__Bookings__Create__59063A47">
     <End Role="Users" Type="Self.Users" Multiplicity="1" />
     <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
     <ReferentialConstraint>
@@ -184,7 +194,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Bookings__GuestI__44FF419A">
+  <Association Name="FK__Bookings__GuestI__5812160E">
     <End Role="Guests" Type="Self.Guests" Multiplicity="1" />
     <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
     <ReferentialConstraint>
@@ -196,7 +206,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CabinAmen__Ameni__38996AB5">
+  <Association Name="FK__CabinAmen__Ameni__4BAC3F29">
     <End Role="Amenities" Type="Self.Amenities" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
@@ -210,7 +220,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CabinAmen__Cabin__37A5467C">
+  <Association Name="FK__CabinAmen__Cabin__4AB81AF0">
     <End Role="Cabins" Type="Self.Cabins" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
@@ -230,6 +240,7 @@
     <EntitySet Name="CabinAmenities" EntityType="Self.CabinAmenities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Cabins" EntityType="Self.Cabins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Guests" EntityType="Self.Guests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookingsDetails" EntityType="Self.BookingsDetails" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -283,23 +294,23 @@
     [CabinsWithAmenities].[AmenitiesIcons] AS [AmenitiesIcons]
     FROM [dbo].[CabinsWithAmenities] AS [CabinsWithAmenities]</DefiningQuery>
     </EntitySet>
-    <AssociationSet Name="FK__Bookings__CabinI__440B1D61" Association="Self.FK__Bookings__CabinI__440B1D61">
+    <AssociationSet Name="FK__Bookings__CabinI__571DF1D5" Association="Self.FK__Bookings__CabinI__571DF1D5">
       <End Role="Cabins" EntitySet="Cabins" />
       <End Role="Bookings" EntitySet="Bookings" />
     </AssociationSet>
-    <AssociationSet Name="FK__Bookings__Create__45F365D3" Association="Self.FK__Bookings__Create__45F365D3">
+    <AssociationSet Name="FK__Bookings__Create__59063A47" Association="Self.FK__Bookings__Create__59063A47">
       <End Role="Users" EntitySet="Users" />
       <End Role="Bookings" EntitySet="Bookings" />
     </AssociationSet>
-    <AssociationSet Name="FK__Bookings__GuestI__44FF419A" Association="Self.FK__Bookings__GuestI__44FF419A">
+    <AssociationSet Name="FK__Bookings__GuestI__5812160E" Association="Self.FK__Bookings__GuestI__5812160E">
       <End Role="Guests" EntitySet="Guests" />
       <End Role="Bookings" EntitySet="Bookings" />
     </AssociationSet>
-    <AssociationSet Name="FK__CabinAmen__Ameni__38996AB5" Association="Self.FK__CabinAmen__Ameni__38996AB5">
+    <AssociationSet Name="FK__CabinAmen__Ameni__4BAC3F29" Association="Self.FK__CabinAmen__Ameni__4BAC3F29">
       <End Role="Amenities" EntitySet="Amenities" />
       <End Role="CabinAmenities" EntitySet="CabinAmenities" />
     </AssociationSet>
-    <AssociationSet Name="FK__CabinAmen__Cabin__37A5467C" Association="Self.FK__CabinAmen__Cabin__37A5467C">
+    <AssociationSet Name="FK__CabinAmen__Cabin__4AB81AF0" Association="Self.FK__CabinAmen__Cabin__4AB81AF0">
       <End Role="Cabins" EntitySet="Cabins" />
       <End Role="CabinAmenities" EntitySet="CabinAmenities" />
     </AssociationSet>

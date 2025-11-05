@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -8,46 +9,143 @@ namespace AgroCulture
 {
     public partial class MainWindow : Window
     {
+        // ✅ ПРАВИЛЬНЫЙ КОНСТРУКТОР
         public MainWindow()
         {
             InitializeComponent();
-
-            // ✅ ОТЛОЖЕННАЯ НАВИГАЦИЯ (после загрузки окна)
             Loaded += MainWindow_Loaded;
         }
 
-        // ✅ ВЫЗЫВАЕТСЯ ПОСЛЕ ПОЛНОЙ ЗАГРУЗКИ ОКНА
+        // ✅ ВЫЗЫВАЕТСЯ ПОСЛЕ ЗАГРУЗКИ ОКНА
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            ConfigureUIByRole();
             LoadUserData();
+            NavigateToDefaultPage();
+        }
 
-            // ✅ ТЕПЕРЬ НАВИГАЦИЯ ПРОИСХОДИТ КОГДА ВСЁ ГОТОВО
-            if (App.CurrentUser != null && App.CurrentUser.Role.ToLower() == "guest")
+        // ═══════════════════════════════════════════════════════════
+        // КОНФИГУРАЦИЯ UI ПО РОЛИ
+        // ═══════════════════════════════════════════════════════════
+
+        private void ConfigureUIByRole()
+        {
+            if (App.CurrentUser == null)
             {
-                NavigateToBooking();
-                SetActiveTab(BookingTabButton);
+                ShowLoginAndClose();
+                return;
             }
-            else
+
+            string role = App.CurrentUser.Role.ToLower();
+
+            switch (role)
             {
-                NavigateToStaff();
-                SetActiveTab(StaffTabButton);
+                case "admin":
+                    StaffTabButton.Visibility = Visibility.Visible;
+                    BookingTabButton.Visibility = Visibility.Visible;
+                    ListTabButton.Visibility = Visibility.Visible;
+                    break;
+
+                case "manager":
+                    StaffTabButton.Visibility = Visibility.Collapsed;
+                    BookingTabButton.Visibility = Visibility.Visible;
+                    ListTabButton.Visibility = Visibility.Visible;
+                    break;
+
+                case "guest":
+                    StaffTabButton.Visibility = Visibility.Collapsed;
+                    BookingTabButton.Visibility = Visibility.Collapsed;
+                    ListTabButton.Visibility = Visibility.Visible;
+                    break;
+
+                default:
+                    StaffTabButton.Visibility = Visibility.Collapsed;
+                    BookingTabButton.Visibility = Visibility.Collapsed;
+                    ListTabButton.Visibility = Visibility.Visible;
+                    break;
+            }
+
+            // ✅ КРИТИЧНО: Вызываем ПОСЛЕ установки Visibility
+            ConfigureNavigationGrid();
+        }
+
+        /// <summary>
+        /// Настройка Grid колонок и позиций кнопок
+        /// </summary>
+        private void ConfigureNavigationGrid()
+        {
+            NavigationTabsGrid.ColumnDefinitions.Clear();
+
+            var visibleButtons = new List<Button>();
+
+            if (StaffTabButton.Visibility == Visibility.Visible)
+                visibleButtons.Add(StaffTabButton);
+
+            if (BookingTabButton.Visibility == Visibility.Visible)
+                visibleButtons.Add(BookingTabButton);
+
+            if (ListTabButton.Visibility == Visibility.Visible)
+                visibleButtons.Add(ListTabButton);
+
+            if (visibleButtons.Count == 0) return;
+
+            // Создание равных колонок
+            for (int i = 0; i < visibleButtons.Count; i++)
+            {
+                NavigationTabsGrid.ColumnDefinitions.Add(
+                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+                );
+            }
+
+            // Расстановка кнопок по колонкам
+            for (int i = 0; i < visibleButtons.Count; i++)
+            {
+                Grid.SetColumn(visibleButtons[i], i);
+
+                if (visibleButtons.Count == 1)
+                {
+                    visibleButtons[i].Margin = new Thickness(0);
+                }
+                else if (i == 0)
+                {
+                    visibleButtons[i].Margin = new Thickness(0, 0, 4, 0);
+                }
+                else if (i == visibleButtons.Count - 1)
+                {
+                    visibleButtons[i].Margin = new Thickness(4, 0, 0, 0);
+                }
+                else
+                {
+                    visibleButtons[i].Margin = new Thickness(4, 0, 4, 0);
+                }
+            }
+
+            // Логирование
+            System.Diagnostics.Debug.WriteLine($"[NAV] Настроено {visibleButtons.Count} табов:");
+            for (int i = 0; i < visibleButtons.Count; i++)
+            {
+                var btn = visibleButtons[i];
+                System.Diagnostics.Debug.WriteLine($"  [{i}] {btn.Name} → Column {Grid.GetColumn(btn)}, Margin {btn.Margin}");
             }
         }
 
-        // ========================================
-        // ЗАГРУЗКА ДАННЫХ ПОЛЬЗОВАТЕЛЯ
-        // ========================================
+        // ═══════════════════════════════════════════════════════════
+        // ПУБЛИЧНЫЙ МЕТОД ДЛЯ ОБНОВЛЕНИЯ HEADER
+        // ═══════════════════════════════════════════════════════════
 
-        private void LoadUserData()
+        /// <summary>
+        /// Обновление отображения пользователя в header (вызывается из других страниц)
+        /// </summary>
+        public void UpdateUserDisplay()
         {
             if (App.CurrentUser != null)
             {
                 UserNameText.Text = App.CurrentUser.FullName;
 
-                string roleText = GetRoleDisplayName(App.CurrentUser.Role);
-                Color roleBgColor;
-                Color roleFgColor = Colors.White;
+                // Обновляем badge роли (на всякий случай)
+                UserRoleText.Text = GetRoleDisplayName(App.CurrentUser.Role);
 
+                Color roleBgColor;
                 switch (App.CurrentUser.Role.ToLower())
                 {
                     case "admin":
@@ -64,43 +162,106 @@ namespace AgroCulture
                         break;
                 }
 
-                UserRoleText.Text = roleText;
                 UserRoleBadge.Background = new SolidColorBrush(roleBgColor);
-                UserRoleText.Foreground = new SolidColorBrush(roleFgColor);
+            }
+        }
 
-                // Скрываем вкладку "Сотрудники" для гостей
-                if (App.CurrentUser.Role.ToLower() == "guest")
-                {
-                    StaffTabButton.Visibility = Visibility.Collapsed;
-                }
-            }
-            else
+        // ═══════════════════════════════════════════════════════════
+        // НАВИГАЦИЯ НА СТАРТОВУЮ СТРАНИЦУ
+        // ═══════════════════════════════════════════════════════════
+
+        private void NavigateToDefaultPage()
+        {
+            string role = App.CurrentUser.Role.ToLower();
+
+            switch (role)
             {
-                MessageBox.Show("Ошибка авторизации. Войдите снова.", "Ошибка");
-                LoginWindow loginWindow = new LoginWindow();
-                loginWindow.Show();
-                this.Close();
+                case "admin":
+                    NavigateToStaff();
+                    SetActiveTab(StaffTabButton);
+                    break;
+
+                case "manager":
+                    NavigateToBooking();
+                    SetActiveTab(BookingTabButton);
+                    break;
+
+                case "guest":
+                    NavigateToList();
+                    SetActiveTab(ListTabButton);
+                    break;
+
+                default:
+                    NavigateToList();
+                    SetActiveTab(ListTabButton);
+                    break;
             }
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // ЗАГРУЗКА ДАННЫХ ПОЛЬЗОВАТЕЛЯ
+        // ═══════════════════════════════════════════════════════════
+
+        private void LoadUserData()
+        {
+            if (App.CurrentUser == null)
+            {
+                ShowLoginAndClose();
+                return;
+            }
+
+            UserNameText.Text = App.CurrentUser.FullName;
+
+            string roleText = GetRoleDisplayName(App.CurrentUser.Role);
+            Color roleBgColor;
+            Color roleFgColor = Colors.White;
+
+            switch (App.CurrentUser.Role.ToLower())
+            {
+                case "admin":
+                    roleBgColor = (Color)ColorConverter.ConvertFromString("#7c3aed");
+                    break;
+                case "manager":
+                    roleBgColor = (Color)ColorConverter.ConvertFromString("#2563eb");
+                    break;
+                case "guest":
+                    roleBgColor = (Color)ColorConverter.ConvertFromString("#6b7280");
+                    break;
+                default:
+                    roleBgColor = Colors.Gray;
+                    break;
+            }
+
+            UserRoleText.Text = roleText;
+            UserRoleBadge.Background = new SolidColorBrush(roleBgColor);
+            UserRoleText.Foreground = new SolidColorBrush(roleFgColor);
         }
 
         private string GetRoleDisplayName(string role)
         {
             switch (role?.ToLower())
             {
-                case "admin":
-                    return "Администратор";
-                case "manager":
-                    return "Менеджер";
-                case "guest":
-                    return "Гость";
-                default:
-                    return "Пользователь";
+                case "admin": return "Администратор";
+                case "manager": return "Менеджер";
+                case "guest": return "Гость";
+                default: return "Пользователь";
             }
         }
 
-        // ========================================
+        private void ShowLoginAndClose()
+        {
+            MessageBox.Show("Ошибка авторизации. Войдите снова.", "Ошибка",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            App.CurrentUser = null;
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
+            this.Close();
+        }
+
+        // ═══════════════════════════════════════════════════════════
         // НАВИГАЦИЯ ПО ТАБАМ
-        // ========================================
+        // ═══════════════════════════════════════════════════════════
 
         private void StaffTabButton_Click(object sender, RoutedEventArgs e)
         {
@@ -120,9 +281,9 @@ namespace AgroCulture
             SetActiveTab(ListTabButton);
         }
 
-        // ========================================
+        // ═══════════════════════════════════════════════════════════
         // МЕТОДЫ НАВИГАЦИИ
-        // ========================================
+        // ═══════════════════════════════════════════════════════════
 
         private void NavigateToStaff()
         {
@@ -131,43 +292,29 @@ namespace AgroCulture
 
         private void NavigateToBooking()
         {
-            var textBlock = new TextBlock
-            {
-                Text = "🏠 Бронирование домиков\n\n(Страница в разработке)",
-                FontSize = 24,
-                FontWeight = FontWeights.Bold,
-                Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6b7280")),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                TextAlignment = TextAlignment.Center
-            };
-            MainContentFrame.Content = textBlock;
+            MainContentFrame.Content = new CabinBookingView();
         }
 
         private void NavigateToList()
         {
-            var textBlock = new TextBlock
-            {
-                Text = "📋 Список бронирований\n\n(Страница в разработке)",
-                FontSize = 24,
-                FontWeight = FontWeights.Bold,
-                Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6b7280")),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                TextAlignment = TextAlignment.Center
-            };
-            MainContentFrame.Content = textBlock;
+            MainContentFrame.Content = new BookingsListView();
         }
 
-        // ========================================
+        // ═══════════════════════════════════════════════════════════
         // ВИЗУАЛЬНЫЕ ЭФФЕКТЫ ТАБОВ
-        // ========================================
+        // ═══════════════════════════════════════════════════════════
 
         private void SetActiveTab(Button activeButton)
         {
-            ResetTabButton(StaffTabButton);
-            ResetTabButton(BookingTabButton);
-            ResetTabButton(ListTabButton);
+            if (StaffTabButton.Visibility == Visibility.Visible)
+                ResetTabButton(StaffTabButton);
+
+            if (BookingTabButton.Visibility == Visibility.Visible)
+                ResetTabButton(BookingTabButton);
+
+            if (ListTabButton.Visibility == Visibility.Visible)
+                ResetTabButton(ListTabButton);
+
             ActivateTabButton(activeButton);
         }
 
@@ -229,24 +376,17 @@ namespace AgroCulture
             }
         }
 
-        // ========================================
+        // ═══════════════════════════════════════════════════════════
         // КНОПКИ HEADER
-        // ========================================
+        // ═══════════════════════════════════════════════════════════
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            if (App.CurrentUser != null)
-            {
-                MessageBox.Show(
-                    $"ФИО: {App.CurrentUser.FullName}\n" +
-                    $"Логин: {App.CurrentUser.Username}\n" +
-                    $"Роль: {GetRoleDisplayName(App.CurrentUser.Role)}\n" +
-                    $"Телефон: {App.CurrentUser.Phone ?? "Не указан"}\n" +
-                    $"Email: {App.CurrentUser.Email ?? "Не указан"}",
-                    "Профиль пользователя",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-            }
+            MainContentFrame.Content = new ProfilePage();
+
+            ResetTabButton(StaffTabButton);
+            ResetTabButton(BookingTabButton);
+            ResetTabButton(ListTabButton);
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

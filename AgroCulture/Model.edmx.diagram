@@ -17,6 +17,7 @@
         <AssociationConnector Association="AgroCultureModel.FK__Bookings__Create__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="AgroCultureModel.FK__Bookings__GuestI__44FF419A" ManuallyRouted="false" />
         <AssociationConnector Association="AgroCultureModel.CabinAmenities" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AgroCultureModel.sysdiagrams" Width="1.5" PointX="8.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

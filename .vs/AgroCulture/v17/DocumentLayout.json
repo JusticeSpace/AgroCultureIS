@@ -3,28 +3,140 @@
   "WorkspaceRootPath": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\services\\cabins.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\services\\cabins.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\viewmodels\\cabinbookingviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\viewmodels\\cabinbookingviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\resources\\styles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\resources\\styles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\views\\staffeditwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\staffeditwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\views\\bookingeditwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\bookingeditwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\views\\staffmanagementview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\staffmanagementview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\views\\staffmanagementview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\staffmanagementview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\viewmodels\\bookingslistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\viewmodels\\bookingslistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\views\\bookingeditwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\bookingeditwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\views\\staffeditwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\staffeditwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\views\\cabinbookingview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\cabinbookingview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\views\\bookingslistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\bookingslistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\views\\bookingslistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\bookingslistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\views\\profilepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\profilepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\views\\profilepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\profilepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|c:\\users\\nurul\\source\\repos\\agroculture\\agroculture\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\viewmodels\\staffviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\viewmodels\\staffviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\services\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\services\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\model.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\model.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\converters\\rownumberconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\converters\\rownumberconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\views\\cabinbookingview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\views\\cabinbookingview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\converters\\nulltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\converters\\nulltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\converters\\booltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\converters\\booltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\cabins.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\cabins.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\cabinswithamenities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\cabinswithamenities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\cabinsstatistics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\cabinsstatistics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\amenities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\amenities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\bookings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\bookings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|C:\\Users\\nurul\\source\\repos\\AgroCulture\\agroculture\\bookingsdetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24DF36EA-BE42-4FAF-87C0-96F4BC8F988C}|AgroCulture\\AgroCulture.csproj|solutionrelative:agroculture\\bookingsdetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,81 +146,422 @@
       "DocumentGroups": [
         {
           "DockedHeight": 331,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "AgroCulture\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml.cs",
-              "RelativeToolTip": "AgroCulture\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T16:27:42.933Z",
+              "Title": "BookingEditWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\BookingEditWindow.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\BookingEditWindow.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\BookingEditWindow.xaml",
+              "RelativeToolTip": "AgroCulture\\Views\\BookingEditWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-04T17:48:23.648Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "App.config",
-              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.config",
-              "RelativeDocumentMoniker": "AgroCulture\\App.config",
-              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.config",
-              "RelativeToolTip": "AgroCulture\\App.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-10-27T16:16:25.905Z",
+              "DocumentIndex": 8,
+              "Title": "StaffEditWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\StaffEditWindow.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\StaffEditWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\StaffEditWindow.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\Views\\StaffEditWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T17:47:12.61Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Styles.xaml",
-              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Resources\\Styles.xaml",
-              "RelativeDocumentMoniker": "AgroCulture\\Resources\\Styles.xaml",
-              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Resources\\Styles.xaml",
-              "RelativeToolTip": "AgroCulture\\Resources\\Styles.xaml",
+              "Title": "StaffEditWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\StaffEditWindow.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\StaffEditWindow.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\StaffEditWindow.xaml",
+              "RelativeToolTip": "AgroCulture\\Views\\StaffEditWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-27T16:14:08.326Z",
+              "WhenOpened": "2025-11-04T17:46:53.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "BookingsListView.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\BookingsListView.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\BookingsListView.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\BookingsListView.xaml",
+              "RelativeToolTip": "AgroCulture\\Views\\BookingsListView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-31T14:45:32.061Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "AgroCulture\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml",
-              "RelativeToolTip": "AgroCulture\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-27T16:13:04.825Z",
+              "Title": "Cabins.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Services\\Cabins.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Services\\Cabins.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Services\\Cabins.cs",
+              "RelativeToolTip": "AgroCulture\\Services\\Cabins.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAwBcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:22:53.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CabinBookingViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\ViewModels\\CabinBookingViewModel.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\ViewModels\\CabinBookingViewModel.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\ViewModels\\CabinBookingViewModel.cs",
+              "RelativeToolTip": "AgroCulture\\ViewModels\\CabinBookingViewModel.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAhwIQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:07:36.073Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BookingEditWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\BookingEditWindow.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\BookingEditWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\BookingEditWindow.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\Views\\BookingEditWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T17:48:38.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BookingsListViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\ViewModels\\BookingsListViewModel.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\ViewModels\\BookingsListViewModel.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\ViewModels\\BookingsListViewModel.cs",
+              "RelativeToolTip": "AgroCulture\\ViewModels\\BookingsListViewModel.cs",
+              "ViewState": "AgIAAOkAAAAAAAAAAAAqwAEBAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:49:43.138Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "StaffManagementView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\StaffManagementView.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\StaffManagementView.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\StaffManagementView.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\Views\\StaffManagementView.xaml.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAiwFAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T15:27:10.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "StaffManagementView.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\StaffManagementView.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\StaffManagementView.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\StaffManagementView.xaml",
+              "RelativeToolTip": "AgroCulture\\Views\\StaffManagementView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-31T15:24:52.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ProfilePage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\ProfilePage.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\ProfilePage.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\ProfilePage.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\Views\\ProfilePage.xaml.cs",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAqwIMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T16:45:52.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ProfilePage.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\ProfilePage.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\ProfilePage.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\ProfilePage.xaml",
+              "RelativeToolTip": "AgroCulture\\Views\\ProfilePage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-04T16:45:47.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "DatabaseService.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Services\\DatabaseService.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Services\\DatabaseService.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Services\\DatabaseService.cs",
+              "RelativeToolTip": "AgroCulture\\Services\\DatabaseService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBMAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T15:28:45.55Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "LoginWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\LoginWindow.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\LoginWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\LoginWindow.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\LoginWindow.xaml.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAswHMAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T15:25:23.292Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
               "Title": "LoginWindow.xaml",
               "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\LoginWindow.xaml",
               "RelativeDocumentMoniker": "AgroCulture\\LoginWindow.xaml",
               "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\LoginWindow.xaml",
               "RelativeToolTip": "AgroCulture\\LoginWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-27T16:12:41.616Z",
+              "WhenOpened": "2025-10-27T16:12:41.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Model.edmx [Diagram1]",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Model.edmx",
+              "RelativeDocumentMoniker": "AgroCulture\\Model.edmx",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Model.edmx [Diagram1]",
+              "RelativeToolTip": "AgroCulture\\Model.edmx [Diagram1]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001116|",
+              "WhenOpened": "2025-10-31T15:34:17.501Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "PasswordHasher.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Services\\PasswordHasher.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Services\\PasswordHasher.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Services\\PasswordHasher.cs",
+              "RelativeToolTip": "AgroCulture\\Services\\PasswordHasher.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T16:18:39.572Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAAJcAAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T16:27:42.933Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 22,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T15:28:36.954Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CabinBookingView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\CabinBookingView.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\CabinBookingView.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\CabinBookingView.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\Views\\CabinBookingView.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:14:32.564Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "BookingsListView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\BookingsListView.xaml.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\BookingsListView.xaml.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\BookingsListView.xaml.cs",
+              "RelativeToolTip": "AgroCulture\\Views\\BookingsListView.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:49:59.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "StaffViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\ViewModels\\StaffViewModel.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\ViewModels\\StaffViewModel.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\ViewModels\\StaffViewModel.cs",
+              "RelativeToolTip": "AgroCulture\\ViewModels\\StaffViewModel.cs",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAhwNsAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T16:16:42.741Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\MainWindow.xaml",
+              "RelativeToolTip": "AgroCulture\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-31T14:50:13.206Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "RowNumberConverter.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Converters\\RowNumberConverter.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Converters\\RowNumberConverter.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Converters\\RowNumberConverter.cs",
+              "RelativeToolTip": "AgroCulture\\Converters\\RowNumberConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T15:26:54.755Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
               "Title": "App.xaml",
               "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.xaml",
               "RelativeDocumentMoniker": "AgroCulture\\App.xaml",
               "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\App.xaml",
               "RelativeToolTip": "AgroCulture\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-27T16:11:16.619Z",
+              "WhenOpened": "2025-10-31T14:15:26.385Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "CabinsWithAmenities.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\CabinsWithAmenities.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\CabinsWithAmenities.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\CabinsWithAmenities.cs",
+              "RelativeToolTip": "AgroCulture\\CabinsWithAmenities.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:09:42.509Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "CabinsStatistics.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\CabinsStatistics.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\CabinsStatistics.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\CabinsStatistics.cs",
+              "RelativeToolTip": "AgroCulture\\CabinsStatistics.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:09:36.272Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Amenities.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Amenities.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Amenities.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Amenities.cs",
+              "RelativeToolTip": "AgroCulture\\Amenities.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:09:25.954Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "Bookings.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Bookings.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Bookings.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Bookings.cs",
+              "RelativeToolTip": "AgroCulture\\Bookings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:09:21.961Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "BookingsDetails.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\BookingsDetails.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\BookingsDetails.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\BookingsDetails.cs",
+              "RelativeToolTip": "AgroCulture\\BookingsDetails.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAADwvyYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:09:19.288Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CabinBookingView.xaml",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\CabinBookingView.xaml",
+              "RelativeDocumentMoniker": "AgroCulture\\Views\\CabinBookingView.xaml",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Views\\CabinBookingView.xaml",
+              "RelativeToolTip": "AgroCulture\\Views\\CabinBookingView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-31T14:08:04.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "BoolToVisibilityConverter.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Converters\\BoolToVisibilityConverter.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Converters\\BoolToVisibilityConverter.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Converters\\BoolToVisibilityConverter.cs",
+              "RelativeToolTip": "AgroCulture\\Converters\\BoolToVisibilityConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:15:06.428Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "NullToVisibilityConverter.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Converters\\NullToVisibilityConverter.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Converters\\NullToVisibilityConverter.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Converters\\NullToVisibilityConverter.cs",
+              "RelativeToolTip": "AgroCulture\\Converters\\NullToVisibilityConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:14:47.743Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Cabins.cs",
+              "DocumentMoniker": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Cabins.cs",
+              "RelativeDocumentMoniker": "AgroCulture\\Cabins.cs",
+              "ToolTip": "C:\\Users\\nurul\\source\\repos\\AgroCulture\\AgroCulture\\Cabins.cs",
+              "RelativeToolTip": "AgroCulture\\Cabins.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAIwCIAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T14:09:31.981Z"
             }
           ]
         }

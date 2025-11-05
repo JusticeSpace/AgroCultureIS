@@ -1,0 +1,236 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace AgroCulture.Views
+{
+    /// <summary>
+    /// Логика взаимодействия для BookingEditWindow.xaml
+    /// </summary>
+    public partial class BookingEditWindow : Window
+    {
+        public int EditBookingId { get; set; }
+        public bool DialogResultSuccess { get; private set; } = false;
+
+        private Cabins _currentCabin;
+
+        public BookingEditWindow()
+        {
+            InitializeComponent();
+        }
+
+        public BookingEditWindow(int bookingId) : this()
+        {
+            EditBookingId = bookingId;
+            Loaded += BookingEditWindow_Loaded;
+        }
+
+        private void BookingEditWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadBookingData();
+        }
+
+        private void LoadBookingData()
+        {
+            try
+            {
+                using (var context = new AgroCultureEntities())
+                {
+                    var bookingDetail = context.BookingsDetails
+                        .FirstOrDefault(b => b.BookingId == EditBookingId);
+
+                    if (bookingDetail == null)
+                    {
+                        MessageBox.Show("Бронирование не найдено", "Ошибка",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        this.Close();
+                        return;
+                    }
+
+                    // Получаем домик
+                    var booking = context.Bookings.FirstOrDefault(b => b.BookingId == EditBookingId);
+                    _currentCabin = context.Cabins.FirstOrDefault(c => c.CabinId == booking.CabinId);
+
+                    // Данные домика
+                    TxtCabinName.Text = bookingDetail.CabinName;
+                    TxtCabinDetails.Text = $"Цена: {_currentCabin.PricePerNight:N0} ₽/ночь";
+
+                    // Данные гостя
+                    TxtGuestName.Text = bookingDetail.GuestName;
+                    TxtGuestPhone.Text = bookingDetail.GuestPhone;
+
+                    // Даты
+                    DateCheckIn.SelectedDate = bookingDetail.CheckInDate;
+                    DateCheckOut.SelectedDate = bookingDetail.CheckOutDate;
+
+                    // Статус
+                    CmbStatus.SelectedIndex = bookingDetail.Status == "completed" ? 1 : 0;
+
+                    CalculateTotals();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки данных:\n{ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Close();
+            }
+        }
+
+        private void Date_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CalculateTotals();
+        }
+
+        private void CalculateTotals()
+        {
+            if (_currentCabin == null || DateCheckIn.SelectedDate == null || DateCheckOut.SelectedDate == null)
+            {
+                TxtNights.Text = "0 ночей";
+                TxtTotalPrice.Text = "0 ₽";
+                return;
+            }
+
+            DateTime checkIn = DateCheckIn.SelectedDate.Value;
+            DateTime checkOut = DateCheckOut.SelectedDate.Value;
+
+            if (checkOut <= checkIn)
+            {
+                TxtNights.Text = "0 ночей";
+                TxtTotalPrice.Text = "0 ₽";
+                return;
+            }
+
+            int nights = (checkOut - checkIn).Days;
+            decimal totalPrice = nights * _currentCabin.PricePerNight;
+
+            string nightsWord = nights % 10 == 1 && nights % 100 != 11 ? "ночь" :
+                               nights % 10 >= 2 && nights % 10 <= 4 && (nights % 100 < 10 || nights % 100 >= 20) ? "ночи" : "ночей";
+
+            TxtNights.Text = $"{nights} {nightsWord}";
+            TxtTotalPrice.Text = $"{totalPrice:N0} ₽";
+        }
+
+        private bool ValidateForm()
+        {
+            if (string.IsNullOrWhiteSpace(TxtGuestName.Text))
+            {
+                MessageBox.Show("Введите имя гостя", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtGuestName.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(TxtGuestPhone.Text))
+            {
+                MessageBox.Show("Введите телефон", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtGuestPhone.Focus();
+                return false;
+            }
+
+            if (DateCheckIn.SelectedDate == null)
+            {
+                MessageBox.Show("Выберите дату заезда", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (DateCheckOut.SelectedDate == null)
+            {
+                MessageBox.Show("Выберите дату выезда", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (DateCheckOut.SelectedDate <= DateCheckIn.SelectedDate)
+            {
+                MessageBox.Show("Дата выезда должна быть позже даты заезда", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (CmbStatus.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите статус", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ValidateForm())
+                return;
+
+            try
+            {
+                using (var context = new AgroCultureEntities())
+                {
+                    var booking = context.Bookings.FirstOrDefault(b => b.BookingId == EditBookingId);
+
+                    if (booking == null)
+                    {
+                        MessageBox.Show("Бронирование не найдено", "Ошибка",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Обновление гостя
+                    var guest = context.Guests.FirstOrDefault(g => g.GuestId == booking.GuestId);
+                    if (guest != null)
+                    {
+                        guest.FullName = TxtGuestName.Text.Trim();
+                        guest.Phone = TxtGuestPhone.Text.Trim();
+                    }
+
+                    // Обновление бронирования
+                    booking.CheckInDate = DateCheckIn.SelectedDate.Value;
+                    booking.CheckOutDate = DateCheckOut.SelectedDate.Value;
+                    booking.Status = ((ComboBoxItem)CmbStatus.SelectedItem).Tag.ToString();
+
+                    int nights = (booking.CheckOutDate - booking.CheckInDate).Days;
+                    booking.Nights = nights;
+                    booking.TotalPrice = nights * _currentCabin.PricePerNight;
+
+                    context.SaveChanges();
+
+                    MessageBox.Show("Бронирование успешно обновлено", "Успех",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    DialogResultSuccess = true;
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сохранения:\n{ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResultSuccess = false;
+            this.Close();
+        }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResultSuccess = false;
+            this.Close();
+        }
+    }
+}

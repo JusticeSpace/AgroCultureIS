@@ -33,5 +33,6 @@ namespace AgroCulture
         public virtual DbSet<BookingsDetails> BookingsDetails { get; set; }
         public virtual DbSet<CabinsStatistics> CabinsStatistics { get; set; }
         public virtual DbSet<CabinsWithAmenities> CabinsWithAmenities { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

@@ -197,81 +197,70 @@
 
                 <!-- NAVIGATION TABS -->
                 <materialDesign:Card Grid.Row="0"
-                                    Padding="8"
-                                    Margin="0,0,0,24"
-                                    UniformCornerRadius="12"
-                                    materialDesign:ElevationAssist.Elevation="Dp2">
+                    Padding="8"
+                    Margin="0,0,0,24"
+                    UniformCornerRadius="12"
+                    materialDesign:ElevationAssist.Elevation="Dp2">
 
-                    <Grid Height="56">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid x:Name="NavigationTabsGrid" Height="56">
+                        <!-- ColumnDefinitions заполняются в code-behind -->
 
-                        <!-- TAB 1: Сотрудники -->
+                        <!-- ✅ ВАЖНО: Grid.Column устанавливается в code-behind! -->
+
+                        <!-- TAB 1: Сотрудники (только admin) -->
                         <Button x:Name="StaffTabButton" 
-                               Grid.Column="0"
-                               Background="#F3E8FF"
-                               Style="{StaticResource ActiveTabButton}"
-                               Click="StaffTabButton_Click"
-                               Margin="0,0,4,0"
-                               Tag="Staff">
+                Background="#F3E8FF"
+                Style="{StaticResource ActiveTabButton}"
+                Click="StaffTabButton_Click">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="AccountGroup" 
-                                                        Width="20" Height="20"
-                                                        Foreground="#7c3aed"
-                                                        Margin="0,0,10,0"
-                                                        VerticalAlignment="Center"/>
+                                        Width="20" Height="20"
+                                        Foreground="#7c3aed"
+                                        Margin="0,0,10,0"
+                                        VerticalAlignment="Center"/>
                                 <TextBlock Text="Сотрудники" 
-                                          FontSize="14" 
-                                          FontWeight="SemiBold"
-                                          Foreground="#7c3aed"
-                                          VerticalAlignment="Center"/>
+                          FontSize="14" 
+                          FontWeight="SemiBold"
+                          Foreground="#7c3aed"
+                          VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
-                        <!-- TAB 2: Бронирование -->
+                        <!-- TAB 2: Бронирование (admin + manager) -->
                         <Button x:Name="BookingTabButton" 
-                               Grid.Column="1"
-                               Background="Transparent"
-                               Style="{StaticResource ModernTabButton}"
-                               Click="BookingTabButton_Click"
-                               Margin="4,0"
-                               Tag="Booking">
+                Background="Transparent"
+                Style="{StaticResource ModernTabButton}"
+                Click="BookingTabButton_Click">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Home" 
-                                                        Width="20" Height="20"
-                                                        Foreground="#6b7280"
-                                                        Margin="0,0,10,0"
-                                                        VerticalAlignment="Center"/>
+                                        Width="20" Height="20"
+                                        Foreground="#6b7280"
+                                        Margin="0,0,10,0"
+                                        VerticalAlignment="Center"/>
                                 <TextBlock Text="Бронирование" 
-                                          FontSize="14" 
-                                          FontWeight="SemiBold"
-                                          Foreground="#6b7280"
-                                          VerticalAlignment="Center"/>
+                          FontSize="14" 
+                          FontWeight="SemiBold"
+                          Foreground="#6b7280"
+                          VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
-                        <!-- TAB 3: Список бронирований -->
+                        <!-- TAB 3: Список бронирований (все) -->
                         <Button x:Name="ListTabButton" 
-                               Grid.Column="2"
-                               Background="Transparent"
-                               Style="{StaticResource ModernTabButton}"
-                               Click="ListTabButton_Click"
-                               Margin="4,0,0,0"
-                               Tag="List">
+                Background="Transparent"
+                Style="{StaticResource ModernTabButton}"
+                Click="ListTabButton_Click">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="FormatListBulleted" 
-                                                        Width="20" Height="20"
-                                                        Foreground="#6b7280"
-                                                        Margin="0,0,10,0"
-                                                        VerticalAlignment="Center"/>
+                                        Width="20" Height="20"
+                                        Foreground="#6b7280"
+                                        Margin="0,0,10,0"
+                                        VerticalAlignment="Center"/>
                                 <TextBlock Text="Список бронирований" 
-                                          FontSize="14" 
-                                          FontWeight="SemiBold"
-                                          Foreground="#6b7280"
-                                          VerticalAlignment="Center"/>
+                          FontSize="14" 
+                          FontWeight="SemiBold"
+                          Foreground="#6b7280"
+                          VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </Grid>
