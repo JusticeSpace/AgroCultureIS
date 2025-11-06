@@ -1,0 +1,484 @@
+﻿<UserControl x:Class="AgroCulture.Views.StaffManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="Transparent"
+             UseLayoutRounding="True"
+             SnapsToDevicePixels="True"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType">
+
+    <UserControl.Resources>
+        <!-- Стиль кнопки "Редактировать" -->
+        <Style x:Key="EditButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#64B5F6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E3F2FD"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#BBDEFB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль кнопки "Удалить" -->
+        <Style x:Key="DeleteButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#E57373"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFEBEE"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFCDD2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                  HorizontalScrollBarVisibility="Auto">
+        <Grid MinWidth="1024" Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="400"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- ОСНОВНОЙ КОНТЕНТ -->
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400" MinWidth="350" MaxWidth="500"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*" MinWidth="600"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ЛЕВАЯ КОЛОНКА: ФОРМА -->
+                <materialDesign:Card Grid.Column="0" 
+                                    UniformCornerRadius="8"
+                                    materialDesign:ElevationAssist.Elevation="Dp4">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Заголовок -->
+                        <Border Grid.Row="0" Height="64" CornerRadius="8,8,0,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                    <GradientStop Color="#2E7D32" Offset="0"/>
+                                    <GradientStop Color="#00897B" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <StackPanel Orientation="Horizontal" 
+                                       VerticalAlignment="Center"
+                                       Margin="24,0">
+                                <materialDesign:PackIcon Kind="AccountPlus" 
+                                                        Width="20" Height="20"
+                                                        Foreground="White"
+                                                        VerticalAlignment="Center"
+                                                        Margin="0,0,12,0"/>
+                                <TextBlock Text="Добавить сотрудника" 
+                                          FontSize="20"
+                                          FontWeight="Medium"
+                                          Foreground="White"
+                                          VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        
+
+                        <!-- Форма -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <Border Padding="24">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#E8F5E9" Offset="0"/>
+                                        <GradientStop Color="#FFFFFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+
+                                <StackPanel>
+                                    <!-- Роль -->
+                                    <TextBlock Text="Роль *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <ComboBox x:Name="RoleComboBox"
+                                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                             materialDesign:HintAssist.Hint="Выберите роль"
+                                             SelectedValuePath="Tag"
+                                             SelectedValue="{Binding SelectedRole, Mode=TwoWay}"
+                                             Height="48" Margin="0,0,0,16">
+                                        <ComboBoxItem Content="Менеджер" Tag="manager" IsSelected="True"/>
+                                        <ComboBoxItem Content="Администратор" Tag="admin"/>
+                                    </ComboBox>
+
+                                    <!-- Логин -->
+                                    <TextBlock Text="Логин *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="LoginTextBox"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            materialDesign:HintAssist.Hint="username"
+                                            Text="{Binding NewLogin, UpdateSourceTrigger=PropertyChanged}"
+                                            Height="48" Margin="0,0,0,16"/>
+
+                                    <!-- ФИО -->
+                                    <TextBlock Text="ФИО *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="FullNameTextBox"
+        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+        materialDesign:HintAssist.Hint="Иванов Иван Иванович"
+        Text="{Binding NewFullName, UpdateSourceTrigger=PropertyChanged}"
+        Height="48" Margin="0,0,0,16"/>
+
+                                    <!-- ✅ НОВОЕ: Телефон -->
+                                    <TextBlock Text="Телефон" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="PhoneTextBox"
+        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+        materialDesign:HintAssist.Hint="+7 (999) 123-45-67"
+        Text="{Binding NewPhone, UpdateSourceTrigger=PropertyChanged}"
+        Height="48" Margin="0,0,0,16"/>
+
+                                    <!-- ✅ НОВОЕ: Email -->
+                                    <TextBlock Text="Email" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="EmailTextBox"
+        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+        materialDesign:HintAssist.Hint="user@example.com"
+        Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}"
+        Height="48" Margin="0,0,0,16"/>
+
+                                    <!-- Пароль -->
+                                    <TextBlock Text="Пароль *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <PasswordBox x:Name="PasswordBox"
+            Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+            materialDesign:HintAssist.Hint="Введите пароль"
+            Height="48" Margin="0,0,0,24"
+            PasswordChanged="PasswordBox_PasswordChanged"/>
+
+                                    <!-- Кнопка Добавить -->
+                                    <Button Command="{Binding AddStaffCommand}"
+                                           Height="40" HorizontalAlignment="Stretch">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                            <GradientStop Color="#2E7D32" Offset="0"/>
+                                                            <GradientStop Color="#00897B" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Style>
+                                        </Button.Style>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="AccountPlus" Width="16" Height="16" Margin="0,0,8,0"/>
+                                            <TextBlock Text="Добавить" FontSize="14"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </ScrollViewer>
+                    </Grid>
+                </materialDesign:Card>
+
+                <!-- ПРАВАЯ КОЛОНКА: ТАБЛИЦА -->
+                <materialDesign:Card Grid.Column="2"
+                                    UniformCornerRadius="8"
+                                    materialDesign:ElevationAssist.Elevation="Dp4">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Заголовок -->
+                        <Border Grid.Row="0" Height="64" CornerRadius="8,8,0,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                    <GradientStop Color="#2E7D32" Offset="0"/>
+                                    <GradientStop Color="#00897B" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <Grid Margin="24,0">
+                                <TextBlock Text="Сотрудники" 
+                                          FontSize="20" FontWeight="Medium"
+                                          Foreground="White"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Left"/>
+
+                                <Border Background="White" CornerRadius="12"
+                                       Padding="12,6"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Всего: " FontSize="14" Foreground="#2E7D32" FontWeight="Medium"/>
+                                        <TextBlock Text="{Binding TotalCount}" FontSize="14" Foreground="#2E7D32" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!-- Таблица -->
+                        <DataGrid Grid.Row="1"
+                                 x:Name="StaffDataGrid"
+                                 ItemsSource="{Binding StaffList}"
+                                 AutoGenerateColumns="False"
+                                 CanUserAddRows="False"
+                                 CanUserDeleteRows="False"
+                                 CanUserReorderColumns="False"
+                                 CanUserResizeColumns="False"
+                                 CanUserResizeRows="False"
+                                 CanUserSortColumns="False"
+                                 IsReadOnly="True"
+                                 SelectionMode="Single"
+                                 HeadersVisibility="Column"
+                                 GridLinesVisibility="Horizontal"
+                                 HorizontalGridLinesBrush="#E0E0E0"
+                                 VerticalGridLinesBrush="Transparent"
+                                 RowHeight="56"
+                                 FontSize="14">
+
+                            <DataGrid.Resources>
+                                <!-- Стиль заголовков -->
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Setter Property="Background" Value="#F5F5F5"/>
+                                    <Setter Property="Foreground" Value="#424242"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Height" Value="48"/>
+                                    <Setter Property="Padding" Value="16,0"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                                </Style>
+
+                                <!-- Стиль заголовка "Действия" (справа) -->
+                                <Style x:Key="ActionsHeaderStyle" TargetType="DataGridColumnHeader" 
+                                       BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Setter Property="Background" Value="#F5F5F5"/>
+                                    <Setter Property="Foreground" Value="#424242"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Height" Value="48"/>
+                                    <Setter Property="Padding" Value="16,0"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                </Style>
+
+                                <!-- Стиль строк -->
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#F5F5F5"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+
+                                <!-- Стиль ячеек -->
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="16,0"/>
+                                </Style>
+                            </DataGrid.Resources>
+
+                            <DataGrid.Columns>
+                                <!-- ✅ № : 50px (порядковый номер из ViewModel) -->
+                                <DataGridTextColumn Header="№" Width="50" Binding="{Binding RowNumber}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="Foreground" Value="#424242"/>
+                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- ФИО : * (auto) -->
+                                <DataGridTextColumn Header="ФИО" Width="*" Binding="{Binding FullName}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="FontSize" Value="16"/>
+                                            <Setter Property="Foreground" Value="#424242"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- Логин : 150px -->
+                                <DataGridTextColumn Header="Логин" Width="150" Binding="{Binding Username}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="Foreground" Value="#757575"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- Роль : 150px -->
+                                <DataGridTemplateColumn Header="Роль" Width="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border x:Name="RoleBadge"
+                                                   Background="#BBDEFB"
+                                                   BorderBrush="#64B5F6"
+                                                   BorderThickness="1"
+                                                   CornerRadius="12"
+                                                   Padding="8,4"
+                                                   Height="24"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center">
+                                                <TextBlock x:Name="RoleText"
+                                                          Text="Менеджер" 
+                                                          FontSize="12"
+                                                          FontWeight="Medium"
+                                                          Foreground="#1976D2"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                            </Border>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Role}" Value="admin">
+                                                    <Setter TargetName="RoleBadge" Property="Background" Value="#E1BEE7"/>
+                                                    <Setter TargetName="RoleBadge" Property="BorderBrush" Value="#BA68C8"/>
+                                                    <Setter TargetName="RoleText" Property="Text" Value="Администратор"/>
+                                                    <Setter TargetName="RoleText" Property="Foreground" Value="#6A1B9A"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Дата : 120px -->
+                                <DataGridTextColumn Header="Дата" Width="120" Binding="{Binding CreatedAt, StringFormat=yyyy-MM-dd}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="Foreground" Value="#757575"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- Действия : 120px -->
+                                <DataGridTemplateColumn Header="Действия" Width="120"
+                                                       HeaderStyle="{StaticResource ActionsHeaderStyle}">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" 
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center">
+                                                <Button Style="{StaticResource EditButtonStyle}"
+                                                       Command="{Binding DataContext.EditStaffCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                       CommandParameter="{Binding}"
+                                                       ToolTip="Редактировать"
+                                                       Margin="0,0,8,0">
+                                                    <materialDesign:PackIcon Kind="Pencil" 
+                                                                           Width="16" Height="16" 
+                                                                           Foreground="#1976D2"/>
+                                                </Button>
+
+                                                <Button Style="{StaticResource DeleteButtonStyle}"
+                                                       Command="{Binding DataContext.DeleteStaffCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                       CommandParameter="{Binding}"
+                                                       ToolTip="Удалить">
+                                                    <materialDesign:PackIcon Kind="Delete" 
+                                                                           Width="16" Height="16" 
+                                                                           Foreground="#D32F2F"/>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </materialDesign:Card>
+            </Grid>
+
+            <!-- ПАНЕЛЬ СТАТИСТИКИ -->
+            <materialDesign:Card Grid.Row="1"
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp4">
+                <Border Height="80">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Color="#2E7D32" Offset="0"/>
+                            <GradientStop Color="#00897B" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Администраторов" FontSize="14" Foreground="#A5D6A7" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="{Binding AdminCount}" FontSize="32" FontWeight="Medium" Foreground="White" HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Менеджеров" FontSize="14" Foreground="#A5D6A7" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="{Binding ManagerCount}" FontSize="32" FontWeight="Medium" Foreground="White" HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Всего сотрудников" FontSize="14" Foreground="#A5D6A7" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="{Binding TotalCount}" FontSize="32" FontWeight="Medium" Foreground="White" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </materialDesign:Card>
+
+            <!-- Snackbar -->
+            <materialDesign:Snackbar x:Name="NotificationSnackbar"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    MessageQueue="{materialDesign:MessageQueue}"/>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

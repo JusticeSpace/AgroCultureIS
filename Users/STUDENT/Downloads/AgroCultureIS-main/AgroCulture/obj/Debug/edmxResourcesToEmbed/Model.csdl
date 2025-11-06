@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AgroCultureModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Amenities">
+    <Key>
+      <PropertyRef Name="AmenityId" />
+    </Key>
+    <Property Name="AmenityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CabinAmenities" Relationship="Self.FK__CabinAmen__Ameni__38996AB5" FromRole="Amenities" ToRole="CabinAmenities" />
+    <NavigationProperty Name="CabinAmenities1" Relationship="Self.FK_CabinAmenities_Amenities" FromRole="Amenities" ToRole="CabinAmenities" />
+  </EntityType>
+  <EntityType Name="Bookings">
+    <Key>
+      <PropertyRef Name="BookingId" />
+    </Key>
+    <Property Name="BookingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CabinId" Type="Int32" Nullable="false" />
+    <Property Name="GuestId" Type="Int32" Nullable="false" />
+    <Property Name="CheckInDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CheckOutDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Nights" Type="Int32" Nullable="false" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Cabins" Relationship="Self.FK__Bookings__CabinI__440B1D61" FromRole="Bookings" ToRole="Cabins" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__Bookings__Create__45F365D3" FromRole="Bookings" ToRole="Users" />
+    <NavigationProperty Name="Guests" Relationship="Self.FK__Bookings__GuestI__44FF419A" FromRole="Bookings" ToRole="Guests" />
+  </EntityType>
+  <EntityType Name="CabinAmenities">
+    <Key>
+      <PropertyRef Name="CabinId" />
+      <PropertyRef Name="AmenityId" />
+    </Key>
+    <Property Name="CabinId" Type="Int32" Nullable="false" />
+    <Property Name="AmenityId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Amenities" Relationship="Self.FK__CabinAmen__Ameni__38996AB5" FromRole="CabinAmenities" ToRole="Amenities" />
+    <NavigationProperty Name="Amenities1" Relationship="Self.FK_CabinAmenities_Amenities" FromRole="CabinAmenities" ToRole="Amenities" />
+    <NavigationProperty Name="Cabins" Relationship="Self.FK__CabinAmen__Cabin__37A5467C" FromRole="CabinAmenities" ToRole="Cabins" />
+    <NavigationProperty Name="Cabins1" Relationship="Self.FK_CabinAmenities_Cabins" FromRole="CabinAmenities" ToRole="Cabins" />
+  </EntityType>
+  <EntityType Name="Cabins">
+    <Key>
+      <PropertyRef Name="CabinId" />
+    </Key>
+    <Property Name="CabinId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Capacity" Type="Int32" Nullable="false" />
+    <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK__Bookings__CabinI__440B1D61" FromRole="Cabins" ToRole="Bookings" />
+    <NavigationProperty Name="CabinAmenities" Relationship="Self.FK__CabinAmen__Cabin__37A5467C" FromRole="Cabins" ToRole="CabinAmenities" />
+    <NavigationProperty Name="CabinAmenities1" Relationship="Self.FK_CabinAmenities_Cabins" FromRole="Cabins" ToRole="CabinAmenities" />
+  </EntityType>
+  <EntityType Name="Guests">
+    <Key>
+      <PropertyRef Name="GuestId" />
+    </Key>
+    <Property Name="GuestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK__Bookings__GuestI__44FF419A" FromRole="Guests" ToRole="Bookings" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK__Bookings__Create__45F365D3" FromRole="Users" ToRole="Bookings" />
+  </EntityType>
+  <EntityType Name="BookingsDetails">
+    <Key>
+      <PropertyRef Name="BookingId" />
+      <PropertyRef Name="CheckInDate" />
+      <PropertyRef Name="CheckOutDate" />
+      <PropertyRef Name="Nights" />
+      <PropertyRef Name="TotalPrice" />
+      <PropertyRef Name="Status" />
+      <PropertyRef Name="CreatedAt" />
+      <PropertyRef Name="CabinId" />
+      <PropertyRef Name="CabinName" />
+      <PropertyRef Name="PricePerNight" />
+      <PropertyRef Name="Capacity" />
+      <PropertyRef Name="GuestId" />
+      <PropertyRef Name="GuestName" />
+      <PropertyRef Name="GuestPhone" />
+    </Key>
+    <Property Name="BookingId" Type="Int32" Nullable="false" />
+    <Property Name="CheckInDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CheckOutDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Nights" Type="Int32" Nullable="false" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CabinId" Type="Int32" Nullable="false" />
+    <Property Name="CabinName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Capacity" Type="Int32" Nullable="false" />
+    <Property Name="GuestId" Type="Int32" Nullable="false" />
+    <Property Name="GuestName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="GuestPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="GuestEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedByUserId" Type="Int32" />
+    <Property Name="CreatedByName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="CabinsStatistics">
+    <Key>
+      <PropertyRef Name="CabinId" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Capacity" />
+      <PropertyRef Name="PricePerNight" />
+      <PropertyRef Name="IsAvailable" />
+    </Key>
+    <Property Name="CabinId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Capacity" Type="Int32" Nullable="false" />
+    <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+    <Property Name="Amenities" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="TotalBookings" Type="Int32" />
+    <Property Name="ActiveBookings" Type="Int32" />
+    <Property Name="CompletedBookings" Type="Int32" />
+    <Property Name="TotalRevenue" Type="Decimal" Precision="38" Scale="2" />
+    <Property Name="TotalNightsBooked" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CabinsWithAmenities">
+    <Key>
+      <PropertyRef Name="CabinId" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Capacity" />
+      <PropertyRef Name="PricePerNight" />
+      <PropertyRef Name="IsAvailable" />
+    </Key>
+    <Property Name="CabinId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Capacity" Type="Int32" Nullable="false" />
+    <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+    <Property Name="AmenitiesList" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="AmenitiesIcons" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK__CabinAmen__Ameni__38996AB5">
+    <End Role="Amenities" Type="Self.Amenities" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CabinAmenities" Type="Self.CabinAmenities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Amenities">
+        <PropertyRef Name="AmenityId" />
+      </Principal>
+      <Dependent Role="CabinAmenities">
+        <PropertyRef Name="AmenityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CabinAmenities_Amenities">
+    <End Role="Amenities" Type="Self.Amenities" Multiplicity="1" />
+    <End Role="CabinAmenities" Type="Self.CabinAmenities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Amenities">
+        <PropertyRef Name="AmenityId" />
+      </Principal>
+      <Dependent Role="CabinAmenities">
+        <PropertyRef Name="AmenityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Bookings__CabinI__440B1D61">
+    <End Role="Cabins" Type="Self.Cabins" Multiplicity="1" />
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cabins">
+        <PropertyRef Name="CabinId" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="CabinId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Bookings__Create__45F365D3">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Bookings__GuestI__44FF419A">
+    <End Role="Guests" Type="Self.Guests" Multiplicity="1" />
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Guests">
+        <PropertyRef Name="GuestId" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="GuestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CabinAmen__Cabin__37A5467C">
+    <End Role="Cabins" Type="Self.Cabins" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CabinAmenities" Type="Self.CabinAmenities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cabins">
+        <PropertyRef Name="CabinId" />
+      </Principal>
+      <Dependent Role="CabinAmenities">
+        <PropertyRef Name="CabinId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CabinAmenities_Cabins">
+    <End Role="Cabins" Type="Self.Cabins" Multiplicity="1" />
+    <End Role="CabinAmenities" Type="Self.CabinAmenities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cabins">
+        <PropertyRef Name="CabinId" />
+      </Principal>
+      <Dependent Role="CabinAmenities">
+        <PropertyRef Name="CabinId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AgroCultureEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Amenities" EntityType="Self.Amenities" />
+    <EntitySet Name="Bookings" EntityType="Self.Bookings" />
+    <EntitySet Name="CabinAmenities" EntityType="Self.CabinAmenities" />
+    <EntitySet Name="Cabins" EntityType="Self.Cabins" />
+    <EntitySet Name="Guests" EntityType="Self.Guests" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <EntitySet Name="BookingsDetails" EntityType="Self.BookingsDetails" />
+    <EntitySet Name="CabinsStatistics" EntityType="Self.CabinsStatistics" />
+    <EntitySet Name="CabinsWithAmenities" EntityType="Self.CabinsWithAmenities" />
+    <AssociationSet Name="FK__CabinAmen__Ameni__38996AB5" Association="Self.FK__CabinAmen__Ameni__38996AB5">
+      <End Role="Amenities" EntitySet="Amenities" />
+      <End Role="CabinAmenities" EntitySet="CabinAmenities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CabinAmenities_Amenities" Association="Self.FK_CabinAmenities_Amenities">
+      <End Role="Amenities" EntitySet="Amenities" />
+      <End Role="CabinAmenities" EntitySet="CabinAmenities" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Bookings__CabinI__440B1D61" Association="Self.FK__Bookings__CabinI__440B1D61">
+      <End Role="Cabins" EntitySet="Cabins" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Bookings__Create__45F365D3" Association="Self.FK__Bookings__Create__45F365D3">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Bookings__GuestI__44FF419A" Association="Self.FK__Bookings__GuestI__44FF419A">
+      <End Role="Guests" EntitySet="Guests" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CabinAmen__Cabin__37A5467C" Association="Self.FK__CabinAmen__Cabin__37A5467C">
+      <End Role="Cabins" EntitySet="Cabins" />
+      <End Role="CabinAmenities" EntitySet="CabinAmenities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CabinAmenities_Cabins" Association="Self.FK_CabinAmenities_Cabins">
+      <End Role="Cabins" EntitySet="Cabins" />
+      <End Role="CabinAmenities" EntitySet="CabinAmenities" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(AgroCultureModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(AgroCultureModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

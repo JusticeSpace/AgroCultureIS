@@ -1,0 +1,303 @@
+﻿<Window x:Class="AgroCulture.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Вход в систему" 
+        Height="720" Width="524"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        RenderOptions.BitmapScalingMode="HighQuality"
+        RenderOptions.EdgeMode="Aliased">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" 
+                      ResizeBorderThickness="0"
+                      GlassFrameThickness="0"
+                      CornerRadius="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <Style x:Key="InputBox" TargetType="TextBox">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Arimo, Segoe UI"/>
+            <Setter Property="Background" Value="#F3F3F5"/>
+            <Setter Property="BorderBrush" Value="#D1D5DC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                        Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PasswordBox" TargetType="PasswordBox">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Arimo, Segoe UI"/>
+            <Setter Property="Background" Value="#F3F3F5"/>
+            <Setter Property="BorderBrush" Value="#D1D5DC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                        Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LoginButton" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Arimo, Segoe UI"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="8">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                    <GradientStop Color="#008236" Offset="0"/>
+                                    <GradientStop Color="#00A63E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Margin="38" Background="White" CornerRadius="14">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="50" ShadowDepth="25" 
+                            Opacity="0.25" Color="Black"
+                            RenderingBias="Quality"/>
+        </Border.Effect>
+
+        <Grid Height="650">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="145"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Зелёный заголовок -->
+            <Border Grid.Row="0" CornerRadius="14,14,0,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                        <GradientStop Color="#008236" Offset="0"/>
+                        <GradientStop Color="#00A63E" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <StackPanel VerticalAlignment="Center">
+                    <Ellipse Width="64" Height="64" Fill="White" 
+                            HorizontalAlignment="Center"/>
+                    <TextBlock Text="🌲" FontSize="30" 
+                              HorizontalAlignment="Center"
+                              Margin="0,-52,0,0"/>
+
+                    <TextBlock Text="Вход в систему" 
+                              FontSize="16" FontFamily="Arimo, Segoe UI"
+                              Foreground="White" FontWeight="Normal"
+                              HorizontalAlignment="Center" 
+                              Margin="0,20,0,0"/>
+
+                    <TextBlock Text="Лесная усадьба" 
+                              FontSize="14" FontFamily="Arimo, Segoe UI"
+                              Foreground="#DCFCE7" 
+                              HorizontalAlignment="Center" 
+                              Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Контент -->
+            <StackPanel Grid.Row="1" Margin="62,30,62,30">
+
+                <!-- Поле логина -->
+                <StackPanel Margin="0,0,0,16">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Text="👤" FontSize="12" Margin="0,0,6,0"/>
+                        <TextBlock Text="Логин" FontSize="14" 
+                                  FontFamily="Arimo, Segoe UI"/>
+                    </StackPanel>
+                    <TextBox Style="{StaticResource InputBox}" 
+                            x:Name="LoginTextBox"
+                            Text="Введите логин"
+                            Foreground="#717182"/>
+                </StackPanel>
+
+                <!-- Поле пароля -->
+                <StackPanel Margin="0,0,0,16">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Text="🔒" FontSize="12" Margin="0,0,6,0"/>
+                        <TextBlock Text="Пароль" FontSize="14" 
+                                  FontFamily="Arimo, Segoe UI"/>
+                    </StackPanel>
+                    <PasswordBox Style="{StaticResource PasswordBox}"
+                                x:Name="PasswordBox"/>
+                </StackPanel>
+
+                <!-- НАЙДИТЕ ЭТУ ЧАСТЬ (после полей ввода): -->
+
+                <!-- Кнопки входа -->
+                <Grid Margin="0,0,0,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- ✅ ОСНОВНАЯ КНОПКА ВХОДА -->
+                    <Button Grid.Row="0"
+            Content="Войти"
+            x:Name="LoginButton"
+            Style="{StaticResource LoginButton}"
+            Click="LoginButton_Click"/>
+
+                    <!-- ✅ НОВАЯ КНОПКА ГОСТЕВОГО ВХОДА -->
+                    <Button Grid.Row="2"
+            x:Name="GuestLoginButton"
+            Height="36"
+            FontSize="14"
+            FontFamily="Arimo, Segoe UI"
+            Foreground="#6A7282"
+            Background="Transparent"
+            BorderBrush="#D1D5DC"
+            BorderThickness="1"
+            Cursor="Hand"
+            Click="GuestLoginButton_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="8"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <StackPanel Orientation="Horizontal" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center">
+                                        <TextBlock Text="👤" FontSize="16" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Войти как гость" 
+                                  FontSize="14" 
+                                  Foreground="{TemplateBinding Foreground}"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+
+                <!-- Разделитель (оставьте как есть) -->
+                <Separator Margin="0,0,0,12" Background="#D1D5DC"/>
+                <TextBlock Text="Тестовые учетные записи" 
+                          FontSize="14" Foreground="#6A7282"
+                          FontFamily="Arimo, Segoe UI"
+                          HorizontalAlignment="Center" Margin="0,0,0,12"/>
+
+                <!-- Список учетных записей (компактный) -->
+                <ItemsControl>
+                    <ItemsControl.Items>
+                        <!-- Админ -->
+                        <Border BorderBrush="#1A000000" BorderThickness="1" 
+                               CornerRadius="8" Padding="12,8" Margin="0,0,0,8"
+                               Cursor="Hand"
+                                MouseLeftButtonDown="AdminCard_Click">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel>
+                                    <TextBlock Text="Петров Петр Петрович" 
+                                              FontSize="14" FontWeight="SemiBold"
+                                              FontFamily="Arimo, Segoe UI"/>
+                                    <TextBlock FontSize="12" Foreground="#6A7282" 
+                                              FontFamily="Arimo, Segoe UI"
+                                              Margin="0,2,0,0">
+                                        <Run Text="Логин:"/>
+                                        <Run Text="admin" FontWeight="Bold"/>
+                                        <Run Text=" | Пароль:"/>
+                                        <Run Text="admin" FontWeight="Bold"/>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <Border Grid.Column="1" Background="#F3E8FF" 
+                                       BorderBrush="#DAB2FF" BorderThickness="1"
+                                       CornerRadius="6" Padding="8,4">
+                                    <TextBlock Text="Админ" FontSize="12" 
+                                              FontFamily="Arimo, Segoe UI"
+                                              Foreground="#8200DB"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!-- Менеджер -->
+                        <Border BorderBrush="#1A000000" BorderThickness="1" 
+                               CornerRadius="8" Padding="12,8" Margin="0,0,0,8"
+                               Cursor="Hand"
+                                MouseLeftButtonDown="ManagerCard_Click">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel>
+                                    <TextBlock Text="Иванова Мария Сергеевна" 
+                                              FontSize="14" FontWeight="SemiBold"
+                                              FontFamily="Arimo, Segoe UI"/>
+                                    <TextBlock FontSize="12" Foreground="#6A7282" 
+                                              FontFamily="Arimo, Segoe UI"
+                                              Margin="0,2,0,0">
+                                        <Run Text="Логин:"/>
+                                        <Run Text="manager" FontWeight="Bold"/>
+                                        <Run Text=" | Пароль:"/>
+                                        <Run Text="manager" FontWeight="Bold"/>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <Border Grid.Column="1" Background="#DBEAFE" 
+                                       BorderBrush="#8EC5FF" BorderThickness="1"
+                                       CornerRadius="6" Padding="8,4">
+                                    <TextBlock Text="Менеджер" FontSize="12" 
+                                              FontFamily="Arimo, Segoe UI"
+                                              Foreground="#1447E6"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!-- Гость -->
+                    </ItemsControl.Items>
+                </ItemsControl>
+
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

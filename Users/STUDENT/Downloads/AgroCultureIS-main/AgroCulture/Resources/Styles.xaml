@@ -1,0 +1,207 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <!-- ========================================
+         ЦВЕТОВАЯ ПАЛИТРА
+    ========================================= -->
+
+    <!-- Primary Colors -->
+    <SolidColorBrush x:Key="PrimaryGreen" Color="#15803d"/>
+    <SolidColorBrush x:Key="SecondaryGreen" Color="#059669"/>
+    <SolidColorBrush x:Key="LightGreenBg" Color="#f0fdf4"/>
+    <SolidColorBrush x:Key="EmeraldBg" Color="#ecfdf5"/>
+
+    <!-- Role Colors -->
+    <SolidColorBrush x:Key="AdminPurple" Color="#7c3aed"/>
+    <SolidColorBrush x:Key="AdminPurpleLight" Color="#f3e8ff"/>
+    <SolidColorBrush x:Key="ManagerBlue" Color="#2563eb"/>
+    <SolidColorBrush x:Key="ManagerBlueLight" Color="#dbeafe"/>
+    <SolidColorBrush x:Key="GuestGray" Color="#6b7280"/>
+    <SolidColorBrush x:Key="GuestGrayLight" Color="#f3f4f6"/>
+
+    <!-- UI Colors -->
+    <SolidColorBrush x:Key="BorderGray" Color="#e5e7eb"/>
+    <SolidColorBrush x:Key="TextDark" Color="#1f2937"/>
+    <SolidColorBrush x:Key="TextGray" Color="#6b7280"/>
+    <SolidColorBrush x:Key="DangerRed" Color="#dc2626"/>
+    <SolidColorBrush x:Key="RedLight" Color="#fef2f2"/>
+
+    <!-- ========================================
+         ГРАДИЕНТЫ
+    ========================================= -->
+
+    <LinearGradientBrush x:Key="ContentGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#f0fdf4" Offset="0"/>
+        <GradientStop Color="#ffffff" Offset="0.5"/>
+        <GradientStop Color="#ecfdf5" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- ========================================
+         ТЕКСТОВЫЕ СТИЛИ
+    ========================================= -->
+
+    <!-- H1 - Заголовок -->
+    <Style x:Key="H1" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource TextDark}"/>
+    </Style>
+
+    <!-- H2 - Подзаголовок -->
+    <Style x:Key="H2" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource TextDark}"/>
+    </Style>
+
+    <!-- SecondaryText - Вторичный текст -->
+    <Style x:Key="SecondaryText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource TextGray}"/>
+    </Style>
+
+    <!-- ========================================
+         BADGE СТИЛИ (Роли пользователей)
+    ========================================= -->
+
+    <!-- Admin Badge -->
+    <Style x:Key="AdminBadge" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource AdminPurpleLight}"/>
+        <Setter Property="BorderBrush" Value="#e9d5ff"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="10,4"/>
+    </Style>
+
+    <!-- Manager Badge -->
+    <Style x:Key="ManagerBadge" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource ManagerBlueLight}"/>
+        <Setter Property="BorderBrush" Value="#bfdbfe"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="10,4"/>
+    </Style>
+
+    <!-- Guest Badge -->
+    <Style x:Key="GuestBadge" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource GuestGrayLight}"/>
+        <Setter Property="BorderBrush" Value="#e5e7eb"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="10,4"/>
+    </Style>
+
+    <!-- ========================================
+         КНОПКИ
+    ========================================= -->
+
+    <!-- Primary Button -->
+    <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+        <Setter Property="Background" Value="{StaticResource PrimaryGreen}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Padding" Value="16,0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+    </Style>
+
+    <!-- Secondary Button -->
+    <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryGreen}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryGreen}"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Padding" Value="16,0"/>
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
+    <!-- Danger Button -->
+    <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+        <Setter Property="Background" Value="{StaticResource DangerRed}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Padding" Value="16,0"/>
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
+    <!-- ========================================
+         NAVIGATION TAB ITEM (✅ ИСПРАВЛЕНИЕ)
+    ========================================= -->
+
+    <Style x:Key="NavTabItem" TargetType="TabItem">
+        <Setter Property="Height" Value="56"/>
+        <Setter Property="Padding" Value="16,0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="{StaticResource TextGray}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Hover эффект -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#f9fafb"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextDark}"/>
+                        </Trigger>
+                        <!-- Активный таб -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PrimaryGreen}"/>
+                            <Setter Property="Foreground" Value="{StaticResource PrimaryGreen}"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ========================================
+         КАРТОЧКИ
+    ========================================= -->
+
+    <!-- Card стиль с тенью -->
+    <Style x:Key="CardWithShadow" TargetType="materialDesign:Card">
+        <Setter Property="Padding" Value="24"/>
+        <Setter Property="Margin" Value="0,0,0,16"/>
+        <Setter Property="UniformCornerRadius" Value="8"/>
+        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp4"/>
+    </Style>
+
+    <!-- ========================================
+         INPUT ПОЛЯ
+    ========================================= -->
+
+    <!-- TextBox стиль -->
+    <Style x:Key="InputTextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <!-- ComboBox стиль -->
+    <Style x:Key="InputComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <!-- DatePicker стиль -->
+    <Style x:Key="InputDatePicker" TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
+</ResourceDictionary>
