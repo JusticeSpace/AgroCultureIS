@@ -9,6 +9,14 @@ namespace AgroCulture
 {
     public partial class MainWindow : Window
     {
+        // ✅ НОВОЕ: Свойство для IsAdmin
+        private bool _isAdmin;
+        public bool IsAdmin
+        {
+            get => _isAdmin;
+            set { _isAdmin = value; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,45 +44,56 @@ namespace AgroCulture
 
             string role = App.CurrentUser.Role.ToLower();
 
+            // ✅ НОВОЕ: Устанавливаем IsAdmin для binding'а
+            IsAdmin = (role == "admin");
+
+            // ✅ ИСПРАВЛЕНО: Сначала скрываем ВСЕ кнопки
+            CabinsTabButton.Visibility = Visibility.Collapsed;
+            StaffTabButton.Visibility = Visibility.Collapsed;
+            BookingTabButton.Visibility = Visibility.Collapsed;
+            ListTabButton.Visibility = Visibility.Collapsed;
+            ProfileButton.Visibility = Visibility.Collapsed;
+            UserNameCard.Visibility = Visibility.Collapsed;
+
             switch (role)
             {
                 case "admin":
-                    // Админ видит всё
-                    StaffTabButton.Visibility = Visibility.Visible;
-                    BookingTabButton.Visibility = Visibility.Visible;
-                    ListTabButton.Visibility = Visibility.Visible;
+                    // ✅ Админ видит ВСЁ в ПРАВИЛЬНОМ порядке
+                    CabinsTabButton.Visibility = Visibility.Visible;       // 1️⃣ Домики ПЕРВЫЙ!
+                    StaffTabButton.Visibility = Visibility.Visible;        // 2️⃣ Сотрудники
+                    BookingTabButton.Visibility = Visibility.Visible;      // 3️⃣ Бронирование
+                    ListTabButton.Visibility = Visibility.Visible;         // 4️⃣ Список
                     ProfileButton.Visibility = Visibility.Visible;
-                    UserNameCard.Visibility = Visibility.Visible;  // ✅ Показываем карточку
+                    UserNameCard.Visibility = Visibility.Visible;
 
-                    // Названия вкладок
                     SetBookingTabText("Бронирование");
                     break;
 
                 case "manager":
-                    // Менеджер видит бронирование и список
+                    // ✅ Менеджер видит БЕЗ домиков и сотрудников
+                    CabinsTabButton.Visibility = Visibility.Collapsed;
                     StaffTabButton.Visibility = Visibility.Collapsed;
-                    BookingTabButton.Visibility = Visibility.Visible;
-                    ListTabButton.Visibility = Visibility.Visible;
+                    BookingTabButton.Visibility = Visibility.Visible;      // 1️⃣ Бронирование
+                    ListTabButton.Visibility = Visibility.Visible;         // 2️⃣ Список
                     ProfileButton.Visibility = Visibility.Visible;
-                    UserNameCard.Visibility = Visibility.Visible;  // ✅ Показываем карточку
+                    UserNameCard.Visibility = Visibility.Visible;
 
                     SetBookingTabText("Бронирование");
                     break;
 
                 case "guest":
-                    // ✅ ИСПРАВЛЕНО: Гость видит только каталог домиков
+                    // ✅ Гость видит ТОЛЬКО каталог
+                    CabinsTabButton.Visibility = Visibility.Collapsed;
                     StaffTabButton.Visibility = Visibility.Collapsed;
-                    BookingTabButton.Visibility = Visibility.Visible;  // ✅ ПОКАЗЫВАЕМ
-                    ListTabButton.Visibility = Visibility.Collapsed;   // ✅ СКРЫВАЕМ
-                    ProfileButton.Visibility = Visibility.Collapsed;   // ✅ Скрываем
-                    UserNameCard.Visibility = Visibility.Collapsed;    // ✅ СКРЫВАЕМ карточку
+                    BookingTabButton.Visibility = Visibility.Visible;      // 1️⃣ Каталог
+                    ListTabButton.Visibility = Visibility.Visible;         // 2️⃣ Список
+                    ProfileButton.Visibility = Visibility.Collapsed;
+                    UserNameCard.Visibility = Visibility.Collapsed;
 
-                    // ✅ Меняем название вкладки
                     SetBookingTabText("Каталог домиков");
                     break;
 
                 default:
-                    StaffTabButton.Visibility = Visibility.Collapsed;
                     BookingTabButton.Visibility = Visibility.Collapsed;
                     ListTabButton.Visibility = Visibility.Visible;
                     ProfileButton.Visibility = Visibility.Collapsed;
@@ -84,11 +103,12 @@ namespace AgroCulture
                     break;
             }
 
+            // ✅ КРИТИЧНО: Конфигурируем сетку ПОСЛЕ того как установили видимость
             ConfigureNavigationGrid();
         }
 
         /// <summary>
-        /// ✅ НОВЫЙ МЕТОД: Изменение текста вкладки бронирования
+        /// ✅ Изменение текста вкладки бронирования
         /// </summary>
         private void SetBookingTabText(string text)
         {
@@ -107,13 +127,17 @@ namespace AgroCulture
         }
 
         /// <summary>
-        /// Настройка Grid колонок и позиций кнопок
+        /// ✅ ИСПРАВЛЕНО: Правильная конфигурация сетки
         /// </summary>
         private void ConfigureNavigationGrid()
         {
             NavigationTabsGrid.ColumnDefinitions.Clear();
 
             var visibleButtons = new List<Button>();
+
+            // ✅ ВАЖНО: Добавляем кнопки В ПРАВИЛЬНОМ ПОРЯДКЕ!
+            if (CabinsTabButton.Visibility == Visibility.Visible)
+                visibleButtons.Add(CabinsTabButton);
 
             if (StaffTabButton.Visibility == Visibility.Visible)
                 visibleButtons.Add(StaffTabButton);
@@ -157,78 +181,7 @@ namespace AgroCulture
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine($"[NAV] Настроено {visibleButtons.Count} табов для роли: {App.CurrentUser?.Role}");
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        // ПУБЛИЧНЫЙ МЕТОД ДЛЯ ОБНОВЛЕНИЯ HEADER
-        // ═══════════════════════════════════════════════════════════
-
-        public void UpdateUserDisplay()
-        {
-            if (App.CurrentUser != null)
-            {
-                UserNameText.Text = App.CurrentUser.FullName;
-                UserRoleText.Text = GetRoleDisplayName(App.CurrentUser.Role);
-
-                Color roleBgColor;
-                switch (App.CurrentUser.Role.ToLower())
-                {
-                    case "admin":
-                        roleBgColor = (Color)ColorConverter.ConvertFromString("#7c3aed");
-                        break;
-                    case "manager":
-                        roleBgColor = (Color)ColorConverter.ConvertFromString("#2563eb");
-                        break;
-                    case "guest":
-                        roleBgColor = (Color)ColorConverter.ConvertFromString("#6b7280");
-                        break;
-                    default:
-                        roleBgColor = Colors.Gray;
-                        break;
-                }
-
-                UserRoleBadge.Background = new SolidColorBrush(roleBgColor);
-            }
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        // НАВИГАЦИЯ НА СТАРТОВУЮ СТРАНИЦУ
-        // ═══════════════════════════════════════════════════════════
-
-        private void NavigateToDefaultPage()
-        {
-            string role = App.CurrentUser.Role.ToLower();
-
-            System.Diagnostics.Debug.WriteLine($"[NAV] Загрузка стартовой страницы для роли: {role}");
-
-            switch (role)
-            {
-                case "admin":
-                    NavigateToStaff();
-                    SetActiveTab(StaffTabButton);
-                    System.Diagnostics.Debug.WriteLine("[NAV] → Страница сотрудников");
-                    break;
-
-                case "manager":
-                    NavigateToBooking();
-                    SetActiveTab(BookingTabButton);
-                    System.Diagnostics.Debug.WriteLine("[NAV] → Страница бронирования");
-                    break;
-
-                case "guest":
-                    // ✅ ИСПРАВЛЕНО: Гость попадает на каталог домиков
-                    NavigateToBooking();
-                    SetActiveTab(BookingTabButton);
-                    System.Diagnostics.Debug.WriteLine("[NAV] → Каталог домиков (режим гостя)");
-                    break;
-
-                default:
-                    NavigateToList();
-                    SetActiveTab(ListTabButton);
-                    System.Diagnostics.Debug.WriteLine("[NAV] → Список бронирований (fallback)");
-                    break;
-            }
+            System.Diagnostics.Debug.WriteLine($"[NAV] Видимых кнопок: {visibleButtons.Count}");
         }
 
         // ═══════════════════════════════════════════════════════════
@@ -293,8 +246,57 @@ namespace AgroCulture
         }
 
         // ═══════════════════════════════════════════════════════════
+        // НАВИГАЦИЯ НА СТАРТОВУЮ СТРАНИЦУ
+        // ═══════════════════════════════════════════════════════════
+
+        private void NavigateToDefaultPage()
+        {
+            if (App.CurrentUser == null) return;
+
+            string role = App.CurrentUser.Role.ToLower();
+
+            System.Diagnostics.Debug.WriteLine($"[NAV] Загрузка стартовой страницы для роли: {role}");
+
+            switch (role)
+            {
+                case "admin":
+                    // ✅ Админ стартует с Домиков
+                    NavigateToCabins();
+                    SetActiveTab(CabinsTabButton);
+                    System.Diagnostics.Debug.WriteLine("[NAV] → Страница домиков");
+                    break;
+
+                case "manager":
+                    // Менеджер стартует с Бронирования
+                    NavigateToBooking();
+                    SetActiveTab(BookingTabButton);
+                    System.Diagnostics.Debug.WriteLine("[NAV] → Страница бронирования");
+                    break;
+
+                case "guest":
+                    // Гость стартует с Каталога
+                    NavigateToBooking();
+                    SetActiveTab(BookingTabButton);
+                    System.Diagnostics.Debug.WriteLine("[NAV] → Каталог домиков (режим гостя)");
+                    break;
+
+                default:
+                    NavigateToList();
+                    SetActiveTab(ListTabButton);
+                    System.Diagnostics.Debug.WriteLine("[NAV] → Список бронирований (fallback)");
+                    break;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
         // НАВИГАЦИЯ ПО ТАБАМ
         // ═══════════════════════════════════════════════════════════
+
+        private void CabinsTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateToCabins();
+            SetActiveTab(CabinsTabButton);
+        }
 
         private void StaffTabButton_Click(object sender, RoutedEventArgs e)
         {
@@ -318,6 +320,11 @@ namespace AgroCulture
         // МЕТОДЫ НАВИГАЦИИ
         // ═══════════════════════════════════════════════════════════
 
+        private void NavigateToCabins()
+        {
+            MainContentFrame.Content = new CabinsManagementView();
+        }
+
         private void NavigateToStaff()
         {
             MainContentFrame.Content = new StaffManagementView();
@@ -339,6 +346,10 @@ namespace AgroCulture
 
         private void SetActiveTab(Button activeButton)
         {
+            // ✅ Сбрасываем ВСЕ видимые табы
+            if (CabinsTabButton.Visibility == Visibility.Visible)
+                ResetTabButton(CabinsTabButton);
+
             if (StaffTabButton.Visibility == Visibility.Visible)
                 ResetTabButton(StaffTabButton);
 
@@ -348,12 +359,13 @@ namespace AgroCulture
             if (ListTabButton.Visibility == Visibility.Visible)
                 ResetTabButton(ListTabButton);
 
+            // Активируем нужный таб
             ActivateTabButton(activeButton);
         }
 
         private void ResetTabButton(Button button)
         {
-            button.Background = Brushes.Transparent;
+            button.Background = System.Windows.Media.Brushes.Transparent;
 
             var stack = button.Content as StackPanel;
             if (stack != null)
@@ -373,7 +385,12 @@ namespace AgroCulture
             Color backgroundColor;
             Color foregroundColor;
 
-            if (button == StaffTabButton)
+            if (button == CabinsTabButton)
+            {
+                backgroundColor = (Color)ColorConverter.ConvertFromString("#D4EDDA");
+                foregroundColor = (Color)ColorConverter.ConvertFromString("#15803d");
+            }
+            else if (button == StaffTabButton)
             {
                 backgroundColor = (Color)ColorConverter.ConvertFromString("#F3E8FF");
                 foregroundColor = (Color)ColorConverter.ConvertFromString("#7c3aed");
@@ -417,6 +434,8 @@ namespace AgroCulture
         {
             MainContentFrame.Content = new ProfilePage();
 
+            // Скрываем все табы
+            ResetTabButton(CabinsTabButton);
             ResetTabButton(StaffTabButton);
             ResetTabButton(BookingTabButton);
             ResetTabButton(ListTabButton);

@@ -1,0 +1,233 @@
+﻿<UserControl x:Class="AgroCulture.Views.CabinsManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewmodels="clr-namespace:AgroCulture.ViewModels"
+             Background="Transparent"
+             UseLayoutRounding="True">
+
+    <UserControl.DataContext>
+        <viewmodels:CabinsManagementViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid MinWidth="1024" Margin="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400" MinWidth="350" MaxWidth="500"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*" MinWidth="600"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ЛЕВАЯ КОЛОНКА: ФОРМА -->
+            <materialDesign:Card Grid.Column="0" 
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Заголовок -->
+                    <Border Grid.Row="0" Height="64" CornerRadius="8,8,0,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                <GradientStop Color="#2E7D32" Offset="0"/>
+                                <GradientStop Color="#00897B" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <StackPanel Orientation="Horizontal" 
+                                   VerticalAlignment="Center"
+                                   Margin="24,0">
+                            <materialDesign:PackIcon Kind="HomePlus" 
+                                                    Width="20" Height="20"
+                                                    Foreground="White"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,0,12,0"/>
+                            <TextBlock Text="Добавить домик" 
+                                      FontSize="20"
+                                      FontWeight="Medium"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Форма -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <Border Padding="24">
+                            <StackPanel>
+                                <!-- Название -->
+                                <TextBlock Text="Название *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        materialDesign:HintAssist.Hint="Березка"
+                                        Text="{Binding NewCabinName, UpdateSourceTrigger=PropertyChanged}"
+                                        Height="48" Margin="0,0,0,16"/>
+
+                                <!-- Описание -->
+                                <TextBlock Text="Описание" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        materialDesign:HintAssist.Hint="Уютный домик в лесу..."
+                                        Text="{Binding NewCabinDescription, UpdateSourceTrigger=PropertyChanged}"
+                                        Height="80" 
+                                        AcceptsReturn="True"
+                                        Margin="0,0,0,16"/>
+
+                                <!-- Вместимость и Цена (в две колонки) -->
+                                <Grid Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Вместимость -->
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Вместимость (чел) *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                materialDesign:HintAssist.Hint="2"
+                                                Text="{Binding NewCabinCapacity, Mode=TwoWay, StringFormat=N0}"
+                                                Height="48"
+                                                Padding="16,0"
+                                                FontSize="14"
+                                                VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <!-- Цена -->
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="Цена за ночь (₽) *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                materialDesign:HintAssist.Hint="3500"
+                                                Text="{Binding NewCabinPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}"
+                                                Height="48"
+                                                Padding="16,0"
+                                                FontSize="14"
+                                                VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Кнопка Добавить -->
+                                <Button Command="{Binding AddCabinCommand}"
+                                       Height="40" HorizontalAlignment="Stretch">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                        <GradientStop Color="#2E7D32" Offset="0"/>
+                                                        <GradientStop Color="#00897B" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Style>
+                                    </Button.Style>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="HomePlus" Width="16" Height="16" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Добавить домик" FontSize="14"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- ПРАВАЯ КОЛОНКА: ТАБЛИЦА -->
+            <materialDesign:Card Grid.Column="2"
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Заголовок -->
+                    <Border Grid.Row="0" Height="64" CornerRadius="8,8,0,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                <GradientStop Color="#2E7D32" Offset="0"/>
+                                <GradientStop Color="#00897B" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <Grid Margin="24,0">
+                            <TextBlock Text="Домики" 
+                                      FontSize="20" FontWeight="Medium"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"/>
+
+                            <Border Background="White" CornerRadius="12"
+                                   Padding="12,6"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Всего: " FontSize="14" Foreground="#2E7D32" FontWeight="Medium"/>
+                                    <TextBlock Text="{Binding TotalCabins}" FontSize="14" Foreground="#2E7D32" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- DataGrid -->
+                    <DataGrid Grid.Row="1"
+                             ItemsSource="{Binding CabinsList}"
+                             AutoGenerateColumns="False"
+                             CanUserAddRows="False"
+                             IsReadOnly="True"
+                             RowHeight="56">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#F5F5F5"/>
+                                <Setter Property="Foreground" Value="#424242"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Height" Value="48"/>
+                                <Setter Property="Padding" Value="16,0"/>
+                            </Style>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="16,0"/>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Width="*" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Вместимость" Width="120" Binding="{Binding Capacity, StringFormat='{}{0} чел'}"/>
+                            <DataGridTextColumn Header="Цена/ночь" Width="120" Binding="{Binding PricePerNight, StringFormat='{}{0:N0} ₽'}"/>
+
+                            <DataGridTemplateColumn Header="Действия" Width="140">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button Width="32" Height="32"
+                                                   Command="{Binding DataContext.EditCabinCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                   CommandParameter="{Binding}"
+                                                   Margin="0,0,8,0"
+                                                   Style="{StaticResource MaterialDesignFlatButton}">
+                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16" Foreground="#2563EB"/>
+                                            </Button>
+                                            <Button Width="32" Height="32"
+                                                   Command="{Binding DataContext.DeleteCabinCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                   CommandParameter="{Binding}"
+                                                   Style="{StaticResource MaterialDesignFlatButton}">
+                                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16" Foreground="#DC2626"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- Snackbar -->
+            <materialDesign:Snackbar x:Name="NotificationSnackbar"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="3"
+                                    MessageQueue="{materialDesign:MessageQueue}"/>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

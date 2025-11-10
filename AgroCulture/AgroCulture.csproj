@@ -117,6 +117,7 @@
     <Reference Include="System.Security.Cryptography.Xml, Version=8.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Xml.8.0.2\lib\net462\System.Security.Cryptography.Xml.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -204,6 +205,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BookingsListViewModel.cs" />
     <Compile Include="ViewModels\CabinBookingViewModel.cs" />
+    <Compile Include="ViewModels\CabinsManagementViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\StaffViewModel.cs" />
     <Compile Include="Views\BookingEditWindow.xaml.cs">
@@ -214,6 +216,9 @@
     </Compile>
     <Compile Include="Views\CabinBookingView.xaml.cs">
       <DependentUpon>CabinBookingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CabinsManagementView.xaml.cs">
+      <DependentUpon>CabinsManagementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
@@ -245,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CabinBookingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CabinsManagementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

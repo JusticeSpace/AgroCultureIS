@@ -207,8 +207,26 @@
                     <Grid x:Name="NavigationTabsGrid" Height="56">
                         <!-- ColumnDefinitions заполняются в code-behind -->
 
-                        <!-- ✅ ВАЖНО: Grid.Column устанавливается в code-behind! -->
-
+                        <!-- TAB 0: Домики (только админ) -->
+                        <Button x:Name="CabinsTabButton" 
+        Background="Transparent"
+        Style="{StaticResource ModernTabButton}"
+        Click="CabinsTabButton_Click"
+        Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Home" 
+                                Width="20" Height="20"
+                                Foreground="#6b7280"
+                                Margin="0,0,10,0"
+                                VerticalAlignment="Center"/>
+                                <TextBlock Text="Домики" 
+                  FontSize="14" 
+                  FontWeight="SemiBold"
+                  Foreground="#6b7280"
+                  VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        
                         <!-- TAB 1: Сотрудники (только admin) -->
                         <Button x:Name="StaffTabButton" 
                 Background="#F3E8FF"
