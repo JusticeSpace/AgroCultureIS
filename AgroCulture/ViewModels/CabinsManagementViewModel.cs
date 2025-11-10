@@ -9,6 +9,7 @@ namespace AgroCulture.ViewModels
 {
     public class CabinsManagementViewModel : BaseViewModel
     {
+        private ObservableCollection<Cabins> _allCabins;
         private ObservableCollection<Cabins> _cabinsList;
         public ObservableCollection<Cabins> CabinsList
         {
@@ -21,6 +22,19 @@ namespace AgroCulture.ViewModels
         {
             get => _totalCabins;
             set => SetProperty(ref _totalCabins, value);
+        }
+
+        private string _searchQuery;
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                if (SetProperty(ref _searchQuery, value))
+                {
+                    ApplySearch();
+                }
+            }
         }
 
         private string _newCabinName;
@@ -60,6 +74,7 @@ namespace AgroCulture.ViewModels
 
         public CabinsManagementViewModel()
         {
+            _allCabins = new ObservableCollection<Cabins>();
             CabinsList = new ObservableCollection<Cabins>();
 
             AddCabinCommand = new RelayCommand(_ => AddCabin());
@@ -85,18 +100,40 @@ namespace AgroCulture.ViewModels
                         .OrderBy(c => c.Name)
                         .ToList();
 
-                    CabinsList.Clear();
+                    _allCabins.Clear();
                     foreach (var cabin in cabins)
                     {
-                        CabinsList.Add(cabin);
+                        _allCabins.Add(cabin);
                     }
 
                     TotalCabins = cabins.Count;
+                    ApplySearch();
                 }
             }
             catch (Exception ex)
             {
                 ShowNotificationEvent($"❌ Ошибка: {ex.Message}", false);
+            }
+        }
+
+        private void ApplySearch()
+        {
+            CabinsList.Clear();
+
+            var filtered = _allCabins.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                var query = SearchQuery.Trim().ToLower();
+                filtered = filtered.Where(c =>
+                    (c.Name != null && c.Name.ToLower().Contains(query)) ||
+                    (c.Description != null && c.Description.ToLower().Contains(query))
+                );
+            }
+
+            foreach (var cabin in filtered)
+            {
+                CabinsList.Add(cabin);
             }
         }
 

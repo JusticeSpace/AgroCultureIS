@@ -190,20 +190,48 @@
                         </Border.Background>
 
                         <Grid>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="HomeGroup" Width="24" Height="24" 
-                                                        Foreground="White" VerticalAlignment="Center"/>
-                                <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Text="Все домики" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
-                                    <TextBlock x:Name="TxtTotalInfo" Text="Загрузка..." FontSize="12" Foreground="#D1FAE5" Margin="0,4,0,0"/>
-                                </StackPanel>
-                            </StackPanel>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="16"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                            <Border Background="White" CornerRadius="12" Padding="12,6" 
-                                   HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding TotalCabins, StringFormat='{}Всего: {0}'}" 
-                                          FontSize="14" FontWeight="SemiBold" Foreground="#059669"/>
-                            </Border>
+                            <!-- Заголовок -->
+                            <Grid Grid.Row="0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="HomeGroup" Width="24" Height="24"
+                                                            Foreground="White" VerticalAlignment="Center"/>
+                                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Все домики" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
+                                        <TextBlock x:Name="TxtTotalInfo" Text="Загрузка..." FontSize="12" Foreground="#D1FAE5" Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <Border Background="White" CornerRadius="12" Padding="12,6"
+                                       HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding TotalCabins, StringFormat='{}Всего: {0}'}"
+                                              FontSize="14" FontWeight="SemiBold" Foreground="#059669"/>
+                                </Border>
+                            </Grid>
+
+                            <!-- Поиск -->
+                            <Grid Grid.Row="2">
+                                <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        materialDesign:HintAssist.Hint="🔍 Поиск по названию или описанию..."
+                                        Height="48"
+                                        Padding="44,0,12,0"
+                                        FontSize="14"
+                                        Background="White"
+                                        VerticalContentAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Magnify"
+                                                        Width="20" Height="20"
+                                                        Foreground="#9CA3AF"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left"
+                                                        Margin="12,0,0,0"
+                                                        IsHitTestVisible="False"/>
+                            </Grid>
                         </Grid>
                     </Border>
 
