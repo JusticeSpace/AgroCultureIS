@@ -11,15 +11,16 @@ PRINT 'УДАЛЕНИЕ СТАРОГО ПРЕДСТАВЛЕНИЯ';
 PRINT '========================================';
 
 -- Удаляем старое представление
-DROP VIEW IF EXISTS [dbo].[BookingsDetails];
+IF OBJECT_ID('dbo.BookingsDetails', 'V') IS NOT NULL
+    DROP VIEW [dbo].[BookingsDetails];
 GO
 
 PRINT '✅ Старое представление удалено';
 PRINT '';
-
 PRINT '========================================';
 PRINT 'СОЗДАНИЕ НОВОГО ПРЕДСТАВЛЕНИЯ';
 PRINT '========================================';
+GO
 
 -- Создаём новое представление со ВСЕМИ полями
 CREATE VIEW [dbo].[BookingsDetails] AS
