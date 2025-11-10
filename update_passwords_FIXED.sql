@@ -52,7 +52,7 @@ SELECT
     [Username],
     [PasswordHash],
     [Role],
-    [FullName],
+    ([Surname] + ' ' + [FirstName] + ISNULL(' ' + [MiddleName], '')) AS FullName,
     [IsActive]
 FROM [dbo].[Users]
 WHERE [Username] IN ('admin', 'manager', 'guest')
