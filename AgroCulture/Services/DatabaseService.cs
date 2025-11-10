@@ -52,15 +52,13 @@ namespace AgroCulture.Services
                         return null;
                     }
 
-                    // 3️⃣ Проверяем пароль (убираем пробелы с обеих сторон)
-                    string dbPassword = user.PasswordHash?.Trim() ?? "";
-                    string inputPassword = password.Trim();
+                    // 3️⃣ Проверяем пароль с использованием хеширования
+                    string dbPasswordHash = user.PasswordHash?.Trim() ?? "";
 
                     Debug.WriteLine($"[AUTH] Сравнение:");
-                    Debug.WriteLine($"[AUTH] - БД (после trim): '{dbPassword}' (длина: {dbPassword.Length})");
-                    Debug.WriteLine($"[AUTH] - Ввод (после trim): '{inputPassword}' (длина: {inputPassword.Length})");
+                    Debug.WriteLine($"[AUTH] - Хеш в БД: '{dbPasswordHash}'");
 
-                    if (dbPassword == inputPassword)
+                    if (PasswordHasher.VerifyPassword(password, dbPasswordHash))
                     {
                         Debug.WriteLine("[AUTH] ✅✅✅ УСПЕШНАЯ АВТОРИЗАЦИЯ!");
                         Debug.WriteLine($"[AUTH] Вход выполнен: {user.Username} ({user.Role})");
@@ -70,16 +68,6 @@ namespace AgroCulture.Services
                     else
                     {
                         Debug.WriteLine("[AUTH] ❌ ПАРОЛЬ НЕ СОВПАДАЕТ!");
-
-                        // Побайтовое сравнение для отладки
-                        Debug.WriteLine("[AUTH] Побайтовое сравнение:");
-                        for (int i = 0; i < Math.Max(dbPassword.Length, inputPassword.Length); i++)
-                        {
-                            char dbChar = i < dbPassword.Length ? dbPassword[i] : ' ';
-                            char inputChar = i < inputPassword.Length ? inputPassword[i] : ' ';
-                            Debug.WriteLine($"[AUTH]   [{i}] БД: '{dbChar}' ({(int)dbChar}) vs Ввод: '{inputChar}' ({(int)inputChar})");
-                        }
-
                         Debug.WriteLine("========================================");
                         return null;
                     }

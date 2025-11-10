@@ -71,9 +71,10 @@ namespace AgroCulture.Views
             }
 
             // Аватар
-            TxtAvatarInitial.Text = string.IsNullOrWhiteSpace(_currentUser.Surname)
-                    ? "?"   
-                    : _currentUser.Surname.Trim().Substring(0, 1).ToUpper();  // ← Trim() перед Substring()
+            string trimmedSurname = _currentUser.Surname?.Trim() ?? "";
+            TxtAvatarInitial.Text = string.IsNullOrWhiteSpace(trimmedSurname) || trimmedSurname.Length == 0
+                    ? "?"
+                    : trimmedSurname.Substring(0, 1).ToUpper();
         }
 
         private string GetRoleDisplayName(string role)
@@ -215,7 +216,9 @@ namespace AgroCulture.Views
                         TxtFirstNameView.Text = firstName;
                         TxtMiddleNameView.Text = middleName;
                         TxtUserFullName.Text = user.FullName;
-                        TxtAvatarInitial.Text = surname.Substring(0, 1).ToUpper();
+                        TxtAvatarInitial.Text = !string.IsNullOrWhiteSpace(surname) && surname.Length > 0
+                            ? surname.Substring(0, 1).ToUpper()
+                            : "?";
 
                         // Возвращаем в режим просмотра
                         GridViewFullName.Visibility = Visibility.Visible;
@@ -408,14 +411,14 @@ namespace AgroCulture.Views
                         return;
                     }
 
-                    if (user.PasswordHash != currentPassword)
+                    if (!Services.PasswordHasher.VerifyPassword(currentPassword, user.PasswordHash))
                     {
                         MessageBox.Show("Неверный текущий пароль", "Ошибка",
                             MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
-                    user.PasswordHash = newPassword;
+                    user.PasswordHash = Services.PasswordHasher.HashPassword(newPassword);
                     context.SaveChanges();
 
                     TxtCurrentPassword.Clear();

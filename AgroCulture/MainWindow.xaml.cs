@@ -223,6 +223,18 @@ namespace AgroCulture
             UserRoleText.Foreground = new SolidColorBrush(roleFgColor);
         }
 
+        /// <summary>
+        /// Обновление отображения данных пользователя (вызывается из ProfilePage)
+        /// </summary>
+        public void UpdateUserDisplay()
+        {
+            if (App.CurrentUser != null)
+            {
+                UserNameText.Text = App.CurrentUser.FullName;
+                System.Diagnostics.Debug.WriteLine($"[MAIN] Обновлено отображение пользователя: {App.CurrentUser.FullName}");
+            }
+        }
+
         private string GetRoleDisplayName(string role)
         {
             switch (role?.ToLower())

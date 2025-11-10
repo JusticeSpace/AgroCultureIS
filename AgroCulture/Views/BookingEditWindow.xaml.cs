@@ -46,7 +46,24 @@ namespace AgroCulture.Views
                     }
 
                     var booking = context.Bookings.FirstOrDefault(b => b.BookingId == EditBookingId);
+
+                    if (booking == null)
+                    {
+                        MessageBox.Show("Бронирование не найдено в таблице Bookings", "Ошибка",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        this.Close();
+                        return;
+                    }
+
                     _currentCabin = context.Cabins.FirstOrDefault(c => c.CabinId == booking.CabinId);
+
+                    if (_currentCabin == null)
+                    {
+                        MessageBox.Show("Домик для данного бронирования не найден", "Ошибка",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        this.Close();
+                        return;
+                    }
 
                     // Данные домика
                     TxtCabinName.Text = bookingDetail.CabinName;

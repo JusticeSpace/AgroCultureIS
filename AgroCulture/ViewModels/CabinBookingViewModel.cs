@@ -567,6 +567,15 @@ namespace AgroCulture.ViewModels
                     return false;
                 }
 
+                // ✅ Валидация формата телефона
+                if (!Services.PhoneValidator.IsValidPhone(GuestPhone))
+                {
+                    ShowNotification?.Invoke("❌ Некорректный формат телефона", false);
+                    MessageBox.Show("Некорректный формат номера телефона.\n\nПримеры правильного формата:\n+7 (999) 999-99-99\n89999999999\n+79999999999", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
                 // ✅ НОВОЕ: Опциональная валидация Email
                 if (!string.IsNullOrWhiteSpace(GuestEmail) && !IsValidEmail(GuestEmail))
                 {

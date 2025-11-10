@@ -230,6 +230,12 @@ namespace AgroCulture.ViewModels
                 return;
             }
 
+            // ✅ Валидация формата телефона (опциональная)
+            if (!string.IsNullOrWhiteSpace(NewPhone) && !Services.PhoneValidator.IsValidPhone(NewPhone))
+            {
+                ShowNotificationEvent("Некорректный формат телефона. Пример: +7 (999) 999-99-99", false);
+                return;
+            }
 
             try
             {
@@ -245,7 +251,7 @@ namespace AgroCulture.ViewModels
                     var newUser = new Users
                     {
                         Username = NewLogin.Trim(),
-                        PasswordHash = NewPassword,
+                        PasswordHash = Services.PasswordHasher.HashPassword(NewPassword),
                         Role = SelectedRole,
                         Surname = NewSurname.Trim(),
                         FirstName = NewFirstName.Trim(),
