@@ -128,12 +128,10 @@ namespace AgroCulture.ViewModels
                     {
                         Name = NewCabinName.Trim(),
                         Description = NewCabinDescription?.Trim() ?? "",
-                        Capacity = NewCabinCapacity,
+                        MaxGuests = NewCabinCapacity,
                         PricePerNight = NewCabinPrice,
                         ImageUrl = "",
-                        IsAvailable = true,
-                        IsActive = true,
-                        CreatedAt = DateTime.Now
+                        IsActive = true
                     };
 
                     context.Cabins.Add(cabin);

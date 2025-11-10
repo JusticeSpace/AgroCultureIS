@@ -260,7 +260,7 @@
                             <!-- Вместимость -->
                             <DataGridTextColumn Header="👥 Место" Width="90">
                                 <DataGridTextColumn.Binding>
-                                    <Binding Path="Capacity" StringFormat="{}{0} чел"/>
+                                    <Binding Path="MaxGuests" StringFormat="{}{0} чел"/>
                                 </DataGridTextColumn.Binding>
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
