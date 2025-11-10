@@ -40,15 +40,40 @@ namespace AgroCulture.Views
 
         private void LoadUserData()
         {
+            // Основная информация
             TxtUserFullName.Text = _currentUser.FullName;
-            TxtFullNameView.Text = _currentUser.FullName;
+
+            // ✅ Заполняем 3 поля просмотра
+            TxtSurnameView.Text = _currentUser.Surname ?? "";
+            TxtFirstNameView.Text = _currentUser.FirstName ?? "";
+            TxtMiddleNameView.Text = _currentUser.MiddleName ?? "";
+
             TxtUsername.Text = _currentUser.Username;
             TxtRoleDisplay.Text = GetRoleDisplayName(_currentUser.Role);
 
-            // Первая буква для аватара
-            TxtAvatarInitial.Text = string.IsNullOrWhiteSpace(_currentUser.FullName)
+            // Телефон и Email
+            TxtPhoneView.Text = string.IsNullOrWhiteSpace(_currentUser.Phone)
+                ? "Не указан"
+                : _currentUser.Phone;
+
+            TxtEmailView.Text = string.IsNullOrWhiteSpace(_currentUser.Email)
+                ? "Не указан"
+                : _currentUser.Email;
+
+            // Дата регистрации
+            TxtCreatedAt.Text = _currentUser.CreatedAt.ToString("dd.MM.yyyy HH:mm");
+
+            // ID (показываем только админу)
+            if (_currentUser.Role.ToLower() == "admin")
+            {
+                PanelUserId.Visibility = Visibility.Visible;
+                TxtUserId.Text = $"#{_currentUser.UserId}";
+            }
+
+            // Аватар
+            TxtAvatarInitial.Text = string.IsNullOrWhiteSpace(_currentUser.Surname)
                 ? "?"
-                : _currentUser.FullName.Substring(0, 1).ToUpper();
+                : _currentUser.Surname.Substring(0, 1).ToUpper();
         }
 
         private string GetRoleDisplayName(string role)
@@ -75,26 +100,26 @@ namespace AgroCulture.Views
             switch (role?.ToLower())
             {
                 case "admin":
-                    bgColor = Color.FromRgb(243, 232, 255);    // Purple-100
-                    borderColor = Color.FromRgb(216, 180, 254); // Purple-300
-                    textColor = Color.FromRgb(126, 34, 206);    // Purple-700
+                    bgColor = Color.FromRgb(243, 232, 255);
+                    borderColor = Color.FromRgb(216, 180, 254);
+                    textColor = Color.FromRgb(126, 34, 206);
                     iconKind = PackIconKind.Shield;
                     description = "Полный доступ к системе: управление сотрудниками, бронирования, статистика";
                     break;
 
                 case "manager":
-                    bgColor = Color.FromRgb(219, 234, 254);    // Blue-100
-                    borderColor = Color.FromRgb(147, 197, 253); // Blue-300
-                    textColor = Color.FromRgb(29, 78, 216);     // Blue-700
-                    iconKind = PackIconKind.Account;
+                    bgColor = Color.FromRgb(219, 234, 254);
+                    borderColor = Color.FromRgb(147, 197, 253);
+                    textColor = Color.FromRgb(29, 78, 216);
+                    iconKind = PackIconKind.AccountTie;
                     description = "Создание и редактирование бронирований, просмотр списка бронирований";
                     break;
 
                 case "guest":
-                    bgColor = Color.FromRgb(243, 244, 246);    // Gray-100
-                    borderColor = Color.FromRgb(229, 231, 235); // Gray-300
-                    textColor = Color.FromRgb(55, 65, 81);      // Gray-700
-                    iconKind = PackIconKind.Account;
+                    bgColor = Color.FromRgb(243, 244, 246);
+                    borderColor = Color.FromRgb(229, 231, 235);
+                    textColor = Color.FromRgb(55, 65, 81);
+                    iconKind = PackIconKind.AccountOutline;
                     description = "Только просмотр списка бронирований";
                     break;
 
@@ -116,27 +141,48 @@ namespace AgroCulture.Views
         }
 
         // ═══════════════════════════════════════════════════════════
-        // РЕДАКТИРОВАНИЕ ПРОФИЛЯ
+        // РЕДАКТИРОВАНИЕ ФИО (3 ПОЛЯ)
         // ═══════════════════════════════════════════════════════════
 
         private void BtnEditProfile_Click(object sender, RoutedEventArgs e)
         {
-            TxtFullNameView.Visibility = Visibility.Collapsed;
+            // Скрываем режим просмотра
+            GridViewFullName.Visibility = Visibility.Collapsed;
+
+            // Показываем режим редактирования
             PanelEditFullName.Visibility = Visibility.Visible;
+
+            // Скрываем кнопку редактирования
             BtnEditProfile.Visibility = Visibility.Collapsed;
 
-            TxtFullNameEdit.Text = TxtFullNameView.Text;
-            TxtFullNameEdit.Focus();
+            // ✅ Заполняем отдельные поля
+            TxtSurnameEdit.Text = _currentUser.Surname ?? "";
+            TxtFirstNameEdit.Text = _currentUser.FirstName ?? "";
+            TxtMiddleNameEdit.Text = _currentUser.MiddleName ?? "";
+
+            TxtSurnameEdit.Focus();
         }
 
         private void BtnSaveProfile_Click(object sender, RoutedEventArgs e)
         {
-            string newFullName = TxtFullNameEdit.Text.Trim();
+            string surname = TxtSurnameEdit.Text.Trim();
+            string firstName = TxtFirstNameEdit.Text.Trim();
+            string middleName = TxtMiddleNameEdit.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(newFullName))
+            // Валидация
+            if (string.IsNullOrWhiteSpace(surname))
             {
-                MessageBox.Show("ФИО не может быть пустым", "Ошибка",
+                MessageBox.Show("Фамилия не может быть пустой", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtSurnameEdit.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                MessageBox.Show("Имя не может быть пустым", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtFirstNameEdit.Focus();
                 return;
             }
 
@@ -147,42 +193,168 @@ namespace AgroCulture.Views
                     var user = context.Users.FirstOrDefault(u => u.UserId == _currentUser.UserId);
                     if (user != null)
                     {
-                        user.FullName = newFullName;
+                        // ✅ Сохраняем отдельные поля
+                        user.Surname = surname;
+                        user.FirstName = firstName;
+                        user.MiddleName = middleName;
+
                         context.SaveChanges();
 
-                        // Обновление локальных данных
-                        _currentUser.FullName = newFullName;
-                        App.CurrentUser.FullName = newFullName;
+                        // Обновляем локальные данные
+                        _currentUser.Surname = surname;
+                        _currentUser.FirstName = firstName;
+                        _currentUser.MiddleName = middleName;
 
-                        TxtFullNameView.Text = newFullName;
-                        TxtUserFullName.Text = newFullName;
-                        TxtAvatarInitial.Text = newFullName.Substring(0, 1).ToUpper();
+                        App.CurrentUser.Surname = surname;
+                        App.CurrentUser.FirstName = firstName;
+                        App.CurrentUser.MiddleName = middleName;
 
-                        TxtFullNameView.Visibility = Visibility.Visible;
+                        // Обновляем отображение
+                        TxtSurnameView.Text = surname;
+                        TxtFirstNameView.Text = firstName;
+                        TxtMiddleNameView.Text = middleName;
+                        TxtUserFullName.Text = user.FullName;
+                        TxtAvatarInitial.Text = surname.Substring(0, 1).ToUpper();
+
+                        // Возвращаем в режим просмотра
+                        GridViewFullName.Visibility = Visibility.Visible;
                         PanelEditFullName.Visibility = Visibility.Collapsed;
                         BtnEditProfile.Visibility = Visibility.Visible;
 
-                        // ✅ НОВОЕ: Обновляем header в MainWindow
+                        // Обновляем главное окно
                         var mainWindow = Application.Current.MainWindow as MainWindow;
                         mainWindow?.UpdateUserDisplay();
 
-                        MessageBox.Show("Профиль успешно обновлен", "Успех",
+                        MessageBox.Show("ФИО успешно обновлено", "Успех",
                             MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка обновления профиля:\n{ex.Message}", "Ошибка",
+                MessageBox.Show($"Ошибка обновления:\n{ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void BtnCancelEditProfile_Click(object sender, RoutedEventArgs e)
         {
-            TxtFullNameView.Visibility = Visibility.Visible;
+            // Возвращаем в режим просмотра
+            GridViewFullName.Visibility = Visibility.Visible;
             PanelEditFullName.Visibility = Visibility.Collapsed;
             BtnEditProfile.Visibility = Visibility.Visible;
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // РЕДАКТИРОВАНИЕ ТЕЛЕФОНА
+        // ═══════════════════════════════════════════════════════════
+
+        private void BtnEditPhone_Click(object sender, RoutedEventArgs e)
+        {
+            TxtPhoneView.Visibility = Visibility.Collapsed;
+            PanelEditPhone.Visibility = Visibility.Visible;
+            BtnEditPhone.Visibility = Visibility.Collapsed;
+
+            TxtPhoneEdit.Text = _currentUser.Phone;
+            TxtPhoneEdit.Focus();
+        }
+
+        private void BtnSavePhone_Click(object sender, RoutedEventArgs e)
+        {
+            string newPhone = TxtPhoneEdit.Text.Trim();
+
+            try
+            {
+                using (var context = new AgroCultureEntities())
+                {
+                    var user = context.Users.FirstOrDefault(u => u.UserId == _currentUser.UserId);
+                    if (user != null)
+                    {
+                        user.Phone = newPhone;
+                        context.SaveChanges();
+
+                        _currentUser.Phone = newPhone;
+                        App.CurrentUser.Phone = newPhone;
+
+                        TxtPhoneView.Text = string.IsNullOrWhiteSpace(newPhone) ? "Не указан" : newPhone;
+
+                        TxtPhoneView.Visibility = Visibility.Visible;
+                        PanelEditPhone.Visibility = Visibility.Collapsed;
+                        BtnEditPhone.Visibility = Visibility.Visible;
+
+                        MessageBox.Show("Телефон успешно обновлён", "Успех",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления:\n{ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnCancelPhone_Click(object sender, RoutedEventArgs e)
+        {
+            TxtPhoneView.Visibility = Visibility.Visible;
+            PanelEditPhone.Visibility = Visibility.Collapsed;
+            BtnEditPhone.Visibility = Visibility.Visible;
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // РЕДАКТИРОВАНИЕ EMAIL
+        // ═══════════════════════════════════════════════════════════
+
+        private void BtnEditEmail_Click(object sender, RoutedEventArgs e)
+        {
+            TxtEmailView.Visibility = Visibility.Collapsed;
+            PanelEditEmail.Visibility = Visibility.Visible;
+            BtnEditEmail.Visibility = Visibility.Collapsed;
+
+            TxtEmailEdit.Text = _currentUser.Email;
+            TxtEmailEdit.Focus();
+        }
+
+        private void BtnSaveEmail_Click(object sender, RoutedEventArgs e)
+        {
+            string newEmail = TxtEmailEdit.Text.Trim();
+
+            try
+            {
+                using (var context = new AgroCultureEntities())
+                {
+                    var user = context.Users.FirstOrDefault(u => u.UserId == _currentUser.UserId);
+                    if (user != null)
+                    {
+                        user.Email = newEmail;
+                        context.SaveChanges();
+
+                        _currentUser.Email = newEmail;
+                        App.CurrentUser.Email = newEmail;
+
+                        TxtEmailView.Text = string.IsNullOrWhiteSpace(newEmail) ? "Не указан" : newEmail;
+
+                        TxtEmailView.Visibility = Visibility.Visible;
+                        PanelEditEmail.Visibility = Visibility.Collapsed;
+                        BtnEditEmail.Visibility = Visibility.Visible;
+
+                        MessageBox.Show("Email успешно обновлён", "Успех",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления:\n{ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnCancelEmail_Click(object sender, RoutedEventArgs e)
+        {
+            TxtEmailView.Visibility = Visibility.Visible;
+            PanelEditEmail.Visibility = Visibility.Collapsed;
+            BtnEditEmail.Visibility = Visibility.Visible;
         }
 
         // ═══════════════════════════════════════════════════════════
@@ -235,7 +407,6 @@ namespace AgroCulture.Views
                         return;
                     }
 
-                    // Проверка текущего пароля
                     if (user.PasswordHash != currentPassword)
                     {
                         MessageBox.Show("Неверный текущий пароль", "Ошибка",
@@ -243,7 +414,6 @@ namespace AgroCulture.Views
                         return;
                     }
 
-                    // Обновление пароля
                     user.PasswordHash = newPassword;
                     context.SaveChanges();
 
@@ -254,7 +424,7 @@ namespace AgroCulture.Views
                     BtnChangePassword.Visibility = Visibility.Visible;
                     PanelPasswordChange.Visibility = Visibility.Collapsed;
 
-                    MessageBox.Show("Пароль успешно изменен", "Успех",
+                    MessageBox.Show("Пароль успешно изменён", "Успех",
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -276,7 +446,7 @@ namespace AgroCulture.Views
         }
 
         // ═══════════════════════════════════════════════════════════
-        // АДАПТИВНАЯ СТАТИСТИКА
+        // СТАТИСТИКА
         // ═══════════════════════════════════════════════════════════
 
         private void InitializeStatistics()
@@ -288,7 +458,6 @@ namespace AgroCulture.Views
 
             if (stats.Count == 0) return;
 
-            // Создание колонок
             for (int i = 0; i < stats.Count; i++)
             {
                 GridStatistics.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -299,7 +468,6 @@ namespace AgroCulture.Views
                 }
             }
 
-            // Создание карточек
             int colIndex = 0;
             foreach (var stat in stats)
             {
@@ -333,7 +501,6 @@ namespace AgroCulture.Views
 
             var stackPanel = new StackPanel { Orientation = Orientation.Horizontal };
 
-            // Иконка
             var iconBorder = new Border
             {
                 Width = 48,
@@ -353,7 +520,6 @@ namespace AgroCulture.Views
 
             stackPanel.Children.Add(iconBorder);
 
-            // Текст
             var textPanel = new StackPanel
             {
                 Margin = new Thickness(12, 0, 0, 0),
@@ -391,42 +557,38 @@ namespace AgroCulture.Views
                     switch (role?.ToLower())
                     {
                         case "admin":
-                            // ✅ ИСПРАВЛЕНО: убрали IsActive из запроса
                             int totalStaff = context.Users
-                                .Count(u => u.Role == "admin" || u.Role == "manager");
+                                .Count(u => u.IsActive && (u.Role == "admin" || u.Role == "manager"));
 
                             int totalBookings = context.Bookings.Count();
-
-                            // ✅ ИСПРАВЛЕНО: просто количество домиков
-                            int totalCabins = context.Cabins.Count();
+                            int totalCabins = context.Cabins.Count(c => c.IsActive);
 
                             return new List<StatisticItem>
-                    {
-                        new StatisticItem
-                        {
-                            Label = "Всего сотрудников",
-                            Value = totalStaff.ToString(),
-                            IconKind = PackIconKind.Account,
-                            Color = Color.FromRgb(147, 51, 234) // Purple
-                        },
-                        new StatisticItem
-                        {
-                            Label = "Всего бронирований",
-                            Value = totalBookings.ToString(),
-                            IconKind = PackIconKind.CalendarMonth,
-                            Color = Color.FromRgb(37, 99, 235) // Blue
-                        },
-                        new StatisticItem
-                        {
-                            Label = "Всего домиков",
-                            Value = totalCabins.ToString(),
-                            IconKind = PackIconKind.Home,
-                            Color = Color.FromRgb(22, 163, 74) // Green
-                        }
-                    };
+                            {
+                                new StatisticItem
+                                {
+                                    Label = "Всего сотрудников",
+                                    Value = totalStaff.ToString(),
+                                    IconKind = PackIconKind.AccountGroup,
+                                    Color = Color.FromRgb(147, 51, 234)
+                                },
+                                new StatisticItem
+                                {
+                                    Label = "Всего бронирований",
+                                    Value = totalBookings.ToString(),
+                                    IconKind = PackIconKind.CalendarMonth,
+                                    Color = Color.FromRgb(37, 99, 235)
+                                },
+                                new StatisticItem
+                                {
+                                    Label = "Всего домиков",
+                                    Value = totalCabins.ToString(),
+                                    IconKind = PackIconKind.Home,
+                                    Color = Color.FromRgb(22, 163, 74)
+                                }
+                            };
 
                         case "manager":
-                            // ✅ ИСПРАВЛЕНО: используем CreatedBy вместо ManagerId
                             int managerBookings = context.Bookings
                                 .Count(b => b.CreatedBy == _currentUser.UserId);
 
@@ -437,36 +599,36 @@ namespace AgroCulture.Views
                                     b.CreatedAt.Year == DateTime.Now.Year);
 
                             return new List<StatisticItem>
-                    {
-                        new StatisticItem
-                        {
-                            Label = "Созданных бронирований",
-                            Value = managerBookings.ToString(),
-                            IconKind = PackIconKind.CalendarMonth,
-                            Color = Color.FromRgb(37, 99, 235) // Blue
-                        },
-                        new StatisticItem
-                        {
-                            Label = "В этом месяце",
-                            Value = thisMonthBookings.ToString(),
-                            IconKind = PackIconKind.ChartBar,
-                            Color = Color.FromRgb(22, 163, 74) // Green
-                        }
-                    };
+                            {
+                                new StatisticItem
+                                {
+                                    Label = "Созданных бронирований",
+                                    Value = managerBookings.ToString(),
+                                    IconKind = PackIconKind.CalendarMonth,
+                                    Color = Color.FromRgb(37, 99, 235)
+                                },
+                                new StatisticItem
+                                {
+                                    Label = "В этом месяце",
+                                    Value = thisMonthBookings.ToString(),
+                                    IconKind = PackIconKind.ChartBar,
+                                    Color = Color.FromRgb(22, 163, 74)
+                                }
+                            };
 
                         case "guest":
                             int totalAvailableBookings = context.Bookings.Count();
 
                             return new List<StatisticItem>
-                    {
-                        new StatisticItem
-                        {
-                            Label = "Доступно бронирований",
-                            Value = totalAvailableBookings.ToString(),
-                            IconKind = PackIconKind.CalendarMonth,
-                            Color = Color.FromRgb(107, 114, 128) // Gray
-                        }
-                    };
+                            {
+                                new StatisticItem
+                                {
+                                    Label = "Доступно бронирований",
+                                    Value = totalAvailableBookings.ToString(),
+                                    IconKind = PackIconKind.CalendarMonth,
+                                    Color = Color.FromRgb(107, 114, 128)
+                                }
+                            };
 
                         default:
                             return new List<StatisticItem>();
@@ -477,23 +639,18 @@ namespace AgroCulture.Views
             {
                 System.Diagnostics.Debug.WriteLine($"Ошибка загрузки статистики: {ex.Message}");
 
-                // Возвращаем пустую статистику при ошибке
                 return new List<StatisticItem>
-        {
-            new StatisticItem
-            {
-                Label = "Статистика недоступна",
-                Value = "—",
-                IconKind = PackIconKind.AlertCircle,
-                Color = Color.FromRgb(239, 68, 68) // Red
-            }
-        };
+                {
+                    new StatisticItem
+                    {
+                        Label = "Статистика недоступна",
+                        Value = "—",
+                        IconKind = PackIconKind.AlertCircle,
+                        Color = Color.FromRgb(239, 68, 68)
+                    }
+                };
             }
         }
-
-        // ═══════════════════════════════════════════════════════════
-        // ВСПОМОГАТЕЛЬНЫЙ КЛАСС
-        // ═══════════════════════════════════════════════════════════
 
         private class StatisticItem
         {

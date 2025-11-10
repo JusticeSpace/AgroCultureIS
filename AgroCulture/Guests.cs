@@ -21,13 +21,12 @@ namespace AgroCulture
         }
     
         public int GuestId { get; set; }
-        public string FullName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public string PassportSeries { get; set; }
-        public string PassportNumber { get; set; }
-        public string Notes { get; set; }
         public System.DateTime CreatedAt { get; set; }
+        public string Surname { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bookings> Bookings { get; set; }

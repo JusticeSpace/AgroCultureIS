@@ -13,7 +13,6 @@ namespace AgroCulture
 
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.Default;
 
-
             // Обработчик Enter в полях
             LoginTextBox.KeyDown += Input_KeyDown;
             PasswordBox.KeyDown += Input_KeyDown;
@@ -48,14 +47,16 @@ namespace AgroCulture
             // Валидация
             if (string.IsNullOrWhiteSpace(username) || username == "Введите логин")
             {
-                MessageBox.Show("Введите логин", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Введите логин", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 LoginTextBox.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Введите пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Введите пароль", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 PasswordBox.Focus();
                 return;
             }
@@ -65,6 +66,9 @@ namespace AgroCulture
 
             if (user != null)
             {
+                // ✅ ЛОГИРОВАНИЕ для отладки
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] Успешный вход: {user.Username} ({user.Role})");
+
                 // Успешная авторизация
                 App.CurrentUser = user;
 
@@ -77,9 +81,12 @@ namespace AgroCulture
             }
             else
             {
+                // ✅ ЛОГИРОВАНИЕ для отладки
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] ОШИБКА: Неверные данные для {username}");
+
                 // Неверные данные
                 MessageBox.Show(
-                    "Неверный логин или пароль.\n\nПроверьте правильность ввода.",
+                    $"Неверный логин или пароль.\n\nВы ввели:\nЛогин: {username}\nПароль: {password}\n\nПроверьте правильность ввода.",
                     "Ошибка авторизации",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -103,9 +110,35 @@ namespace AgroCulture
             FillCredentials("manager", "manager");
         }
 
-        private void GuestCard_Click(object sender, MouseButtonEventArgs e)
+        // ✅ ВХОД ГОСТЕМ - обычная проверка через БД
+        private void GuestButton_Click(object sender, RoutedEventArgs e)
         {
-            FillCredentials("guest", "guest");
+            System.Diagnostics.Debug.WriteLine("[LOGIN] Попытка входа как гость");
+
+            // Проверяем через БД
+            Users user = App.Database.AuthenticateUser("guest", "guest");
+
+            if (user != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] ✅ Гость авторизован: {user.Username} ({user.Role})");
+
+                App.CurrentUser = user;
+
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+
+                this.Close();
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[LOGIN] ❌ Ошибка входа гостя");
+
+                MessageBox.Show(
+                    "Не удалось войти в гостевой режим.\n\nПроверьте наличие пользователя 'guest' в базе данных.",
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
         private void FillCredentials(string username, string password)

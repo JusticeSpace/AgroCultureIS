@@ -17,7 +17,8 @@ namespace AgroCulture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Amenities()
         {
-            this.Cabins = new HashSet<Cabins>();
+            this.CabinAmenities = new HashSet<CabinAmenities>();
+            this.CabinAmenities1 = new HashSet<CabinAmenities>();
         }
     
         public int AmenityId { get; set; }
@@ -25,6 +26,8 @@ namespace AgroCulture
         public string Icon { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cabins> Cabins { get; set; }
+        public virtual ICollection<CabinAmenities> CabinAmenities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CabinAmenities> CabinAmenities1 { get; set; }
     }
 }

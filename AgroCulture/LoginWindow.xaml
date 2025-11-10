@@ -92,6 +92,41 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Стиль для кнопки гостя -->
+        <Style x:Key="GuestButton" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontFamily" Value="Arimo, Segoe UI"/>
+            <Setter Property="Foreground" Value="#6B7280"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#D1D5DC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                CornerRadius="8"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F9FAFB"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#9CA3AF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F3F4F6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Border Margin="38" Background="White" CornerRadius="14">
@@ -168,8 +203,20 @@
                 <Button Content="Войти"
                         x:Name="LoginButton"
                        Style="{StaticResource LoginButton}"
-                       Margin="0,0,0,20"
+                       Margin="0,0,0,12"
                         Click="LoginButton_Click"/>
+
+                <!-- ✅ НОВАЯ: Кнопка входа как гость -->
+                <Button x:Name="GuestModeButton"
+                        Style="{StaticResource GuestButton}"
+                        Margin="0,0,0,20"
+                        Click="GuestButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="👁️" FontSize="14" Margin="0,0,6,0"/>
+                        <TextBlock Text="Войти как гость (только просмотр)" 
+                                  FontSize="13"/>
+                    </StackPanel>
+                </Button>
 
                 <!-- Разделитель -->
                 <Separator Margin="0,0,0,12" Background="#D1D5DC"/>
@@ -178,7 +225,7 @@
                           FontFamily="Arimo, Segoe UI"
                           HorizontalAlignment="Center" Margin="0,0,0,12"/>
 
-                <!-- Список учетных записей (компактный) -->
+                <!-- Список учетных записей (БЕЗ ГОСТЯ) -->
                 <ItemsControl>
                     <ItemsControl.Items>
                         <!-- Админ -->
@@ -218,7 +265,7 @@
 
                         <!-- Менеджер -->
                         <Border BorderBrush="#1A000000" BorderThickness="1" 
-                               CornerRadius="8" Padding="12,8" Margin="0,0,0,8"
+                               CornerRadius="8" Padding="12,8"
                                Cursor="Hand"
                                 MouseLeftButtonDown="ManagerCard_Click">
                             <Grid>
@@ -247,41 +294,6 @@
                                     <TextBlock Text="Менеджер" FontSize="12" 
                                               FontFamily="Arimo, Segoe UI"
                                               Foreground="#1447E6"/>
-                                </Border>
-                            </Grid>
-                        </Border>
-
-                        <!-- Гость -->
-                        <Border BorderBrush="#1A000000" BorderThickness="1" 
-                               CornerRadius="8" Padding="12,8"
-                               Cursor="Hand"
-                                MouseLeftButtonDown="GuestCard_Click">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel>
-                                    <TextBlock Text="Сидоров Иван Иванович" 
-                                              FontSize="14" FontWeight="SemiBold"
-                                              FontFamily="Arimo, Segoe UI"/>
-                                    <TextBlock FontSize="12" Foreground="#6A7282" 
-                                              FontFamily="Arimo, Segoe UI"
-                                              Margin="0,2,0,0">
-                                        <Run Text="Логин:"/>
-                                        <Run Text="guest" FontWeight="Bold"/>
-                                        <Run Text=" | Пароль:"/>
-                                        <Run Text="guest" FontWeight="Bold"/>
-                                    </TextBlock>
-                                </StackPanel>
-
-                                <Border Grid.Column="1" Background="#F3F4F6" 
-                                       BorderBrush="#D1D5DC" BorderThickness="1"
-                                       CornerRadius="6" Padding="8,6">
-                                    <TextBlock Text="Гость" FontSize="12" 
-                                              FontFamily="Arimo, Segoe UI"
-                                              Foreground="#364153"/>
                                 </Border>
                             </Grid>
                         </Border>

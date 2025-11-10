@@ -112,51 +112,53 @@
                            HorizontalAlignment="Right" 
                            VerticalAlignment="Center">
 
-                    <materialDesign:Card Padding="12,8"
-                                        UniformCornerRadius="8"
-                                        materialDesign:ElevationAssist.Elevation="Dp0"
-                                        Background="#f9fafb"
-                                        Margin="0,0,12,0">
+                    <materialDesign:Card Padding="12,8" x:Name="UserNameCard"
+                        UniformCornerRadius="8"
+                        materialDesign:ElevationAssist.Elevation="Dp0"
+                        Background="#f9fafb"
+                        Margin="0,0,12,0">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                                 <materialDesign:PackIcon Kind="Account" 
-                                                        Width="14" Height="14"
-                                                        Foreground="#6b7280" 
-                                                        VerticalAlignment="Center"
-                                                        Margin="0,0,6,0"/>
+                                        Width="14" Height="14"
+                                        Foreground="#6b7280" 
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,6,0"/>
                                 <TextBlock x:Name="UserNameText" 
-                                          Text="Петров Петр Петрович"
-                                          FontSize="13" 
-                                          FontWeight="Medium"
-                                          Foreground="#1f2937"
-                                          VerticalAlignment="Center"/>
+                          Text="Петров Петр Петрович"
+                          FontSize="13" 
+                          FontWeight="Medium"
+                          Foreground="#1f2937"
+                          VerticalAlignment="Center"/>
                             </StackPanel>
 
                             <Border x:Name="UserRoleBadge"
-                                   Background="#7c3aed"
-                                   CornerRadius="10"
-                                   Padding="8,3"
-                                   HorizontalAlignment="Left">
+                   Background="#7c3aed"
+                   CornerRadius="10"
+                   Padding="8,3"
+                   HorizontalAlignment="Left">
                                 <TextBlock x:Name="UserRoleText" 
-                                          Text="Администратор" 
-                                          FontSize="11" 
-                                          FontWeight="Medium"
-                                          Foreground="White"/>
+                          Text="Администратор" 
+                          FontSize="11" 
+                          FontWeight="Medium"
+                          Foreground="White"/>
                             </Border>
                         </StackPanel>
                     </materialDesign:Card>
 
-                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                    <!-- ✅ ИЗМЕНЕНО: Кнопка профиля скрыта для гостя -->
+                    <Button x:Name="ProfileButton"
+                           Style="{StaticResource MaterialDesignIconButton}"
                            Width="40" Height="40" 
                            Margin="0,0,8,0"
                            Click="ProfileButton_Click"
                            ToolTip="Мой профиль">
-                        <materialDesign:PackIcon Kind="AccountCircle" 
+                                        <materialDesign:PackIcon Kind="AccountCircle" 
                                                 Width="24" Height="24"
                                                 Foreground="#6b7280"/>
-                    </Button>
+                                    </Button>
 
-                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
                            Height="40"
                            Padding="16,0"
                            Background="#dc2626"
@@ -164,12 +166,12 @@
                            Click="LogoutButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Logout" 
-                                                    Width="16" Height="16"
-                                                    Margin="0,0,8,0"
-                                                    VerticalAlignment="Center"/>
+                                    Width="16" Height="16"
+                                    Margin="0,0,8,0"
+                                    VerticalAlignment="Center"/>
                             <TextBlock Text="Выход" 
-                                      FontSize="14"
-                                      VerticalAlignment="Center"/>
+                      FontSize="14"
+                      VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>

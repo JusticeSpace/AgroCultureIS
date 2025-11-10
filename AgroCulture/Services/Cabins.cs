@@ -7,31 +7,41 @@ namespace AgroCulture
 {
     /// <summary>
     /// Расширение автогенерированного класса Cabins
-    /// (этот файл НЕ перезаписывается при обновлении EDMX)
     /// </summary>
     public partial class Cabins : INotifyPropertyChanged
     {
-        // ═══════════════════════════════════════════════════════════
-        // ДОПОЛНИТЕЛЬНЫЕ СВОЙСТВА ДЛЯ UI
-        // ═══════════════════════════════════════════════════════════
-
         /// <summary>
-        /// Список удобств для отображения в ItemsControl
+        /// Список удобств для отображения в UI
         /// </summary>
         public List<string> AmenitiesList
         {
             get
             {
-                // Amenities - это ICollection из автогенерированного класса
-                if (Amenities == null || !Amenities.Any())
-                    return new List<string>();
+                try
+                {
+                    using (var context = new AgroCultureEntities())
+                    {
+                        var cabin = context.Cabins
+                            .Include("CabinAmenities.Amenities")  // Eager loading
+                            .FirstOrDefault(c => c.CabinId == this.CabinId);
 
-                return Amenities.Select(a => a.Name).ToList();
+                        if (cabin == null || cabin.CabinAmenities == null)
+                            return new List<string>();
+
+                        return cabin.CabinAmenities
+                            .Select(ca => ca.Amenities.Name)
+                            .ToList();
+                    }
+                }
+                catch
+                {
+                    return new List<string>();
+                }
             }
         }
 
         /// <summary>
-        /// Выбран ли домик в UI (для визуального выделения)
+        /// Выбран ли домик в UI
         /// </summary>
         private bool _isSelected;
         public bool IsSelected
@@ -46,10 +56,6 @@ namespace AgroCulture
                 }
             }
         }
-
-        // ═══════════════════════════════════════════════════════════
-        // INotifyPropertyChanged (для обновления UI)
-        // ═══════════════════════════════════════════════════════════
 
         public event PropertyChangedEventHandler PropertyChanged;
 

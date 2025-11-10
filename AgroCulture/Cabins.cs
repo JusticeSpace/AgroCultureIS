@@ -18,7 +18,8 @@ namespace AgroCulture
         public Cabins()
         {
             this.Bookings = new HashSet<Bookings>();
-            this.Amenities = new HashSet<Amenities>();
+            this.CabinAmenities = new HashSet<CabinAmenities>();
+            this.CabinAmenities1 = new HashSet<CabinAmenities>();
         }
     
         public int CabinId { get; set; }
@@ -29,10 +30,13 @@ namespace AgroCulture
         public string ImageUrl { get; set; }
         public bool IsAvailable { get; set; }
         public System.DateTime CreatedAt { get; set; }
+        public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bookings> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Amenities> Amenities { get; set; }
+        public virtual ICollection<CabinAmenities> CabinAmenities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CabinAmenities> CabinAmenities1 { get; set; }
     }
 }

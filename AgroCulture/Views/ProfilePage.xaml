@@ -10,7 +10,7 @@
             <!-- ═══════════════════════════════════════════════════════════ -->
             <!-- КАРТОЧКА 1: ОСНОВНАЯ ИНФОРМАЦИЯ -->
             <!-- ═══════════════════════════════════════════════════════════ -->
-            <materialDesign:Card Margin="0,0,0,16" UniformCornerRadius="8"
+            <materialDesign:Card Margin="0,0,0,24" UniformCornerRadius="12"
                                 materialDesign:ElevationAssist.Elevation="Dp4">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -19,7 +19,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- HEADER -->
-                    <Border Grid.Row="0" CornerRadius="8,8,0,0" Padding="24,16">
+                    <Border Grid.Row="0" CornerRadius="12,12,0,0" Padding="32,20">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                                 <GradientStop Color="#15803D" Offset="0"/>
@@ -28,17 +28,17 @@
                         </Border.Background>
 
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Account" Width="20" Height="20" 
+                            <materialDesign:PackIcon Kind="AccountCircle" Width="24" Height="24" 
                                                     Foreground="White" VerticalAlignment="Center"/>
-                            <TextBlock Text="Профиль пользователя" FontSize="18" FontWeight="Medium"
-                                      Foreground="White" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Профиль пользователя" FontSize="20" FontWeight="Medium"
+                                      Foreground="White" Margin="12,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
 
                     <!-- CONTENT -->
-                    <StackPanel Grid.Row="1" Margin="24">
+                    <StackPanel Grid.Row="1" Margin="32,24">
                         <!-- АВАТАР И РОЛЬ -->
-                        <Grid Margin="0,0,0,24">
+                        <Grid Margin="0,0,0,32">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="24"/>
@@ -54,158 +54,423 @@
                                     </LinearGradientBrush>
                                 </Border.Background>
                                 <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="3" Opacity="0.3"/>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity="0.3"/>
                                 </Border.Effect>
 
-                                <TextBlock x:Name="TxtAvatarInitial" Text="П" FontSize="36" 
-                                          Foreground="White" FontWeight="Medium"
+                                <TextBlock x:Name="TxtAvatarInitial" Text="П" FontSize="40" 
+                                          Foreground="White" FontWeight="Bold"
                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
 
                             <!-- Информация справа -->
                             <StackPanel Grid.Column="2" VerticalAlignment="Center">
                                 <TextBlock x:Name="TxtUserFullName" Text="Петров Петр Петрович" 
-                                          FontSize="20" FontWeight="Medium" Foreground="#1F2937" Margin="0,0,0,8"/>
+                                          FontSize="22" FontWeight="SemiBold" Foreground="#1F2937" Margin="0,0,0,12"/>
 
                                 <!-- Badge роли -->
                                 <Border x:Name="BorderRoleBadge" CornerRadius="12" Padding="12,6"
-                                       HorizontalAlignment="Left" Margin="0,0,0,8"
+                                       HorizontalAlignment="Left" Margin="0,0,0,12"
                                        BorderThickness="1">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon x:Name="IconRole" Kind="Shield" 
-                                                                Width="12" Height="12" VerticalAlignment="Center"/>
+                                                                Width="14" Height="14" VerticalAlignment="Center"/>
                                         <TextBlock x:Name="TxtRoleName" Text="Администратор" 
-                                                  FontSize="12" FontWeight="Medium" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                                  FontSize="13" FontWeight="SemiBold" Margin="6,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
 
                                 <!-- Описание роли -->
                                 <TextBlock x:Name="TxtRoleDescription"
                                           Text="Полный доступ к системе: управление сотрудниками, бронирования, статистика"
-                                          FontSize="12" Foreground="#6B7280" TextWrapping="Wrap"
-                                          MaxWidth="400" HorizontalAlignment="Left"/>
+                                          FontSize="13" Foreground="#6B7280" TextWrapping="Wrap"
+                                          MaxWidth="500" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </Grid>
 
                         <!-- РАЗДЕЛИТЕЛЬ -->
-                        <Border Height="1" Background="#E5E7EB" Margin="0,0,0,24"/>
+                        <Border Height="1" Background="#E5E7EB" Margin="0,0,0,32"/>
 
-                        <!-- ПОЛЯ ИНФОРМАЦИИ -->
+                        <!-- ПОЛЯ ИНФОРМАЦИИ (2 колонки) -->
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="24"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                            <!-- Логин -->
-                            <StackPanel Grid.Column="0">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <!-- ═══════════ РЯД 1: Логин + Роль ═══════════ -->
+
+                            <!-- Логин (только чтение) -->
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                     <materialDesign:PackIcon Kind="Account" Width="16" Height="16" 
-                                    Foreground="#6B7280" VerticalAlignment="Center"/>
+                                                            Foreground="#6B7280" VerticalAlignment="Center"/>
                                     <TextBlock Text="Логин" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
                                 </StackPanel>
                                 <TextBox x:Name="TxtUsername" 
-                 Text="admin" 
-                 IsReadOnly="True"
-                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                 Background="#F9FAFB" 
-                 Margin="0,0,0,16" 
-                 Height="56"
-                 Padding="12,0"
-                 VerticalContentAlignment="Center"
-                 FontSize="14"/>
+                                        Text="admin" 
+                                        IsReadOnly="True"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        Background="#F9FAFB" 
+                                        Height="56"
+                                        Padding="16,0"
+                                        VerticalContentAlignment="Center"
+                                        FontSize="14"/>
                             </StackPanel>
 
-                            <!-- Роль -->
-                            <StackPanel Grid.Column="2">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <!-- Роль (только чтение) -->
+                            <StackPanel Grid.Row="0" Grid.Column="2">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                     <materialDesign:PackIcon Kind="Shield" Width="16" Height="16" 
-                                    Foreground="#6B7280" VerticalAlignment="Center"/>
+                                                            Foreground="#6B7280" VerticalAlignment="Center"/>
                                     <TextBlock Text="Роль" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
                                 </StackPanel>
                                 <TextBox x:Name="TxtRoleDisplay" 
-                 Text="Администратор" 
-                 IsReadOnly="True"
-                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                 Background="#F9FAFB" 
-                 Height="56"
-                 Padding="12,0"
-                 VerticalContentAlignment="Center"
-                 FontSize="14"/>
+                                        Text="Администратор" 
+                                        IsReadOnly="True"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        Background="#F9FAFB" 
+                                        Height="56"
+                                        Padding="16,0"
+                                        VerticalContentAlignment="Center"
+                                        FontSize="14"/>
                             </StackPanel>
-                        </Grid>
 
-                        <!-- ФИО с редактированием -->
-                        <StackPanel Margin="0,16,0,0">
-                            <Grid Margin="0,0,0,8">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <materialDesign:PackIcon Kind="AccountCircle" Width="16" Height="16" 
+                            <!-- ═══════════ РЯД 2: ФИО (на всю ширину) ═══════════ -->
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                                <Grid Margin="0,0,0,10">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <materialDesign:PackIcon Kind="AccountCircle" Width="16" Height="16" 
                                     Foreground="#6B7280" VerticalAlignment="Center"/>
-                                    <TextBlock Text="ФИО" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
-                                </StackPanel>
-
-                                <Button x:Name="BtnEditProfile" HorizontalAlignment="Right"
-               Style="{StaticResource MaterialDesignFlatButton}"
-               Click="BtnEditProfile_Click">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"
-                                        Foreground="#15803D" VerticalAlignment="Center"/>
-                                        <TextBlock Text="Редактировать" FontSize="12" Foreground="#15803D" Margin="4,0,0,0"/>
+                                        <TextBlock Text="ФИО" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
                                     </StackPanel>
-                                </Button>
-                            </Grid>
 
-                            <!-- Режим просмотра -->
-                            <TextBox x:Name="TxtFullNameView" 
-             Text="Петров Петр Петрович"
-             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-             IsReadOnly="True" 
-             Background="#F9FAFB" 
-             Height="56"
-             Padding="12,0"
-             VerticalContentAlignment="Center"
-             FontSize="14"
-             Visibility="Visible"/>
+                                    <Button x:Name="BtnEditProfile" HorizontalAlignment="Right"
+               Style="{StaticResource MaterialDesignFlatButton}"
+               Click="BtnEditProfile_Click"
+               Height="32" Padding="12,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"
+                                        Foreground="#15803D" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Редактировать" FontSize="13" Foreground="#15803D" 
+                          Margin="6,0,0,0" FontWeight="Medium"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
 
-                            <!-- Режим редактирования -->
-                            <StackPanel x:Name="PanelEditFullName" Visibility="Collapsed">
-                                <TextBox x:Name="TxtFullNameEdit"
-                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                materialDesign:HintAssist.Hint="Введите ФИО"
-                Height="56" 
-                Padding="12,0"
-                VerticalContentAlignment="Center"
-                FontSize="14"
-                Margin="0,0,0,12"/>
-
-                                <Grid>
+                                <!-- ✅ РЕЖИМ ПРОСМОТРА (3 ПОЛЯ) -->
+                                <Grid x:Name="GridViewFullName" Visibility="Visible">
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="12"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="12"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button Grid.Column="0" Click="BtnSaveProfile_Click"
-                   Style="{StaticResource MaterialDesignRaisedButton}"
-                   Background="#15803D" Height="40">
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="ContentSave" Width="16" Height="16" Margin="0,0,8,0"/>
-                                            <TextBlock Text="Сохранить"/>
-                                        </StackPanel>
-                                    </Button>
+                                    <!-- Фамилия -->
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Фамилия" FontSize="12" Foreground="#9E9E9E" Margin="0,0,0,6"/>
+                                        <TextBox x:Name="TxtSurnameView" 
+                    Text="Петров"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="True" 
+                    Background="#F9FAFB" 
+                    Height="56"
+                    Padding="16,0"
+                    VerticalContentAlignment="Center"
+                    FontSize="14"/>
+                                    </StackPanel>
 
-                                    <Button Grid.Column="2" Click="BtnCancelEditProfile_Click"
+                                    <!-- Имя -->
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="Имя" FontSize="12" Foreground="#9E9E9E" Margin="0,0,0,6"/>
+                                        <TextBox x:Name="TxtFirstNameView" 
+                    Text="Петр"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="True" 
+                    Background="#F9FAFB" 
+                    Height="56"
+                    Padding="16,0"
+                    VerticalContentAlignment="Center"
+                    FontSize="14"/>
+                                    </StackPanel>
+
+                                    <!-- Отчество -->
+                                    <StackPanel Grid.Column="4">
+                                        <TextBlock Text="Отчество" FontSize="12" Foreground="#9E9E9E" Margin="0,0,0,6"/>
+                                        <TextBox x:Name="TxtMiddleNameView" 
+                    Text="Петрович"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="True" 
+                    Background="#F9FAFB" 
+                    Height="56"
+                    Padding="16,0"
+                    VerticalContentAlignment="Center"
+                    FontSize="14"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- ✅ РЕЖИМ РЕДАКТИРОВАНИЯ (3 ПОЛЯ) -->
+                                <StackPanel x:Name="PanelEditFullName" Visibility="Collapsed">
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="12"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="12"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Фамилия -->
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Фамилия *" FontSize="12" Foreground="#9E9E9E" Margin="0,0,0,6"/>
+                                            <TextBox x:Name="TxtSurnameEdit"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        materialDesign:HintAssist.Hint="Иванов"
+                        Height="56" 
+                        Padding="16,0"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"/>
+                                        </StackPanel>
+
+                                        <!-- Имя -->
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Имя *" FontSize="12" Foreground="#9E9E9E" Margin="0,0,0,6"/>
+                                            <TextBox x:Name="TxtFirstNameEdit"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        materialDesign:HintAssist.Hint="Иван"
+                        Height="56" 
+                        Padding="16,0"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"/>
+                                        </StackPanel>
+
+                                        <!-- Отчество -->
+                                        <StackPanel Grid.Column="4">
+                                            <TextBlock Text="Отчество" FontSize="12" Foreground="#9E9E9E" Margin="0,0,0,6"/>
+                                            <TextBox x:Name="TxtMiddleNameEdit"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        materialDesign:HintAssist.Hint="Необязательно"
+                        Height="56" 
+                        Padding="16,0"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Кнопки сохранения/отмены -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="12"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="0" Click="BtnSaveProfile_Click"
+                   Style="{StaticResource MaterialDesignRaisedButton}"
+                   Height="44">
+                                            <Button.Background>
+                                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                    <GradientStop Color="#15803D" Offset="0"/>
+                                                    <GradientStop Color="#16A34A" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Margin="0,0,8,0"/>
+                                                <TextBlock Text="Сохранить" FontSize="14"/>
+                                            </StackPanel>
+                                        </Button>
+
+                                        <Button Grid.Column="2" Click="BtnCancelEditProfile_Click"
                    Style="{StaticResource MaterialDesignOutlinedButton}"
-                   Height="40">
+                   Height="44">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="Close" Width="18" Height="18" Margin="0,0,8,0"/>
+                                                <TextBlock Text="Отмена" FontSize="14"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- ═══════════ РЯД 3: Телефон + Email ═══════════ -->
+
+                            <!-- Телефон (редактируемый) -->
+                            <StackPanel Grid.Row="4" Grid.Column="0">
+                                <Grid Margin="0,0,0,10">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <materialDesign:PackIcon Kind="Phone" Width="16" Height="16" 
+                                                                Foreground="#6B7280" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Телефон" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
+                                    </StackPanel>
+
+                                    <Button x:Name="BtnEditPhone" HorizontalAlignment="Right"
+                                           Style="{StaticResource MaterialDesignFlatButton}"
+                                           Click="BtnEditPhone_Click"
+                                           Height="32" Padding="12,0">
                                         <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="Close" Width="16" Height="16" Margin="0,0,8,0"/>
-                                            <TextBlock Text="Отмена"/>
+                                            <materialDesign:PackIcon Kind="Pencil" Width="14" Height="14"
+                                                                    Foreground="#15803D" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Изменить" FontSize="12" Foreground="#15803D" Margin="4,0,0,0"/>
                                         </StackPanel>
                                     </Button>
                                 </Grid>
+
+                                <!-- Просмотр -->
+                                <TextBox x:Name="TxtPhoneView" 
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        IsReadOnly="True" 
+                                        Background="#F9FAFB" 
+                                        Height="56"
+                                        Padding="16,0"
+                                        VerticalContentAlignment="Center"
+                                        FontSize="14"
+                                        Visibility="Visible"/>
+
+                                <!-- Редактирование -->
+                                <StackPanel x:Name="PanelEditPhone" Visibility="Collapsed">
+                                    <TextBox x:Name="TxtPhoneEdit"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            materialDesign:HintAssist.Hint="+7 (999) 123-45-67"
+                                            Height="56" 
+                                            Padding="16,0"
+                                            VerticalContentAlignment="Center"
+                                            FontSize="14"
+                                            Margin="0,0,0,8"/>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="8"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="0" Click="BtnSavePhone_Click"
+                                               Style="{StaticResource MaterialDesignRaisedButton}"
+                                               Background="#15803D" Height="36" FontSize="12">
+                                            <TextBlock Text="✓ Сохранить"/>
+                                        </Button>
+
+                                        <Button Grid.Column="2" Click="BtnCancelPhone_Click"
+                                               Style="{StaticResource MaterialDesignOutlinedButton}"
+                                               Height="36" FontSize="12">
+                                            <TextBlock Text="✕ Отмена"/>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+
+                            <!-- Email (редактируемый) -->
+                            <StackPanel Grid.Row="4" Grid.Column="2">
+                                <Grid Margin="0,0,0,10">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <materialDesign:PackIcon Kind="Email" Width="16" Height="16" 
+                                                                Foreground="#6B7280" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Email" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
+                                    </StackPanel>
+
+                                    <Button x:Name="BtnEditEmail" HorizontalAlignment="Right"
+                                           Style="{StaticResource MaterialDesignFlatButton}"
+                                           Click="BtnEditEmail_Click"
+                                           Height="32" Padding="12,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Pencil" Width="14" Height="14"
+                                                                    Foreground="#15803D" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Изменить" FontSize="12" Foreground="#15803D" Margin="4,0,0,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+
+                                <!-- Просмотр -->
+                                <TextBox x:Name="TxtEmailView" 
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        IsReadOnly="True" 
+                                        Background="#F9FAFB" 
+                                        Height="56"
+                                        Padding="16,0"
+                                        VerticalContentAlignment="Center"
+                                        FontSize="14"
+                                        Visibility="Visible"/>
+
+                                <!-- Редактирование -->
+                                <StackPanel x:Name="PanelEditEmail" Visibility="Collapsed">
+                                    <TextBox x:Name="TxtEmailEdit"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            materialDesign:HintAssist.Hint="example@mail.ru"
+                                            Height="56" 
+                                            Padding="16,0"
+                                            VerticalContentAlignment="Center"
+                                            FontSize="14"
+                                            Margin="0,0,0,8"/>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="8"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="0" Click="BtnSaveEmail_Click"
+                                               Style="{StaticResource MaterialDesignRaisedButton}"
+                                               Background="#15803D" Height="36" FontSize="12">
+                                            <TextBlock Text="✓ Сохранить"/>
+                                        </Button>
+
+                                        <Button Grid.Column="2" Click="BtnCancelEmail_Click"
+                                               Style="{StaticResource MaterialDesignOutlinedButton}"
+                                               Height="36" FontSize="12">
+                                            <TextBlock Text="✕ Отмена"/>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- ═══════════ РЯД 4: Дата регистрации ═══════════ -->
+
+                            <StackPanel Grid.Row="6" Grid.Column="0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <materialDesign:PackIcon Kind="CalendarClock" Width="16" Height="16" 
+                                                            Foreground="#6B7280" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Дата регистрации" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
+                                </StackPanel>
+                                <TextBox x:Name="TxtCreatedAt" 
+                                        IsReadOnly="True"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        Background="#F9FAFB" 
+                                        Height="56"
+                                        Padding="16,0"
+                                        VerticalContentAlignment="Center"
+                                        FontSize="14"/>
+                            </StackPanel>
+
+                            <!-- ID пользователя (скрытый для обычных пользователей, виден для админа) -->
+                            <StackPanel Grid.Row="6" Grid.Column="2" x:Name="PanelUserId" Visibility="Collapsed">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <materialDesign:PackIcon Kind="Identifier" Width="16" Height="16" 
+                                                            Foreground="#6B7280" VerticalAlignment="Center"/>
+                                    <TextBlock Text="ID пользователя" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
+                                </StackPanel>
+                                <TextBox x:Name="TxtUserId" 
+                                        IsReadOnly="True"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        Background="#F9FAFB" 
+                                        Height="56"
+                                        Padding="16,0"
+                                        VerticalContentAlignment="Center"
+                                        FontSize="14"/>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </Grid>
             </materialDesign:Card>
@@ -213,47 +478,50 @@
             <!-- ═══════════════════════════════════════════════════════════ -->
             <!-- КАРТОЧКА 2: БЕЗОПАСНОСТЬ -->
             <!-- ═══════════════════════════════════════════════════════════ -->
-            <materialDesign:Card Margin="0,0,0,16" Padding="24" UniformCornerRadius="8"
+            <materialDesign:Card Margin="0,0,0,24" Padding="32,24" UniformCornerRadius="12"
                                 materialDesign:ElevationAssist.Elevation="Dp4">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                        <materialDesign:PackIcon Kind="Lock" Width="20" Height="20" 
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                        <materialDesign:PackIcon Kind="ShieldLock" Width="24" Height="24" 
                                                 Foreground="#1F2937" VerticalAlignment="Center"/>
-                        <TextBlock Text="Безопасность" FontSize="18" FontWeight="Medium"
-                                  Foreground="#1F2937" Margin="8,0,0,0"/>
+                        <TextBlock Text="Безопасность" FontSize="20" FontWeight="Medium"
+                                  Foreground="#1F2937" Margin="12,0,0,0"/>
                     </StackPanel>
 
                     <Button x:Name="BtnChangePassword" Click="BtnChangePassword_Click"
                            Style="{StaticResource MaterialDesignOutlinedButton}"
-                           BorderBrush="#22C55E" Height="40" Visibility="Visible">
+                           BorderBrush="#22C55E" Height="44" Visibility="Visible">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Lock" Width="16" Height="16"
+                            <materialDesign:PackIcon Kind="LockReset" Width="18" Height="18"
                                                     Foreground="#15803D" Margin="0,0,8,0"/>
-                            <TextBlock Text="Сменить пароль" Foreground="#15803D"/>
+                            <TextBlock Text="Сменить пароль" Foreground="#15803D" FontSize="14" FontWeight="Medium"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Форма смены пароля -->
-                    <StackPanel x:Name="PanelPasswordChange" Visibility="Collapsed">
+                    <StackPanel x:Name="PanelPasswordChange" Visibility="Collapsed" Margin="0,16,0,0">
                         <StackPanel Margin="0,0,0,16">
-                            <TextBlock Text="Текущий пароль" FontSize="14" Foreground="#374151" Margin="0,0,0,4"/>
-                            <PasswordBox x:Name="TxtCurrentPassword" Height="48"
-                                        Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
+                            <TextBlock Text="Текущий пароль *" FontSize="14" Foreground="#374151" Margin="0,0,0,8"/>
+                            <PasswordBox x:Name="TxtCurrentPassword" Height="56"
+                                        Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                                        Padding="16,0" FontSize="14"/>
                         </StackPanel>
 
                         <StackPanel Margin="0,0,0,16">
-                            <TextBlock Text="Новый пароль" FontSize="14" Foreground="#374151" Margin="0,0,0,4"/>
-                            <PasswordBox x:Name="TxtNewPassword" Height="48"
-                                        Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
+                            <TextBlock Text="Новый пароль *" FontSize="14" Foreground="#374151" Margin="0,0,0,8"/>
+                            <PasswordBox x:Name="TxtNewPassword" Height="56"
+                                        Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                                        Padding="16,0" FontSize="14"/>
                         </StackPanel>
 
-                        <StackPanel Margin="0,0,0,16">
-                            <TextBlock Text="Подтвердите новый пароль" FontSize="14" Foreground="#374151" Margin="0,0,0,4"/>
-                            <PasswordBox x:Name="TxtConfirmPassword" Height="48"
-                                        Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
+                        <StackPanel Margin="0,0,0,20">
+                            <TextBlock Text="Подтвердите новый пароль *" FontSize="14" Foreground="#374151" Margin="0,0,0,8"/>
+                            <PasswordBox x:Name="TxtConfirmPassword" Height="56"
+                                        Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                                        Padding="16,0" FontSize="14"/>
                         </StackPanel>
 
-                        <Grid Margin="0,8,0,0">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="12"/>
@@ -262,19 +530,25 @@
 
                             <Button Grid.Column="0" Click="BtnSavePassword_Click"
                                    Style="{StaticResource MaterialDesignRaisedButton}"
-                                   Background="#15803D" Height="40">
+                                   Height="44">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                        <GradientStop Color="#15803D" Offset="0"/>
+                                        <GradientStop Color="#16A34A" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
                                 <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="ContentSave" Width="16" Height="16" Margin="0,0,8,0"/>
-                                    <TextBlock Text="Изменить пароль"/>
+                                    <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Изменить пароль" FontSize="14"/>
                                 </StackPanel>
                             </Button>
 
                             <Button Grid.Column="2" Click="BtnCancelPassword_Click"
                                    Style="{StaticResource MaterialDesignOutlinedButton}"
-                                   Height="40">
+                                   Height="44">
                                 <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Close" Width="16" Height="16" Margin="0,0,8,0"/>
-                                    <TextBlock Text="Отмена"/>
+                                    <materialDesign:PackIcon Kind="Close" Width="18" Height="18" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Отмена" FontSize="14"/>
                                 </StackPanel>
                             </Button>
                         </Grid>
@@ -283,16 +557,16 @@
             </materialDesign:Card>
 
             <!-- ═══════════════════════════════════════════════════════════ -->
-            <!-- КАРТОЧКА 3: СТАТИСТИКА (АДАПТИВНАЯ) -->
+            <!-- КАРТОЧКА 3: СТАТИСТИКА -->
             <!-- ═══════════════════════════════════════════════════════════ -->
-            <materialDesign:Card Padding="24" UniformCornerRadius="8"
+            <materialDesign:Card Padding="32,24" UniformCornerRadius="12"
                                 materialDesign:ElevationAssist.Elevation="Dp4">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                        <materialDesign:PackIcon Kind="ChartBar" Width="20" Height="20" 
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                        <materialDesign:PackIcon Kind="ChartBar" Width="24" Height="24" 
                                                 Foreground="#1F2937" VerticalAlignment="Center"/>
-                        <TextBlock Text="Статистика" FontSize="18" FontWeight="Medium"
-                                  Foreground="#1F2937" Margin="8,0,0,0"/>
+                        <TextBlock Text="Статистика" FontSize="20" FontWeight="Medium"
+                                  Foreground="#1F2937" Margin="12,0,0,0"/>
                     </StackPanel>
 
                     <!-- Grid статистики - динамический -->

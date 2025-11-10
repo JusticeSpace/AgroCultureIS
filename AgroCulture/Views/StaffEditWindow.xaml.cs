@@ -1,22 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AgroCulture.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для StaffEditWindow.xaml
-    /// </summary>
     public partial class StaffEditWindow : Window
     {
         public int EditUserId { get; set; }
@@ -54,9 +42,13 @@ namespace AgroCulture.Views
                         return;
                     }
 
+                    // ✅ Загружаем отдельные поля
                     TxtUsername.Text = user.Username;
-                    TxtFullName.Text = user.FullName;
+                    TxtSurname.Text = user.Surname ?? "";
+                    TxtFirstName.Text = user.FirstName ?? "";
+                    TxtMiddleName.Text = user.MiddleName ?? "";
 
+                    // Роль
                     if (user.Role == "admin")
                     {
                         CmbRole.SelectedIndex = 1;
@@ -93,11 +85,20 @@ namespace AgroCulture.Views
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(TxtFullName.Text))
+            // ✅ Проверяем отдельные поля
+            if (string.IsNullOrWhiteSpace(TxtSurname.Text))
             {
-                MessageBox.Show("Введите ФИО", "Ошибка",
+                MessageBox.Show("Введите фамилию", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
-                TxtFullName.Focus();
+                TxtSurname.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(TxtFirstName.Text))
+            {
+                MessageBox.Show("Введите имя", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtFirstName.Focus();
                 return false;
             }
 
@@ -124,7 +125,6 @@ namespace AgroCulture.Views
 
                     string role = ((ComboBoxItem)CmbRole.SelectedItem).Tag.ToString();
                     string username = TxtUsername.Text.Trim();
-                    string fullName = TxtFullName.Text.Trim();
 
                     // Проверка уникальности логина
                     if (context.Users.Any(u => u.Username == username && u.UserId != EditUserId))
@@ -135,13 +135,16 @@ namespace AgroCulture.Views
                         return;
                     }
 
+                    // ✅ Сохраняем отдельные поля
                     user.Role = role;
                     user.Username = username;
-                    user.FullName = fullName;
+                    user.Surname = TxtSurname.Text.Trim();
+                    user.FirstName = TxtFirstName.Text.Trim();
+                    user.MiddleName = TxtMiddleName.Text.Trim();
 
                     context.SaveChanges();
 
-                    MessageBox.Show($"Данные сотрудника {fullName} успешно обновлены", "Успех",
+                    MessageBox.Show($"Данные сотрудника {user.FullName} успешно обновлены", "Успех",
                         MessageBoxButton.OK, MessageBoxImage.Information);
 
                     DialogResultSuccess = true;
@@ -168,4 +171,3 @@ namespace AgroCulture.Views
         }
     }
 }
-

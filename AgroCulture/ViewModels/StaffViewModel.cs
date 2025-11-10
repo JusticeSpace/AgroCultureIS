@@ -2,203 +2,211 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using AgroCulture.Services;
+using System.Windows.Input;
+using AgroCulture.ViewModels;
 
 namespace AgroCulture.ViewModels
 {
     public class StaffViewModel : BaseViewModel
     {
-        // ═══════════════════════════════════════════════════════════
-        // ✅ SINGLETON PATTERN (THREAD-SAFE)
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
+        // SINGLETON ПАТТЕРН
+        // ════════════════════════════════════════════════════════════
+
         private static StaffViewModel _instance;
-        private static readonly object _lock = new object();
+        public static StaffViewModel Instance => _instance ?? (_instance = new StaffViewModel());
 
-        public static StaffViewModel Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    lock (_lock)
-                    {
-                        if (_instance == null)
-                        {
-                            _instance = new StaffViewModel();
-                        }
-                    }
-                }
-                return _instance;
-            }
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        // WRAPPER-КЛАСС для Users с порядковым номером
-        // ═══════════════════════════════════════════════════════════
-        public class UserWithRowNumber
-        {
-            public int RowNumber { get; set; }
-            public Users User { get; set; }
-
-            // Прокси-свойства для биндинга
-            public int UserId => User.UserId;
-            public string Username => User.Username;
-            public string FullName => User.FullName;
-            public string Role => User.Role;
-            public DateTime CreatedAt => User.CreatedAt;
-            public bool IsActive => User.IsActive;
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        // СВОЙСТВА
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
+        // СВОЙСТВА ДЛЯ ДОБАВЛЕНИЯ НОВОГО СОТРУДНИКА
+        // ════════════════════════════════════════════════════════════
 
         private string _selectedRole = "manager";
         public string SelectedRole
         {
             get => _selectedRole;
-            set => SetProperty(ref _selectedRole, value);
+            set { _selectedRole = value; OnPropertyChanged(); }
         }
 
         private string _newLogin;
         public string NewLogin
         {
             get => _newLogin;
-            set => SetProperty(ref _newLogin, value);
+            set { _newLogin = value; OnPropertyChanged(); }
         }
 
-        private string _newFullName;
-        public string NewFullName
+        // ✅ НОВЫЕ: Отдельные поля для ФИО
+        private string _newSurname;
+        public string NewSurname
         {
-            get => _newFullName;
-            set => SetProperty(ref _newFullName, value);
+            get => _newSurname;
+            set { _newSurname = value; OnPropertyChanged(); }
+        }
+
+        private string _newFirstName;
+        public string NewFirstName
+        {
+            get => _newFirstName;
+            set { _newFirstName = value; OnPropertyChanged(); }
+        }
+
+        private string _newMiddleName;
+        public string NewMiddleName
+        {
+            get => _newMiddleName;
+            set { _newMiddleName = value; OnPropertyChanged(); }
         }
 
         private string _newPassword;
         public string NewPassword
         {
             get => _newPassword;
-            set => SetProperty(ref _newPassword, value);
+            set { _newPassword = value; OnPropertyChanged(); }
         }
 
-        private ObservableCollection<UserWithRowNumber> _staffList;
-        public ObservableCollection<UserWithRowNumber> StaffList
+        // ════════════════════════════════════════════════════════════
+        // КОЛЛЕКЦИИ И СТАТИСТИКА
+        // ════════════════════════════════════════════════════════════
+
+        private ObservableCollection<Users> _staffList;
+        public ObservableCollection<Users> StaffList
         {
             get => _staffList;
-            set => SetProperty(ref _staffList, value);
-        }
-
-        private int _adminCount;
-        public int AdminCount
-        {
-            get => _adminCount;
-            set => SetProperty(ref _adminCount, value);
-        }
-
-        private int _managerCount;
-        public int ManagerCount
-        {
-            get => _managerCount;
-            set => SetProperty(ref _managerCount, value);
+            set { _staffList = value; OnPropertyChanged(); }
         }
 
         private int _totalCount;
         public int TotalCount
         {
             get => _totalCount;
-            set => SetProperty(ref _totalCount, value);
+            set { _totalCount = value; OnPropertyChanged(); }
         }
 
-        // ═══════════════════════════════════════════════════════════
-        // КОМАНДЫ
-        // ═══════════════════════════════════════════════════════════
+        private int _adminCount;
+        public int AdminCount
+        {
+            get => _adminCount;
+            set { _adminCount = value; OnPropertyChanged(); }
+        }
 
-        public RelayCommand AddStaffCommand { get; }
-        public RelayCommand<UserWithRowNumber> EditStaffCommand { get; }
-        public RelayCommand<UserWithRowNumber> DeleteStaffCommand { get; }
+        private int _managerCount;
+        public int ManagerCount
+        {
+            get => _managerCount;
+            set { _managerCount = value; OnPropertyChanged(); }
+        }
+
+        // ════════════════════════════════════════════════════════════
+        // КОМАНДЫ
+        // ════════════════════════════════════════════════════════════
+
+        public ICommand AddStaffCommand { get; }
+        public ICommand EditStaffCommand { get; }
+        public ICommand DeleteStaffCommand { get; }
+
+        // ════════════════════════════════════════════════════════════
+        // СОБЫТИЯ
+        // ════════════════════════════════════════════════════════════
 
         public event Action<string, bool> ShowNotification;
         public event Action<Users> RequestEdit;
 
-        // ═══════════════════════════════════════════════════════════
-        // ✅ ПРИВАТНЫЙ КОНСТРУКТОР (для Singleton)
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
+        // КОНСТРУКТОР
+        // ════════════════════════════════════════════════════════════
 
-        private StaffViewModel()
+        public StaffViewModel()
         {
-            StaffList = new ObservableCollection<UserWithRowNumber>();
+            StaffList = new ObservableCollection<Users>();
 
+            // ✅ ИСПРАВЛЕНО: Оборачиваем в лямбды для совместимости с RelayCommand
             AddStaffCommand = new RelayCommand(_ => AddStaff());
-            EditStaffCommand = new RelayCommand<UserWithRowNumber>(EditStaff);
-            DeleteStaffCommand = new RelayCommand<UserWithRowNumber>(DeleteStaff);
+            EditStaffCommand = new RelayCommand<Users>(EditStaff);
+            DeleteStaffCommand = new RelayCommand<Users>(DeleteStaff);
 
-            // ✅ ЗАГРУЖАЕМ ДАННЫЕ ОДИН РАЗ ПРИ СОЗДАНИИ
-            LoadStaff();
+            System.Diagnostics.Debug.WriteLine("[STAFF VM] Конструктор выполнен");
         }
 
-        // ═══════════════════════════════════════════════════════════
-        // ✅ ПУБЛИЧНЫЙ МЕТОД ДЛЯ ОБНОВЛЕНИЯ ДАННЫХ
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
+        // ЗАГРУЗКА ДАННЫХ
+        // ════════════════════════════════════════════════════════════
 
         public void RefreshData()
         {
-            LoadStaff();
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        // ЗАГРУЗКА ДАННЫХ
-        // ═══════════════════════════════════════════════════════════
-
-        public void LoadStaff()
-        {
             try
             {
+                System.Diagnostics.Debug.WriteLine("[STAFF VM] Начало загрузки данных...");
+
                 using (var context = new AgroCultureEntities())
                 {
-                    var staff = context.Users
+                    var users = context.Users
                         .Where(u => u.IsActive && (u.Role == "admin" || u.Role == "manager"))
-                        .OrderBy(u => u.UserId)
+                        .OrderBy(u => u.Surname)
+                        .ThenBy(u => u.FirstName)
                         .ToList();
+
+                    System.Diagnostics.Debug.WriteLine($"[STAFF VM] Загружено {users.Count} сотрудников");
 
                     StaffList.Clear();
 
                     int rowNumber = 1;
-                    foreach (var user in staff)
+                    foreach (var user in users)
                     {
-                        StaffList.Add(new UserWithRowNumber
-                        {
-                            RowNumber = rowNumber++,
-                            User = user
-                        });
+                        user.RowNumber = rowNumber++;
+                        StaffList.Add(user);
                     }
 
-                    UpdateStatistics();
+                    // Статистика
+                    TotalCount = users.Count;
+                    AdminCount = users.Count(u => u.Role == "admin");
+                    ManagerCount = users.Count(u => u.Role == "manager");
+
+                    System.Diagnostics.Debug.WriteLine($"[STAFF VM] Админов: {AdminCount}, Менеджеров: {ManagerCount}");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки данных:\n{ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Diagnostics.Debug.WriteLine($"[STAFF VM] ОШИБКА загрузки: {ex.Message}");
+                ShowNotificationEvent($"Ошибка загрузки: {ex.Message}", false);
             }
         }
 
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
         // ДОБАВЛЕНИЕ СОТРУДНИКА
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
 
         private void AddStaff()
         {
-            if (string.IsNullOrWhiteSpace(NewLogin) ||
-                string.IsNullOrWhiteSpace(NewFullName) ||
-                string.IsNullOrWhiteSpace(NewPassword))
+            System.Diagnostics.Debug.WriteLine("[STAFF VM] Попытка добавить сотрудника...");
+
+            // Валидация
+            if (string.IsNullOrWhiteSpace(SelectedRole))
             {
-                ShowNotification?.Invoke("Заполните все поля", false);
+                ShowNotificationEvent("Выберите роль", false);
                 return;
             }
 
-            if (NewPassword.Length < 4)
+            if (string.IsNullOrWhiteSpace(NewLogin))
             {
-                ShowNotification?.Invoke("Пароль должен содержать минимум 4 символа", false);
+                ShowNotificationEvent("Введите логин", false);
+                return;
+            }
+
+            // ✅ ВАЛИДАЦИЯ ОТДЕЛЬНЫХ ПОЛЕЙ ФИО
+            if (string.IsNullOrWhiteSpace(NewSurname))
+            {
+                ShowNotificationEvent("Введите фамилию", false);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewFirstName))
+            {
+                ShowNotificationEvent("Введите имя", false);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewPassword) || NewPassword.Length < 4)
+            {
+                ShowNotificationEvent("Пароль должен содержать минимум 4 символа", false);
                 return;
             }
 
@@ -206,20 +214,24 @@ namespace AgroCulture.ViewModels
             {
                 using (var context = new AgroCultureEntities())
                 {
-                    if (context.Users.Any(u => u.Username.ToLower() == NewLogin.ToLower().Trim()))
+                    // Проверка уникальности логина
+                    if (context.Users.Any(u => u.Username == NewLogin.Trim()))
                     {
-                        ShowNotification?.Invoke("Пользователь с таким логином уже существует", false);
+                        ShowNotificationEvent($"Логин '{NewLogin}' уже занят", false);
                         return;
                     }
 
+                    // ✅ Создание нового пользователя с отдельными полями
                     var newUser = new Users
                     {
                         Username = NewLogin.Trim(),
-                        FullName = NewFullName.Trim(),
+                        PasswordHash = NewPassword,
                         Role = SelectedRole,
-                        PasswordHash = PasswordHasher.HashPassword(NewPassword),
-                        CreatedAt = DateTime.Now,
+                        Surname = NewSurname.Trim(),
+                        FirstName = NewFirstName.Trim(),
+                        MiddleName = string.IsNullOrWhiteSpace(NewMiddleName) ? "" : NewMiddleName.Trim(),
                         IsActive = true,
+                        CreatedAt = DateTime.Now,
                         Phone = "",
                         Email = ""
                     };
@@ -227,178 +239,125 @@ namespace AgroCulture.ViewModels
                     context.Users.Add(newUser);
                     context.SaveChanges();
 
-                    StaffList.Add(new UserWithRowNumber
-                    {
-                        RowNumber = StaffList.Count + 1,
-                        User = newUser
-                    });
+                    System.Diagnostics.Debug.WriteLine($"[STAFF VM] ✅ Сотрудник добавлен: {newUser.FullName}");
 
-                    UpdateStatistics();
-                    ClearForm();
+                    ShowNotificationEvent($"Сотрудник {newUser.FullName} успешно добавлен", true);
 
-                    string roleText = SelectedRole == "admin" ? "Администратор" : "Менеджер";
-                    ShowNotification?.Invoke($"{roleText} {newUser.FullName} успешно добавлен!", true);
+                    // Очистка формы
+                    NewLogin = string.Empty;
+                    NewSurname = string.Empty;
+                    NewFirstName = string.Empty;
+                    NewMiddleName = string.Empty;
+                    NewPassword = string.Empty;
+                    SelectedRole = "manager";
+
+                    RefreshData();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка добавления сотрудника:\n{ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Diagnostics.Debug.WriteLine($"[STAFF VM] ❌ Ошибка добавления: {ex.Message}");
+                ShowNotificationEvent($"Ошибка: {ex.Message}", false);
             }
         }
 
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
         // РЕДАКТИРОВАНИЕ СОТРУДНИКА
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
 
-        private void EditStaff(UserWithRowNumber userWrapper)
+        private void EditStaff(Users user)
         {
-            if (userWrapper?.User == null) return;
-            RequestEdit?.Invoke(userWrapper.User);
-        }
-
-        public void SaveStaffChanges(Users user)
-        {
-            if (string.IsNullOrWhiteSpace(user.Username) ||
-                string.IsNullOrWhiteSpace(user.FullName))
+            if (user == null)
             {
-                ShowNotification?.Invoke("Заполните все поля", false);
+                System.Diagnostics.Debug.WriteLine("[STAFF VM] ❌ EditStaff: user == null");
                 return;
             }
 
-            try
-            {
-                using (var context = new AgroCultureEntities())
-                {
-                    var existingUser = context.Users.Find(user.UserId);
-                    if (existingUser != null)
-                    {
-                        if (existingUser.Username != user.Username)
-                        {
-                            if (context.Users.Any(u => u.Username.ToLower() == user.Username.ToLower() && u.UserId != user.UserId))
-                            {
-                                ShowNotification?.Invoke("Пользователь с таким логином уже существует", false);
-                                return;
-                            }
-                        }
+            System.Diagnostics.Debug.WriteLine($"[STAFF VM] Запрос на редактирование: {user.Username} (ID: {user.UserId})");
 
-                        string oldRole = existingUser.Role;
-
-                        existingUser.FullName = user.FullName.Trim();
-                        existingUser.Username = user.Username.Trim();
-                        existingUser.Role = user.Role;
-
-                        context.SaveChanges();
-
-                        var wrapperToUpdate = StaffList.FirstOrDefault(w => w.User.UserId == user.UserId);
-                        if (wrapperToUpdate != null)
-                        {
-                            int index = StaffList.IndexOf(wrapperToUpdate);
-                            StaffList[index] = new UserWithRowNumber
-                            {
-                                RowNumber = wrapperToUpdate.RowNumber,
-                                User = existingUser
-                            };
-                        }
-
-                        if (oldRole != user.Role)
-                        {
-                            UpdateStatistics();
-                        }
-
-                        ShowNotification?.Invoke($"Данные сотрудника {user.FullName} обновлены", true);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка сохранения:\n{ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        // УДАЛЕНИЕ СОТРУДНИКА
-        // ═══════════════════════════════════════════════════════════
-
-        private void DeleteStaff(UserWithRowNumber userWrapper)
-        {
-            if (userWrapper?.User == null) return;
-
-            var user = userWrapper.User;
-
+            // Проверка: нельзя редактировать самого себя
             if (App.CurrentUser != null && user.UserId == App.CurrentUser.UserId)
             {
-                ShowNotification?.Invoke("Нельзя удалить самого себя", false);
+                ShowNotificationEvent("Невозможно редактировать свою учетную запись отсюда. Используйте профиль.", false);
                 return;
             }
 
-            if (user.Role == "admin" && StaffList.Count(w => w.User.Role == "admin") <= 1)
+            // Вызываем событие для открытия окна редактирования
+            RequestEdit?.Invoke(user);
+        }
+
+        // ════════════════════════════════════════════════════════════
+        // УДАЛЕНИЕ СОТРУДНИКА
+        // ════════════════════════════════════════════════════════════
+
+        private void DeleteStaff(Users user)
+        {
+            if (user == null)
             {
-                ShowNotification?.Invoke("Нельзя удалить последнего администратора", false);
+                System.Diagnostics.Debug.WriteLine("[STAFF VM] ❌ DeleteStaff: user == null");
+                return;
+            }
+
+            System.Diagnostics.Debug.WriteLine($"[STAFF VM] Попытка удалить: {user.Username} (ID: {user.UserId})");
+
+            // Проверка: нельзя удалить самого себя
+            if (App.CurrentUser != null && user.UserId == App.CurrentUser.UserId)
+            {
+                ShowNotificationEvent("Нельзя удалить свою учетную запись", false);
                 return;
             }
 
             var result = MessageBox.Show(
-                $"Вы уверены, что хотите удалить сотрудника {user.FullName}?",
+                $"Вы действительно хотите удалить сотрудника:\n\n{user.FullName} ({user.Username})?",
                 "Подтверждение удаления",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
             if (result != MessageBoxResult.Yes)
+            {
+                System.Diagnostics.Debug.WriteLine("[STAFF VM] Удаление отменено пользователем");
                 return;
+            }
 
             try
             {
                 using (var context = new AgroCultureEntities())
                 {
-                    var existingUser = context.Users.Find(user.UserId);
-                    if (existingUser != null)
+                    var userToDelete = context.Users.FirstOrDefault(u => u.UserId == user.UserId);
+
+                    if (userToDelete != null)
                     {
-                        existingUser.IsActive = false;
+                        // Мягкое удаление (деактивация)
+                        userToDelete.IsActive = false;
                         context.SaveChanges();
 
-                        StaffList.Remove(userWrapper);
-                        RenumberRows();
-                        UpdateStatistics();
+                        System.Diagnostics.Debug.WriteLine($"[STAFF VM] ✅ Сотрудник деактивирован: {user.FullName}");
 
-                        string roleText = user.Role == "admin" ? "Администратор" : "Менеджер";
-                        ShowNotification?.Invoke($"{roleText} {user.FullName} удален из системы", true);
+                        ShowNotificationEvent($"Сотрудник {user.FullName} успешно удалён", true);
+
+                        RefreshData();
+                    }
+                    else
+                    {
+                        ShowNotificationEvent("Сотрудник не найден", false);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка удаления:\n{ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Diagnostics.Debug.WriteLine($"[STAFF VM] ❌ Ошибка удаления: {ex.Message}");
+                ShowNotificationEvent($"Ошибка удаления: {ex.Message}", false);
             }
         }
 
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
         // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ
-        // ═══════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════
 
-        private void RenumberRows()
+        private void ShowNotificationEvent(string message, bool isSuccess)
         {
-            for (int i = 0; i < StaffList.Count; i++)
-            {
-                StaffList[i].RowNumber = i + 1;
-            }
-        }
-
-        private void UpdateStatistics()
-        {
-            AdminCount = StaffList.Count(w => w.User.Role == "admin");
-            ManagerCount = StaffList.Count(w => w.User.Role == "manager");
-            TotalCount = StaffList.Count;
-        }
-
-        private void ClearForm()
-        {
-            NewLogin = string.Empty;
-            NewFullName = string.Empty;
-            NewPassword = string.Empty;
-            SelectedRole = "manager";
+            System.Diagnostics.Debug.WriteLine($"[STAFF VM] Уведомление: {message}");
+            ShowNotification?.Invoke(message, isSuccess);
         }
     }
 }

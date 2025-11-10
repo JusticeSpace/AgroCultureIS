@@ -18,21 +18,24 @@ namespace AgroCulture
         public System.DateTime CheckInDate { get; set; }
         public System.DateTime CheckOutDate { get; set; }
         public int Nights { get; set; }
-        public int Adults { get; set; }
-        public int Children { get; set; }
-        public int CabinId { get; set; }
-        public string CabinName { get; set; }
-        public int CabinCapacity { get; set; }
-        public decimal PricePerNight { get; set; }
-        public int GuestId { get; set; }
-        public string GuestName { get; set; }
-        public string GuestPhone { get; set; }
-        public string GuestEmail { get; set; }
         public decimal TotalPrice { get; set; }
         public string Status { get; set; }
-        public string CreatedByUser { get; set; }
-        public string CreatorRole { get; set; }
         public System.DateTime CreatedAt { get; set; }
-        public string Notes { get; set; }
+        public int CabinId { get; set; }
+        public string CabinName { get; set; }
+        public decimal PricePerNight { get; set; }
+        public int Capacity { get; set; }
+        public int GuestId { get; set; }
+        public string GuestSurname { get; set; }
+        public string GuestFirstName { get; set; }
+        public string GuestMiddleName { get; set; }
+        public string GuestFullName { get; set; }
+        public string GuestPhone { get; set; }
+        public string GuestEmail { get; set; }
+        public Nullable<int> CreatedByUserId { get; set; }
+        public string CreatedBySurname { get; set; }
+        public string CreatedByFirstName { get; set; }
+        public string CreatedByMiddleName { get; set; }
+        public string CreatedByFullName { get; set; }
     }
 }

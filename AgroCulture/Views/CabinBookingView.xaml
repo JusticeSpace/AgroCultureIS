@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewmodels="clr-namespace:AgroCulture.ViewModels"
+             xmlns:converters="clr-namespace:AgroCulture.Converters"
              Background="Transparent"
              UseLayoutRounding="True"
              SnapsToDevicePixels="True">
@@ -11,15 +12,20 @@
         <viewmodels:CabinBookingViewModel/>
     </UserControl.DataContext>
 
-
     <UserControl.Resources>
+        <!-- Конвертеры -->
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+
+        <!-- Градиент -->
         <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0.5" EndPoint="1,0.5">
             <GradientStop Color="#15803D" Offset="0"/>
             <GradientStop Color="#059669" Offset="1"/>
         </LinearGradientBrush>
     </UserControl.Resources>
 
-        <Grid Margin="16">
+    <Grid Margin="16">
         <Grid.ColumnDefinitions>
             <!-- Левая колонка: Каталог (2/3) -->
             <ColumnDefinition Width="2*" MinWidth="600"/>
@@ -286,7 +292,7 @@
                         </Border.Background>
 
                         <StackPanel>
-                            <!-- 1. Выбор домика -->
+                            <!-- 1. Выбор домика (ВИДНО ВСЕМ) -->
                             <TextBlock Text="Выберите домик *" 
                                       FontSize="14" 
                                       Foreground="#424242" 
@@ -300,7 +306,7 @@
                                      Height="48" 
                                      Margin="0,0,0,16"/>
 
-                            <!-- 2. Информационный блок (если домик выбран) -->
+                            <!-- 2. Информационный блок (если домик выбран) (ВИДНО ВСЕМ) -->
                             <Border Background="#F0FDF4"
                                    BorderBrush="#BBF7D0"
                                    BorderThickness="1"
@@ -323,29 +329,35 @@
                                 </StackPanel>
                             </Border>
 
-                            <!-- 3. ФИО гостя -->
-                            <TextBlock Text="ФИО гостя *" 
-                                      FontSize="14" 
-                                      Foreground="#424242" 
-                                      Margin="0,0,0,8"/>
-                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                    materialDesign:HintAssist.Hint="Иванов Иван Иванович"
-                                    Text="{Binding GuestName, UpdateSourceTrigger=PropertyChanged}"
-                                    Height="48" 
-                                    Margin="0,0,0,16"/>
+                            <!-- ═══════════════════════════════════════════════════════════ -->
+                            <!-- ПОЛЯ ДЛЯ ADMIN И MANAGER (СКРЫТЫ ДЛЯ ГОСТЯ) -->
+                            <!-- ═══════════════════════════════════════════════════════════ -->
+                            <StackPanel Visibility="{Binding IsGuestMode, Converter={StaticResource InverseBoolToVisibilityConverter}}">
 
-                            <!-- 4. Телефон -->
-                            <TextBlock Text="Телефон *" 
-                                      FontSize="14" 
-                                      Foreground="#424242" 
-                                      Margin="0,0,0,8"/>
-                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                    materialDesign:HintAssist.Hint="+7 (999) 123-45-67"
-                                    Text="{Binding GuestPhone, UpdateSourceTrigger=PropertyChanged}"
-                                    Height="48" 
-                                    Margin="0,0,0,16"/>
+                                <!-- 3. ФИО гостя -->
+                                <TextBlock Text="ФИО гостя *" 
+                                          FontSize="14" 
+                                          Foreground="#424242" 
+                                          Margin="0,0,0,8"/>
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        materialDesign:HintAssist.Hint="Иванов Иван Иванович"
+                                        Text="{Binding GuestName, UpdateSourceTrigger=PropertyChanged}"
+                                        Height="48" 
+                                        Margin="0,0,0,16"/>
 
-                            <!-- 5. Даты заезда/выезда -->
+                                <!-- 4. Телефон -->
+                                <TextBlock Text="Телефон *" 
+                                          FontSize="14" 
+                                          Foreground="#424242" 
+                                          Margin="0,0,0,8"/>
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        materialDesign:HintAssist.Hint="+7 (999) 123-45-67"
+                                        Text="{Binding GuestPhone, UpdateSourceTrigger=PropertyChanged}"
+                                        Height="48" 
+                                        Margin="0,0,0,16"/>
+                            </StackPanel>
+
+                            <!-- 5. Даты заезда/выезда (ВИДНО ВСЕМ) -->
                             <Grid Margin="0,0,0,16">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -375,8 +387,8 @@
                                                Height="48"/>
                                 </StackPanel>
                             </Grid>
-                            
-                            <!-- 6. Блок итоговой стоимости -->
+
+                            <!-- 6. Блок итоговой стоимости (ВИДНО ВСЕМ) -->
                             <Border Background="{StaticResource PrimaryGradient}"
                                    CornerRadius="8"
                                    Padding="12"
@@ -426,11 +438,12 @@
                                 </StackPanel>
                             </Border>
 
-                            <!-- 7. Кнопка "Создать бронирование" -->
+                            <!-- 7. Кнопка "Создать бронирование" (СКРЫТА ДЛЯ ГОСТЯ) -->
                             <Button Command="{Binding CreateBookingCommand}"
                                    Height="40" 
                                    HorizontalAlignment="Stretch"
-                                   Margin="0,16,0,0">
+                                   Margin="0,16,0,0"
+                                   Visibility="{Binding IsGuestMode, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
                                         <Setter Property="Background">
@@ -448,6 +461,72 @@
                                           FontSize="14"
                                           FontWeight="Medium"/>
                             </Button>
+
+                            <!-- 8. Информационное сообщение для ГОСТЯ (ВИДНО ТОЛЬКО ГОСТЮ) -->
+                            <Border Background="#FEF3C7"
+                                   BorderBrush="#FCD34D"
+                                   BorderThickness="1"
+                                   CornerRadius="8"
+                                   Padding="16"
+                                   Margin="0,16,0,0"
+                                   Visibility="{Binding IsGuestMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                        <materialDesign:PackIcon Kind="InformationOutline" 
+                                                                Width="20" Height="20" 
+                                                                Foreground="#92400E"
+                                                                VerticalAlignment="Center"
+                                                                Margin="0,0,8,0"/>
+                                        <TextBlock Text="Гостевой режим" 
+                                                  FontSize="15" 
+                                                  FontWeight="SemiBold"
+                                                  Foreground="#92400E"
+                                                  VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <TextBlock Text="Для создания бронирования обратитесь к администратору или менеджеру." 
+                                              FontSize="13" 
+                                              Foreground="#78350F"
+                                              TextWrapping="Wrap"
+                                              Margin="0,0,0,12"
+                                              LineHeight="18"/>
+
+                                    <Separator Background="#FCD34D" Margin="0,0,0,12"/>
+
+                                    <TextBlock Text="📞 Контакты для связи:" 
+                                              FontSize="13"
+                                              FontWeight="SemiBold"
+                                              Foreground="#92400E"
+                                              Margin="0,0,0,8"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                        <materialDesign:PackIcon Kind="Phone" 
+                                                                Width="16" Height="16" 
+                                                                Foreground="#78350F"
+                                                                VerticalAlignment="Center"
+                                                                Margin="0,0,6,0"/>
+                                        <TextBlock Text="+7 (999) 123-45-67" 
+                                                  FontSize="13" 
+                                                  FontWeight="Medium"
+                                                  Foreground="#78350F"
+                                                  VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Email" 
+                                                                Width="16" Height="16" 
+                                                                Foreground="#78350F"
+                                                                VerticalAlignment="Center"
+                                                                Margin="0,0,6,0"/>
+                                        <TextBlock Text="info@lesnaya-usadba.ru" 
+                                                  FontSize="13" 
+                                                  FontWeight="Medium"
+                                                  Foreground="#78350F"
+                                                  VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
                         </StackPanel>
                     </Border>
                 </ScrollViewer>

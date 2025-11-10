@@ -1,22 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AgroCulture.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для BookingEditWindow.xaml
-    /// </summary>
     public partial class BookingEditWindow : Window
     {
         public int EditBookingId { get; set; }
@@ -57,7 +45,6 @@ namespace AgroCulture.Views
                         return;
                     }
 
-                    // Получаем домик
                     var booking = context.Bookings.FirstOrDefault(b => b.BookingId == EditBookingId);
                     _currentCabin = context.Cabins.FirstOrDefault(c => c.CabinId == booking.CabinId);
 
@@ -65,8 +52,8 @@ namespace AgroCulture.Views
                     TxtCabinName.Text = bookingDetail.CabinName;
                     TxtCabinDetails.Text = $"Цена: {_currentCabin.PricePerNight:N0} ₽/ночь";
 
-                    // Данные гостя
-                    TxtGuestName.Text = bookingDetail.GuestName;
+                    // ✅ ИСПРАВЛЕНО: используем GuestFullName из View
+                    TxtGuestName.Text = bookingDetail.GuestFullName;
                     TxtGuestPhone.Text = bookingDetail.GuestPhone;
 
                     // Даты
@@ -188,11 +175,17 @@ namespace AgroCulture.Views
                         return;
                     }
 
-                    // Обновление гостя
+                    // ✅ ИСПРАВЛЕНО: Обновление гостя с новой структурой ФИО
                     var guest = context.Guests.FirstOrDefault(g => g.GuestId == booking.GuestId);
                     if (guest != null)
                     {
-                        guest.FullName = TxtGuestName.Text.Trim();
+                        // Парсим ФИО из поля ввода (временное решение)
+                        string fullName = TxtGuestName.Text.Trim();
+                        string[] parts = fullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        guest.Surname = parts.Length > 0 ? parts[0] : "";
+                        guest.FirstName = parts.Length > 1 ? parts[1] : "";
+                        guest.MiddleName = parts.Length > 2 ? parts[2] : "";
                         guest.Phone = TxtGuestPhone.Text.Trim();
                     }
 

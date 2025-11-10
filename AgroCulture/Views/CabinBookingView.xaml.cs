@@ -14,27 +14,54 @@ namespace AgroCulture.Views
         {
             InitializeComponent();
 
-            Loaded += (s, e) =>
+            Loaded += CabinBookingView_Loaded;
+            Unloaded += CabinBookingView_Unloaded;
+        }
+
+        // ✅ НОВОЕ: Подписка при загрузке
+        private void CabinBookingView_Loaded(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("[CABIN VIEW] Loaded");
+
+            if (ViewModel != null)
             {
-                if (ViewModel != null)
-                {
-                    ViewModel.ShowNotification += ShowNotification;
-                }
-            };
+                // Отписываемся (на случай повторной загрузки)
+                ViewModel.ShowNotification -= ShowNotification;
+
+                // Подписываемся
+                ViewModel.ShowNotification += ShowNotification;
+            }
+        }
+
+        // ✅ НОВОЕ: Отписка при выгрузке
+        private void CabinBookingView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("[CABIN VIEW] Unloaded - отписка от событий");
+
+            if (ViewModel != null)
+            {
+                ViewModel.ShowNotification -= ShowNotification;
+            }
         }
 
         private void ShowNotification(string message, bool isSuccess)
         {
-            var messageQueue = BookingSnackbar.MessageQueue ?? new SnackbarMessageQueue();
+            try
+            {
+                var messageQueue = BookingSnackbar.MessageQueue ?? new SnackbarMessageQueue();
 
-            // Устанавливаем цвет фона в зависимости от типа сообщения
-            if (isSuccess)
-            {
-                messageQueue.Enqueue(message, null, null, null, false, true, TimeSpan.FromSeconds(4));
+                if (isSuccess)
+                {
+                    messageQueue.Enqueue(message, null, null, null, false, true, TimeSpan.FromSeconds(4));
+                }
+                else
+                {
+                    messageQueue.Enqueue(message, null, null, null, false, true, TimeSpan.FromSeconds(3));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                messageQueue.Enqueue(message, null, null, null, false, true, TimeSpan.FromSeconds(3));
+                System.Diagnostics.Debug.WriteLine($"[CABIN VIEW] Ошибка Snackbar: {ex.Message}");
             }
         }
     }

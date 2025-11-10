@@ -159,13 +159,29 @@
                                             Text="{Binding NewLogin, UpdateSourceTrigger=PropertyChanged}"
                                             Height="48" Margin="0,0,0,16"/>
 
-                                    <!-- ФИО -->
-                                    <TextBlock Text="ФИО *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
-                                    <TextBox x:Name="FullNameTextBox"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            materialDesign:HintAssist.Hint="Иванов Иван Иванович"
-                                            Text="{Binding NewFullName, UpdateSourceTrigger=PropertyChanged}"
-                                            Height="48" Margin="0,0,0,16"/>
+                                    <!-- Фамилия -->
+                                    <TextBlock Text="Фамилия *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="SurnameTextBox"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                materialDesign:HintAssist.Hint="Иванов"
+                                                Text="{Binding NewSurname, UpdateSourceTrigger=PropertyChanged}"
+                                                Height="48" Margin="0,0,0,16"/>
+
+                                    <!-- Имя -->
+                                    <TextBlock Text="Имя *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="FirstNameTextBox"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                materialDesign:HintAssist.Hint="Иван"
+                                                Text="{Binding NewFirstName, UpdateSourceTrigger=PropertyChanged}"
+                                                Height="48" Margin="0,0,0,16"/>
+
+                                    <!-- Отчество -->
+                                    <TextBlock Text="Отчество" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="MiddleNameTextBox"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                materialDesign:HintAssist.Hint="Иванович (необязательно)"
+                                                Text="{Binding NewMiddleName, UpdateSourceTrigger=PropertyChanged}"
+                                                Height="48" Margin="0,0,0,16"/>
 
                                     <!-- Пароль -->
                                     <TextBlock Text="Пароль *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>

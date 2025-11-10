@@ -9,14 +9,12 @@ namespace AgroCulture
 {
     public partial class MainWindow : Window
     {
-        // ✅ ПРАВИЛЬНЫЙ КОНСТРУКТОР
         public MainWindow()
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
 
-        // ✅ ВЫЗЫВАЕТСЯ ПОСЛЕ ЗАГРУЗКИ ОКНА
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             ConfigureUIByRole();
@@ -41,32 +39,71 @@ namespace AgroCulture
             switch (role)
             {
                 case "admin":
+                    // Админ видит всё
                     StaffTabButton.Visibility = Visibility.Visible;
                     BookingTabButton.Visibility = Visibility.Visible;
                     ListTabButton.Visibility = Visibility.Visible;
+                    ProfileButton.Visibility = Visibility.Visible;
+                    UserNameCard.Visibility = Visibility.Visible;  // ✅ Показываем карточку
+
+                    // Названия вкладок
+                    SetBookingTabText("Бронирование");
                     break;
 
                 case "manager":
+                    // Менеджер видит бронирование и список
                     StaffTabButton.Visibility = Visibility.Collapsed;
                     BookingTabButton.Visibility = Visibility.Visible;
                     ListTabButton.Visibility = Visibility.Visible;
+                    ProfileButton.Visibility = Visibility.Visible;
+                    UserNameCard.Visibility = Visibility.Visible;  // ✅ Показываем карточку
+
+                    SetBookingTabText("Бронирование");
                     break;
 
                 case "guest":
+                    // ✅ ИСПРАВЛЕНО: Гость видит только каталог домиков
                     StaffTabButton.Visibility = Visibility.Collapsed;
-                    BookingTabButton.Visibility = Visibility.Collapsed;
-                    ListTabButton.Visibility = Visibility.Visible;
+                    BookingTabButton.Visibility = Visibility.Visible;  // ✅ ПОКАЗЫВАЕМ
+                    ListTabButton.Visibility = Visibility.Collapsed;   // ✅ СКРЫВАЕМ
+                    ProfileButton.Visibility = Visibility.Collapsed;   // ✅ Скрываем
+                    UserNameCard.Visibility = Visibility.Collapsed;    // ✅ СКРЫВАЕМ карточку
+
+                    // ✅ Меняем название вкладки
+                    SetBookingTabText("Каталог домиков");
                     break;
 
                 default:
                     StaffTabButton.Visibility = Visibility.Collapsed;
                     BookingTabButton.Visibility = Visibility.Collapsed;
                     ListTabButton.Visibility = Visibility.Visible;
+                    ProfileButton.Visibility = Visibility.Collapsed;
+                    UserNameCard.Visibility = Visibility.Collapsed;
+
+                    SetBookingTabText("Бронирование");
                     break;
             }
 
-            // ✅ КРИТИЧНО: Вызываем ПОСЛЕ установки Visibility
             ConfigureNavigationGrid();
+        }
+
+        /// <summary>
+        /// ✅ НОВЫЙ МЕТОД: Изменение текста вкладки бронирования
+        /// </summary>
+        private void SetBookingTabText(string text)
+        {
+            var stack = BookingTabButton.Content as StackPanel;
+            if (stack != null)
+            {
+                foreach (var child in stack.Children)
+                {
+                    if (child is TextBlock textBlock)
+                    {
+                        textBlock.Text = text;
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -120,29 +157,18 @@ namespace AgroCulture
                 }
             }
 
-            // Логирование
-            System.Diagnostics.Debug.WriteLine($"[NAV] Настроено {visibleButtons.Count} табов:");
-            for (int i = 0; i < visibleButtons.Count; i++)
-            {
-                var btn = visibleButtons[i];
-                System.Diagnostics.Debug.WriteLine($"  [{i}] {btn.Name} → Column {Grid.GetColumn(btn)}, Margin {btn.Margin}");
-            }
+            System.Diagnostics.Debug.WriteLine($"[NAV] Настроено {visibleButtons.Count} табов для роли: {App.CurrentUser?.Role}");
         }
 
         // ═══════════════════════════════════════════════════════════
         // ПУБЛИЧНЫЙ МЕТОД ДЛЯ ОБНОВЛЕНИЯ HEADER
         // ═══════════════════════════════════════════════════════════
 
-        /// <summary>
-        /// Обновление отображения пользователя в header (вызывается из других страниц)
-        /// </summary>
         public void UpdateUserDisplay()
         {
             if (App.CurrentUser != null)
             {
                 UserNameText.Text = App.CurrentUser.FullName;
-
-                // Обновляем badge роли (на всякий случай)
                 UserRoleText.Text = GetRoleDisplayName(App.CurrentUser.Role);
 
                 Color roleBgColor;
@@ -174,26 +200,33 @@ namespace AgroCulture
         {
             string role = App.CurrentUser.Role.ToLower();
 
+            System.Diagnostics.Debug.WriteLine($"[NAV] Загрузка стартовой страницы для роли: {role}");
+
             switch (role)
             {
                 case "admin":
                     NavigateToStaff();
                     SetActiveTab(StaffTabButton);
+                    System.Diagnostics.Debug.WriteLine("[NAV] → Страница сотрудников");
                     break;
 
                 case "manager":
                     NavigateToBooking();
                     SetActiveTab(BookingTabButton);
+                    System.Diagnostics.Debug.WriteLine("[NAV] → Страница бронирования");
                     break;
 
                 case "guest":
-                    NavigateToList();
-                    SetActiveTab(ListTabButton);
+                    // ✅ ИСПРАВЛЕНО: Гость попадает на каталог домиков
+                    NavigateToBooking();
+                    SetActiveTab(BookingTabButton);
+                    System.Diagnostics.Debug.WriteLine("[NAV] → Каталог домиков (режим гостя)");
                     break;
 
                 default:
                     NavigateToList();
                     SetActiveTab(ListTabButton);
+                    System.Diagnostics.Debug.WriteLine("[NAV] → Список бронирований (fallback)");
                     break;
             }
         }

@@ -20,16 +20,13 @@ namespace AgroCulture
         public System.DateTime CheckInDate { get; set; }
         public System.DateTime CheckOutDate { get; set; }
         public int Nights { get; set; }
-        public int Adults { get; set; }
-        public int Children { get; set; }
         public decimal TotalPrice { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedAt { get; set; }
-        public string Notes { get; set; }
     
         public virtual Cabins Cabins { get; set; }
-        public virtual Users Users { get; set; }
         public virtual Guests Guests { get; set; }
+        public virtual Users Users { get; set; }
     }
 }
