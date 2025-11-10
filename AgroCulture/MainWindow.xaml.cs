@@ -20,6 +20,10 @@ namespace AgroCulture
         public MainWindow()
         {
             InitializeComponent();
+
+            // Устанавливаем DataContext для биндингов
+            DataContext = this;
+
             Loaded += MainWindow_Loaded;
         }
 

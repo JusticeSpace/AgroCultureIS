@@ -42,8 +42,6 @@ namespace AgroCulture.Services
                     Debug.WriteLine($"[AUTH] ✅ Пользователь найден: {user.Username}");
                     Debug.WriteLine($"[AUTH] - Роль: {user.Role}");
                     Debug.WriteLine($"[AUTH] - IsActive: {user.IsActive}");
-                    Debug.WriteLine($"[AUTH] - PasswordHash в БД: '{user.PasswordHash}'");
-                    Debug.WriteLine($"[AUTH] - Введенный пароль: '{password}'");
 
                     // 2️⃣ Проверяем активность
                     if (!user.IsActive)
@@ -55,8 +53,7 @@ namespace AgroCulture.Services
                     // 3️⃣ Проверяем пароль с использованием хеширования
                     string dbPasswordHash = user.PasswordHash?.Trim() ?? "";
 
-                    Debug.WriteLine($"[AUTH] Сравнение:");
-                    Debug.WriteLine($"[AUTH] - Хеш в БД: '{dbPasswordHash}'");
+                    Debug.WriteLine($"[AUTH] Проверка пароля...");
 
                     if (PasswordHasher.VerifyPassword(password, dbPasswordHash))
                     {
