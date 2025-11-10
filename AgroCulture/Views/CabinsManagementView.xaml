@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewmodels="clr-namespace:AgroCulture.ViewModels"
-             xmlns:converters="clr-namespace:AgroCulture.Converters"
              Background="Transparent"
              UseLayoutRounding="True">
 
@@ -12,10 +11,6 @@
     </UserControl.DataContext>
 
     <UserControl.Resources>
-        <!-- Конвертеры -->
-        <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
-        <converters:BoolToStatusConverter x:Key="BoolToStatusConverter"/>
-
         <Style x:Key="ModernButtonStyle" TargetType="Button">
             <Setter Property="Height" Value="44"/>
             <Setter Property="Padding" Value="16,0"/>
@@ -366,8 +361,8 @@
                     <!-- ════════════════════════════════════════════════════════════ -->
                     <!-- СТАТИСТИКА -->
                     <!-- ════════════════════════════════════════════════════════════ -->
-                    <Border Grid.Row="2" Background="#F9FAFB" BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" CornerRadius="0,0,12,12">
-                        <Grid Padding="28,20">
+                    <Border Grid.Row="2" Background="#F9FAFB" BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" CornerRadius="0,0,12,12" Padding="28,20">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
