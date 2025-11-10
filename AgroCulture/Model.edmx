@@ -137,15 +137,15 @@
           <Key>
             <PropertyRef Name="CabinId" />
             <PropertyRef Name="Name" />
-            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="MaxGuests" />
             <PropertyRef Name="PricePerNight" />
-            <PropertyRef Name="IsAvailable" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="CabinId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="MaxGuests" Type="int" Nullable="false" />
           <Property Name="PricePerNight" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="Amenities" Type="nvarchar" MaxLength="4000" />
           <Property Name="TotalBookings" Type="int" />
           <Property Name="ActiveBookings" Type="int" />
@@ -331,31 +331,30 @@
     FROM [dbo].[BookingsDetails] AS [BookingsDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="CabinsStatistics" EntityType="Self.CabinsStatistics" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CabinsStatistics].[CabinId] AS [CabinId], 
-    [CabinsStatistics].[Name] AS [Name], 
-    [CabinsStatistics].[Capacity] AS [Capacity], 
-    [CabinsStatistics].[PricePerNight] AS [PricePerNight], 
-    [CabinsStatistics].[IsAvailable] AS [IsAvailable], 
-    [CabinsStatistics].[Amenities] AS [Amenities], 
-    [CabinsStatistics].[TotalBookings] AS [TotalBookings], 
-    [CabinsStatistics].[ActiveBookings] AS [ActiveBookings], 
-    [CabinsStatistics].[CompletedBookings] AS [CompletedBookings], 
-    [CabinsStatistics].[TotalRevenue] AS [TotalRevenue], 
+            <DefiningQuery>SELECT
+    [CabinsStatistics].[CabinId] AS [CabinId],
+    [CabinsStatistics].[Name] AS [Name],
+    [CabinsStatistics].[MaxGuests] AS [MaxGuests],
+    [CabinsStatistics].[PricePerNight] AS [PricePerNight],
+    [CabinsStatistics].[IsActive] AS [IsActive],
+    [CabinsStatistics].[Amenities] AS [Amenities],
+    [CabinsStatistics].[TotalBookings] AS [TotalBookings],
+    [CabinsStatistics].[ActiveBookings] AS [ActiveBookings],
+    [CabinsStatistics].[CompletedBookings] AS [CompletedBookings],
+    [CabinsStatistics].[TotalRevenue] AS [TotalRevenue],
     [CabinsStatistics].[TotalNightsBooked] AS [TotalNightsBooked]
     FROM [dbo].[CabinsStatistics] AS [CabinsStatistics]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="CabinsWithAmenities" EntityType="Self.CabinsWithAmenities" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CabinsWithAmenities].[CabinId] AS [CabinId], 
-    [CabinsWithAmenities].[Name] AS [Name], 
-    [CabinsWithAmenities].[Description] AS [Description], 
-    [CabinsWithAmenities].[Capacity] AS [Capacity], 
-    [CabinsWithAmenities].[PricePerNight] AS [PricePerNight], 
-    [CabinsWithAmenities].[ImageUrl] AS [ImageUrl], 
-    [CabinsWithAmenities].[IsAvailable] AS [IsAvailable], 
-    [CabinsWithAmenities].[AmenitiesList] AS [AmenitiesList], 
-    [CabinsWithAmenities].[AmenitiesIcons] AS [AmenitiesIcons]
+            <DefiningQuery>SELECT
+    [CabinsWithAmenities].[CabinId] AS [CabinId],
+    [CabinsWithAmenities].[Name] AS [Name],
+    [CabinsWithAmenities].[Description] AS [Description],
+    [CabinsWithAmenities].[MaxGuests] AS [MaxGuests],
+    [CabinsWithAmenities].[PricePerNight] AS [PricePerNight],
+    [CabinsWithAmenities].[ImageUrl] AS [ImageUrl],
+    [CabinsWithAmenities].[IsActive] AS [IsActive],
+    [CabinsWithAmenities].[Amenities] AS [Amenities]
     FROM [dbo].[CabinsWithAmenities] AS [CabinsWithAmenities]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__CabinAmen__Ameni__5165187F" Association="Self.FK__CabinAmen__Ameni__5165187F">
@@ -532,15 +531,15 @@
           <Key>
             <PropertyRef Name="CabinId" />
             <PropertyRef Name="Name" />
-            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="MaxGuests" />
             <PropertyRef Name="PricePerNight" />
-            <PropertyRef Name="IsAvailable" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="CabinId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="MaxGuests" Type="Int32" Nullable="false" />
           <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="Amenities" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="TotalBookings" Type="Int32" />
           <Property Name="ActiveBookings" Type="Int32" />
@@ -864,9 +863,9 @@
               <MappingFragment StoreEntitySet="CabinsStatistics">
                 <ScalarProperty Name="CabinId" ColumnName="CabinId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="MaxGuests" ColumnName="MaxGuests" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Amenities" ColumnName="Amenities" />
                 <ScalarProperty Name="TotalBookings" ColumnName="TotalBookings" />
                 <ScalarProperty Name="ActiveBookings" ColumnName="ActiveBookings" />
