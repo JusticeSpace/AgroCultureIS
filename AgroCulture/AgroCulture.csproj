@@ -217,6 +217,9 @@
     <Compile Include="Views\CabinBookingView.xaml.cs">
       <DependentUpon>CabinBookingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CabinEditWindow.xaml.cs">
+      <DependentUpon>CabinEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CabinsManagementView.xaml.cs">
       <DependentUpon>CabinsManagementView.xaml</DependentUpon>
     </Compile>
@@ -250,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CabinBookingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CabinEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

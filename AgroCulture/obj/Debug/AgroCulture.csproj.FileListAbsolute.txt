@@ -114,3 +114,5 @@ C:\Users\nurul\source\repos\AgroCulture\AgroCulture\obj\Debug\Views\BookingEditW
 C:\Users\nurul\source\repos\AgroCulture\AgroCulture\obj\Debug\Views\StaffEditWindow.g.cs
 C:\Users\nurul\source\repos\AgroCulture\AgroCulture\obj\Debug\Views\CabinsManagementView.g.cs
 C:\Users\nurul\source\repos\AgroCulture\AgroCulture\obj\Debug\Views\CabinsManagementView.baml
+C:\Users\nurul\source\repos\AgroCulture\AgroCulture\obj\Debug\Views\CabinEditWindow.baml
+C:\Users\nurul\source\repos\AgroCulture\AgroCulture\obj\Debug\Views\CabinEditWindow.g.cs

@@ -10,112 +10,149 @@
         <viewmodels:CabinsManagementViewModel/>
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8"
+                               BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="12" ShadowDepth="2" Opacity="0.3"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid MinWidth="1024" Margin="16">
+        <Grid Margin="24">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400" MinWidth="350" MaxWidth="500"/>
-                <ColumnDefinition Width="16"/>
-                <ColumnDefinition Width="*" MinWidth="600"/>
+                <ColumnDefinition Width="420" MinWidth="380" MaxWidth="480"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="*" MinWidth="700"/>
             </Grid.ColumnDefinitions>
 
-            <!-- ЛЕВАЯ КОЛОНКА: ФОРМА -->
-            <materialDesign:Card Grid.Column="0" 
-                                UniformCornerRadius="8"
-                                materialDesign:ElevationAssist.Elevation="Dp4">
+            <!-- ════════════════════════════════════════════════════════════ -->
+            <!-- ЛЕВАЯ КОЛОНКА: ФОРМА ДОБАВЛЕНИЯ -->
+            <!-- ════════════════════════════════════════════════════════════ -->
+            <materialDesign:Card Grid.Column="0" UniformCornerRadius="12" materialDesign:ElevationAssist.Elevation="Dp6">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Заголовок -->
-                    <Border Grid.Row="0" Height="64" CornerRadius="8,8,0,0">
+                    <!-- HEADER -->
+                    <Border Grid.Row="0" CornerRadius="12,12,0,0" Padding="28,24">
                         <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                <GradientStop Color="#2E7D32" Offset="0"/>
-                                <GradientStop Color="#00897B" Offset="1"/>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#16A34A" Offset="0"/>
+                                <GradientStop Color="#10B981" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
 
-                        <StackPanel Orientation="Horizontal" 
-                                   VerticalAlignment="Center"
-                                   Margin="24,0">
-                            <materialDesign:PackIcon Kind="HomePlus" 
-                                                    Width="20" Height="20"
-                                                    Foreground="White"
-                                                    VerticalAlignment="Center"
-                                                    Margin="0,0,12,0"/>
-                            <TextBlock Text="Добавить домик" 
-                                      FontSize="20"
-                                      FontWeight="Medium"
-                                      Foreground="White"
-                                      VerticalAlignment="Center"/>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="HomePlus" Width="24" Height="24" 
+                                                        Foreground="White" VerticalAlignment="Center"/>
+                                <TextBlock Text="Новый домик" FontSize="20" FontWeight="SemiBold" 
+                                          Foreground="White" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBlock Text="Добавьте уютное место для отдыха" FontSize="12" 
+                                      Foreground="#D1FAE5" Margin="0,8,0,0"/>
                         </StackPanel>
                     </Border>
 
-                    <!-- Форма -->
+                    <!-- ФОРМА -->
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                        <Border Padding="24">
+                        <Border Padding="28">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#F0FDF4" Offset="0"/>
+                                    <GradientStop Color="#FFFFFF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <!-- ✅ FIX: Заменил Spacing на Margin для каждого элемента -->
                             <StackPanel>
                                 <!-- Название -->
-                                <TextBlock Text="Название *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
-                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                        materialDesign:HintAssist.Hint="Березка"
-                                        Text="{Binding NewCabinName, UpdateSourceTrigger=PropertyChanged}"
-                                        Height="48" Margin="0,0,0,16"/>
+                                <StackPanel Margin="0,0,0,16">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="Название" FontSize="13" Foreground="#374151" FontWeight="SemiBold"/>
+                                        <TextBlock Text="*" Foreground="#DC2626" FontWeight="Bold"/>
+                                    </StackPanel>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            materialDesign:HintAssist.Hint="Березка"
+                                            Text="{Binding NewCabinName, UpdateSourceTrigger=PropertyChanged}"
+                                            Height="48" Padding="14,0" FontSize="13" VerticalContentAlignment="Center"/>
+                                </StackPanel>
 
                                 <!-- Описание -->
-                                <TextBlock Text="Описание" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
-                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                        materialDesign:HintAssist.Hint="Уютный домик в лесу..."
-                                        Text="{Binding NewCabinDescription, UpdateSourceTrigger=PropertyChanged}"
-                                        Height="80" 
-                                        AcceptsReturn="True"
-                                        Margin="0,0,0,16"/>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Описание" FontSize="13" Foreground="#374151" Margin="0,0,0,8" FontWeight="SemiBold"/>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            materialDesign:HintAssist.Hint="Красивый домик в лесу..."
+                                            Text="{Binding NewCabinDescription, UpdateSourceTrigger=PropertyChanged}"
+                                            Height="80" AcceptsReturn="True" Padding="14,12" FontSize="13"/>
+                                </StackPanel>
 
-                                <!-- Вместимость и Цена (в две колонки) -->
+                                <!-- Вместимость и Цена -->
                                 <Grid Margin="0,0,0,16">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="8"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Вместимость -->
                                     <StackPanel Grid.Column="0">
-                                        <TextBlock Text="Вместимость (чел) *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock Text="Вместимость" FontSize="13" Foreground="#374151" FontWeight="SemiBold"/>
+                                            <TextBlock Text="*" Foreground="#DC2626" FontWeight="Bold"/>
+                                        </StackPanel>
                                         <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                materialDesign:HintAssist.Hint="2"
+                                                materialDesign:HintAssist.Hint="2-4"
                                                 Text="{Binding NewCabinCapacity, Mode=TwoWay, StringFormat=N0}"
-                                                Height="48"
-                                                Padding="16,0"
-                                                FontSize="14"
-                                                VerticalContentAlignment="Center"/>
+                                                Height="48" Padding="14,0" FontSize="13" VerticalContentAlignment="Center"/>
                                     </StackPanel>
 
                                     <!-- Цена -->
                                     <StackPanel Grid.Column="2">
-                                        <TextBlock Text="Цена за ночь (₽) *" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock Text="Цена/ночь" FontSize="13" Foreground="#374151" FontWeight="SemiBold"/>
+                                            <TextBlock Text="*" Foreground="#DC2626" FontWeight="Bold"/>
+                                        </StackPanel>
                                         <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                materialDesign:HintAssist.Hint="3500"
+                                                materialDesign:HintAssist.Hint="3500 ₽"
                                                 Text="{Binding NewCabinPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}"
-                                                Height="48"
-                                                Padding="16,0"
-                                                FontSize="14"
-                                                VerticalContentAlignment="Center"/>
+                                                Height="48" Padding="14,0" FontSize="13" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
 
-                                <!-- Кнопка Добавить -->
-                                <Button Command="{Binding AddCabinCommand}"
-                                       Height="40" HorizontalAlignment="Stretch">
+                                <!-- Кнопка -->
+                                <Button Command="{Binding AddCabinCommand}" Height="48" Margin="0,12,0,0">
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
                                             <Setter Property="Background">
                                                 <Setter.Value>
                                                     <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                        <GradientStop Color="#2E7D32" Offset="0"/>
-                                                        <GradientStop Color="#00897B" Offset="1"/>
+                                                        <GradientStop Color="#16A34A" Offset="0"/>
+                                                        <GradientStop Color="#10B981" Offset="1"/>
                                                     </LinearGradientBrush>
                                                 </Setter.Value>
                                             </Setter>
@@ -123,8 +160,8 @@
                                         </Style>
                                     </Button.Style>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="HomePlus" Width="16" Height="16" Margin="0,0,8,0"/>
-                                        <TextBlock Text="Добавить домик" FontSize="14"/>
+                                        <materialDesign:PackIcon Kind="HomePlus" Width="18" Height="18" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Добавить домик" FontSize="14" FontWeight="SemiBold"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -133,59 +170,75 @@
                 </Grid>
             </materialDesign:Card>
 
-            <!-- ПРАВАЯ КОЛОНКА: ТАБЛИЦА -->
-            <materialDesign:Card Grid.Column="2"
-                                UniformCornerRadius="8"
-                                materialDesign:ElevationAssist.Elevation="Dp4">
+            <!-- ════════════════════════════════════════════════════════════ -->
+            <!-- ПРАВАЯ КОЛОНКА: ТАБЛИЦА ДОМИКОВ -->
+            <!-- ════════════════════════════════════════════════════════════ -->
+            <materialDesign:Card Grid.Column="2" UniformCornerRadius="12" materialDesign:ElevationAssist.Elevation="Dp6">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Заголовок -->
-                    <Border Grid.Row="0" Height="64" CornerRadius="8,8,0,0">
+                    <!-- HEADER -->
+                    <Border Grid.Row="0" CornerRadius="12,12,0,0" Padding="28,24">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                <GradientStop Color="#2E7D32" Offset="0"/>
-                                <GradientStop Color="#00897B" Offset="1"/>
+                                <GradientStop Color="#16A34A" Offset="0"/>
+                                <GradientStop Color="#10B981" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
 
-                        <Grid Margin="24,0">
-                            <TextBlock Text="Домики" 
-                                      FontSize="20" FontWeight="Medium"
-                                      Foreground="White"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Left"/>
-
-                            <Border Background="White" CornerRadius="12"
-                                   Padding="12,6"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Всего: " FontSize="14" Foreground="#2E7D32" FontWeight="Medium"/>
-                                    <TextBlock Text="{Binding TotalCabins}" FontSize="14" Foreground="#2E7D32" FontWeight="Bold"/>
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="HomeGroup" Width="24" Height="24" 
+                                                        Foreground="White" VerticalAlignment="Center"/>
+                                <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="Все домики" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
+                                    <TextBlock x:Name="TxtTotalInfo" Text="Загрузка..." FontSize="12" Foreground="#D1FAE5" Margin="0,4,0,0"/>
                                 </StackPanel>
+                            </StackPanel>
+
+                            <Border Background="White" CornerRadius="12" Padding="12,6" 
+                                   HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding TotalCabins, StringFormat='{}Всего: {0}'}" 
+                                          FontSize="14" FontWeight="SemiBold" Foreground="#059669"/>
                             </Border>
                         </Grid>
                     </Border>
 
-                    <!-- DataGrid -->
-                    <DataGrid Grid.Row="1"
-                             ItemsSource="{Binding CabinsList}"
-                             AutoGenerateColumns="False"
-                             CanUserAddRows="False"
-                             IsReadOnly="True"
-                             RowHeight="56">
+                    <!-- DATAGRID -->
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding CabinsList}" AutoGenerateColumns="False"
+                             CanUserAddRows="False" IsReadOnly="True" RowHeight="64" SelectionMode="Single"
+                             GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F3F4F6"
+                             Background="White">
+
                         <DataGrid.Resources>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="Background" Value="#F5F5F5"/>
-                                <Setter Property="Foreground" Value="#424242"/>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Setter Property="Background" Value="#F9FAFB"/>
+                                <Setter Property="Foreground" Value="#374151"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
-                                <Setter Property="Height" Value="48"/>
+                                <Setter Property="FontSize" Value="13"/>
+                                <Setter Property="Height" Value="52"/>
                                 <Setter Property="Padding" Value="16,0"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                                <Setter Property="BorderBrush" Value="#E5E7EB"/>
                             </Style>
+
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#F9FAFB"/>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.05"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+
                             <Style TargetType="DataGridCell">
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="Padding" Value="16,0"/>
@@ -193,26 +246,81 @@
                         </DataGrid.Resources>
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Название" Width="*" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Вместимость" Width="120" Binding="{Binding Capacity, StringFormat='{}{0} чел'}"/>
-                            <DataGridTextColumn Header="Цена/ночь" Width="120" Binding="{Binding PricePerNight, StringFormat='{}{0:N0} ₽'}"/>
+                            <!-- Название -->
+                            <DataGridTextColumn Header="🏠 Название" Width="*" Binding="{Binding Name}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="14"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="Foreground" Value="#059669"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
 
-                            <DataGridTemplateColumn Header="Действия" Width="140">
+                            <!-- Вместимость -->
+                            <DataGridTextColumn Header="👥 Место" Width="90">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="Capacity" StringFormat="{}{0} чел"/>
+                                </DataGridTextColumn.Binding>
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="13"/>
+                                        <Setter Property="Foreground" Value="#6B7280"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <!-- Цена -->
+                            <DataGridTextColumn Header="💰 Цена" Width="110">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="PricePerNight" StringFormat="{}{0:N0} ₽"/>
+                                </DataGridTextColumn.Binding>
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="13"/>
+                                        <Setter Property="FontWeight" Value="Medium"/>
+                                        <Setter Property="Foreground" Value="#16A34A"/>
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <!-- Статус -->
+                            <DataGridTemplateColumn Header="📊 Статус" Width="100">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <Button Width="32" Height="32"
+                                        <Border Background="{Binding IsActive, Converter={StaticResource BoolToColorConverter}}"
+                                               Padding="8,4" HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding IsActive, Converter={StaticResource BoolToStatusConverter}}"
+                                                      FontSize="12" FontWeight="Medium" Foreground="White"
+                                                      TextAlignment="Center"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Действия -->
+                            <DataGridTemplateColumn Header="⚙️ Действия" Width="140">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <!-- Редактировать -->
+                                            <Button Width="36" Height="36" Margin="0,0,8,0"
                                                    Command="{Binding DataContext.EditCabinCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                    CommandParameter="{Binding}"
-                                                   Margin="0,0,8,0"
-                                                   Style="{StaticResource MaterialDesignFlatButton}">
-                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16" Foreground="#2563EB"/>
+                                                   Style="{StaticResource MaterialDesignIconButton}"
+                                                   ToolTip="Редактировать">
+                                                <materialDesign:PackIcon Kind="Pencil" Width="18" Height="18" Foreground="#2563EB"/>
                                             </Button>
-                                            <Button Width="32" Height="32"
+
+                                            <!-- Удалить -->
+                                            <Button Width="36" Height="36"
                                                    Command="{Binding DataContext.DeleteCabinCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                    CommandParameter="{Binding}"
-                                                   Style="{StaticResource MaterialDesignFlatButton}">
-                                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16" Foreground="#DC2626"/>
+                                                   Style="{StaticResource MaterialDesignIconButton}"
+                                                   ToolTip="Удалить">
+                                                <materialDesign:PackIcon Kind="Delete" Width="18" Height="18" Foreground="#DC2626"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
@@ -222,12 +330,6 @@
                     </DataGrid>
                 </Grid>
             </materialDesign:Card>
-
-            <!-- Snackbar -->
-            <materialDesign:Snackbar x:Name="NotificationSnackbar"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="3"
-                                    MessageQueue="{materialDesign:MessageQueue}"/>
         </Grid>
     </ScrollViewer>
 </UserControl>

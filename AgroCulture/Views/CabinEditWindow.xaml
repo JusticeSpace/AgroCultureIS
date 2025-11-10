@@ -1,0 +1,182 @@
+﻿<Window x:Class="AgroCulture.Views.CabinEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Редактировать домик"
+        Width="600" Height="850"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Window.Resources>
+        <DropShadowEffect x:Key="WindowShadow" BlurRadius="25" ShadowDepth="8" Opacity="0.35" Color="Black"/>
+    </Window.Resources>
+
+    <Border CornerRadius="16" Background="White">
+        <Border.Effect>
+            <StaticResource ResourceKey="WindowShadow"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER -->
+            <Border Grid.Row="0" CornerRadius="16,16,0,0" Padding="32,24">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#16A34A" Offset="0"/>
+                        <GradientStop Color="#10B981" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="HomeEdit" Width="28" Height="28" 
+                                                Foreground="White" VerticalAlignment="Center"/>
+                        <StackPanel Margin="16,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Редактирование домика" FontSize="22" FontWeight="SemiBold" Foreground="White"/>
+                            <TextBlock x:Name="TxtCabinInfo" Text="Загрузка..." FontSize="12" Foreground="#D1FAE5" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
+                           Click="BtnClose_Click" Width="40" Height="40" Padding="0">
+                        <materialDesign:PackIcon Kind="Close" Width="24" Height="24" Foreground="White"/>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- CONTENT -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="32">
+                <StackPanel>
+                    <!-- Основная информация -->
+                    <TextBlock Text="📋 Основная информация" FontSize="16" FontWeight="SemiBold" Foreground="#1F2937" Margin="0,0,0,16"/>
+
+                    <!-- Название -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Название *" FontSize="14" Foreground="#374151" Margin="0,0,0,8" FontWeight="Medium"/>
+                        <TextBox x:Name="TxtName" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                materialDesign:HintAssist.Hint="Березка, Сосна..." Height="56" Padding="16,0" FontSize="14" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Описание -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Описание" FontSize="14" Foreground="#374151" Margin="0,0,0,8" FontWeight="Medium"/>
+                        <TextBox x:Name="TxtDescription" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                materialDesign:HintAssist.Hint="Уютный домик в лесу..."
+                                Height="100" AcceptsReturn="True" Padding="16,12" FontSize="14"/>
+                    </StackPanel>
+
+                    <!-- Разделитель -->
+                    <Border Height="1" Background="#E5E7EB" Margin="0,12,0,12"/>
+
+                    <!-- Параметры -->
+                    <TextBlock Text="⚙️ Параметры" FontSize="16" FontWeight="SemiBold" Foreground="#1F2937" Margin="0,0,0,16"/>
+
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Вместимость -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Вместимость (чел) *" FontSize="14" Foreground="#374151" Margin="0,0,0,8" FontWeight="Medium"/>
+                            <TextBox x:Name="TxtCapacity" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                    materialDesign:HintAssist.Hint="4" Height="56" Padding="16,0" FontSize="14" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Цена -->
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Цена за ночь (₽) *" FontSize="14" Foreground="#374151" Margin="0,0,0,8" FontWeight="Medium"/>
+                            <TextBox x:Name="TxtPrice" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                    materialDesign:HintAssist.Hint="3500" Height="56" Padding="16,0" FontSize="14" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Статус -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Статус" FontSize="14" Foreground="#374151" Margin="0,0,0,8" FontWeight="Medium"/>
+                        <ComboBox x:Name="CmbStatus" Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                 materialDesign:HintAssist.Hint="Выберите статус" Height="56" FontSize="14">
+                            <ComboBoxItem Content="✅ Активный" Tag="true" IsSelected="True"/>
+                            <ComboBoxItem Content="❌ Неактивный" Tag="false"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Разделитель -->
+                    <Border Height="1" Background="#E5E7EB" Margin="0,12,0,12"/>
+
+                    <!-- Удобства -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="✨ Удобства" FontSize="16" FontWeight="SemiBold" Foreground="#1F2937" Margin="0,0,0,12"/>
+
+                        <Border Background="#F9FAFB" BorderBrush="#E5E7EB" BorderThickness="1" Padding="8">
+                            <ListBox x:Name="AmenitiesListBox" Height="150" Background="Transparent" 
+                                    BorderThickness="0" Padding="0">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="White" BorderBrush="#E5E7EB" BorderThickness="1"
+                                               Padding="12,8" Margin="0,4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium" Foreground="#1F2937" VerticalAlignment="Center"/>
+
+                                                <Button Grid.Column="1" Click="BtnRemoveAmenity_Click" Tag="{Binding AmenityId}"
+                                                       Style="{StaticResource MaterialDesignFlatButton}" Width="28" Height="28" Padding="0">
+                                                    <materialDesign:PackIcon Kind="Close" Width="16" Height="16" Foreground="#DC2626"/>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- FOOTER -->
+            <Border Grid.Row="2" BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" Padding="32,20" Background="#F9FAFB">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Click="BtnCancel_Click" Style="{StaticResource MaterialDesignOutlinedButton}" Height="44" FontSize="14">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Close" Width="18" Height="18" Margin="0,0,8,0"/>
+                            <TextBlock Text="Отмена"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Grid.Column="2" Click="BtnSave_Click" Style="{StaticResource MaterialDesignRaisedButton}" Height="44" FontSize="14">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#059669" Offset="0"/>
+                                <GradientStop Color="#10B981" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Margin="0,0,8,0"/>
+                            <TextBlock Text="Сохранить"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

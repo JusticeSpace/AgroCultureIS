@@ -9,10 +9,6 @@ namespace AgroCulture.ViewModels
 {
     public class CabinsManagementViewModel : BaseViewModel
     {
-        // ════════════════════════════════════════════════════════════
-        // ДАННЫЕ
-        // ════════════════════════════════════════════════════════════
-
         private ObservableCollection<Cabins> _cabinsList;
         public ObservableCollection<Cabins> CabinsList
         {
@@ -26,10 +22,6 @@ namespace AgroCulture.ViewModels
             get => _totalCabins;
             set => SetProperty(ref _totalCabins, value);
         }
-
-        // ════════════════════════════════════════════════════════════
-        // ФОРМА ДОБАВЛЕНИЯ ДОМИКА
-        // ════════════════════════════════════════════════════════════
 
         private string _newCabinName;
         public string NewCabinName
@@ -59,24 +51,12 @@ namespace AgroCulture.ViewModels
             set { _newCabinPrice = value; OnPropertyChanged(); }
         }
 
-        // ════════════════════════════════════════════════════════════
-        // КОМАНДЫ
-        // ════════════════════════════════════════════════════════════
-
         public ICommand AddCabinCommand { get; }
         public ICommand EditCabinCommand { get; }
         public ICommand DeleteCabinCommand { get; }
 
-        // ════════════════════════════════════════════════════════════
-        // СОБЫТИЯ
-        // ════════════════════════════════════════════════════════════
-
         public event Action<string, bool> ShowNotification;
         public event Action<Cabins> RequestEdit;
-
-        // ════════════════════════════════════════════════════════════
-        // КОНСТРУКТОР
-        // ════════════════════════════════════════════════════════════
 
         public CabinsManagementViewModel()
         {
@@ -86,18 +66,13 @@ namespace AgroCulture.ViewModels
             EditCabinCommand = new RelayCommand<Cabins>(EditCabin);
             DeleteCabinCommand = new RelayCommand<Cabins>(DeleteCabin);
 
-            // Проверка: только администратор может это использовать!
             if (App.CurrentUser?.Role?.ToLower() != "admin")
             {
-                ShowNotificationEvent("⛔ Доступ запрещён! Только администратор может управлять домиками", false);
+                ShowNotificationEvent("⛔ Доступ запрещён!", false);
             }
 
             RefreshData();
         }
-
-        // ════════════════════════════════════════════════════════════
-        // ЗАГРУЗКА ДАННЫХ
-        // ════════════════════════════════════════════════════════════
 
         public void RefreshData()
         {
@@ -106,6 +81,7 @@ namespace AgroCulture.ViewModels
                 using (var context = new AgroCultureEntities())
                 {
                     var cabins = context.Cabins
+                        .Include("CabinAmenities.Amenities")
                         .OrderBy(c => c.Name)
                         .ToList();
 
@@ -120,31 +96,27 @@ namespace AgroCulture.ViewModels
             }
             catch (Exception ex)
             {
-                ShowNotificationEvent($"Ошибка загрузки: {ex.Message}", false);
+                ShowNotificationEvent($"❌ Ошибка: {ex.Message}", false);
             }
         }
-
-        // ════════════════════════════════════════════════════════════
-        // ДОБАВЛЕНИЕ ДОМИКА
-        // ════════════════════════════════════════════════════════════
 
         private void AddCabin()
         {
             if (string.IsNullOrWhiteSpace(NewCabinName))
             {
-                ShowNotificationEvent("Введите название домика", false);
+                ShowNotificationEvent("❌ Введите название", false);
                 return;
             }
 
             if (NewCabinCapacity <= 0)
             {
-                ShowNotificationEvent("Вместимость должна быть больше 0", false);
+                ShowNotificationEvent("❌ Вместимость > 0", false);
                 return;
             }
 
             if (NewCabinPrice <= 0)
             {
-                ShowNotificationEvent("Цена должна быть больше 0", false);
+                ShowNotificationEvent("❌ Цена > 0", false);
                 return;
             }
 
@@ -167,9 +139,8 @@ namespace AgroCulture.ViewModels
                     context.Cabins.Add(cabin);
                     context.SaveChanges();
 
-                    ShowNotificationEvent($"✅ Домик '{cabin.Name}' добавлен", true);
+                    ShowNotificationEvent($"✅ Домик добавлен!", true);
 
-                    // Очистка формы
                     NewCabinName = string.Empty;
                     NewCabinDescription = string.Empty;
                     NewCabinCapacity = 2;
@@ -180,13 +151,9 @@ namespace AgroCulture.ViewModels
             }
             catch (Exception ex)
             {
-                ShowNotificationEvent($"Ошибка: {ex.Message}", false);
+                ShowNotificationEvent($"❌ Ошибка: {ex.Message}", false);
             }
         }
-
-        // ════════════════════════════════════════════════════════════
-        // РЕДАКТИРОВАНИЕ ДОМИКА
-        // ════════════════════════════════════════════════════════════
 
         private void EditCabin(Cabins cabin)
         {
@@ -194,15 +161,10 @@ namespace AgroCulture.ViewModels
             RequestEdit?.Invoke(cabin);
         }
 
-        // ════════════════════════════════════════════════════════════
-        // УДАЛЕНИЕ ДОМИКА
-        // ════════════════════════════════════════════════════════════
-
         private void DeleteCabin(Cabins cabin)
         {
             if (cabin == null) return;
 
-            // Проверка: есть ли активные бронирования?
             try
             {
                 using (var context = new AgroCultureEntities())
@@ -212,19 +174,14 @@ namespace AgroCulture.ViewModels
 
                     if (activeBookings > 0)
                     {
-                        MessageBox.Show(
-                            $"Нельзя удалить домик с активными бронированиями ({activeBookings})",
-                            "Ошибка",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Warning);
+                        MessageBox.Show($"⛔ Активных бронирований: {activeBookings}",
+                            "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
 
                     var result = MessageBox.Show(
-                        $"Удалить домик '{cabin.Name}'?",
-                        "Подтверждение",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Question);
+                        $"🗑️ Удалить '{cabin.Name}'?",
+                        "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                     if (result != MessageBoxResult.Yes) return;
 
@@ -241,13 +198,9 @@ namespace AgroCulture.ViewModels
             }
             catch (Exception ex)
             {
-                ShowNotificationEvent($"Ошибка: {ex.Message}", false);
+                ShowNotificationEvent($"❌ Ошибка: {ex.Message}", false);
             }
         }
-
-        // ════════════════════════════════════════════════════════════
-        // ВСПОМОГАТЕЛЬНЫЕ
-        // ════════════════════════════════════════════════════════════
 
         private void ShowNotificationEvent(string message, bool isSuccess)
         {
