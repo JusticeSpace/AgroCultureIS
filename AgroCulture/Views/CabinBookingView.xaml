@@ -151,7 +151,7 @@
                                                 <TextBlock VerticalAlignment="Center"
                                                           FontSize="14"
                                                           Foreground="#6B7280">
-                                                    <Run Text="{Binding Capacity, Mode=OneWay}"/>
+                                                    <Run Text="{Binding MaxGuests, Mode=OneWay}"/>
                                                     <Run Text="чел"/>
                                                 </TextBlock>
                                             </StackPanel>
@@ -321,7 +321,7 @@
                                               Foreground="#374151"/>
                                     <TextBlock FontSize="14" Foreground="#374151">
                                         <Run Text="Вместимость:"/>
-                                        <Run Text="{Binding SelectedCabin.Capacity, Mode=OneWay}"/>
+                                        <Run Text="{Binding SelectedCabin.MaxGuests, Mode=OneWay}"/>
                                         <Run Text="чел. •"/>
                                         <Run Text="{Binding SelectedCabin.PricePerNight, StringFormat='{}{0:N0}', Mode=OneWay}"/>
                                         <Run Text="₽/ночь"/>

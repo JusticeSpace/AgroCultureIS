@@ -9,6 +9,7 @@ namespace AgroCulture.ViewModels
 {
     public class CabinsManagementViewModel : BaseViewModel
     {
+        private ObservableCollection<Cabins> _allCabins;
         private ObservableCollection<Cabins> _cabinsList;
         public ObservableCollection<Cabins> CabinsList
         {
@@ -21,6 +22,54 @@ namespace AgroCulture.ViewModels
         {
             get => _totalCabins;
             set => SetProperty(ref _totalCabins, value);
+        }
+
+        private int _activeCabins;
+        public int ActiveCabins
+        {
+            get => _activeCabins;
+            set => SetProperty(ref _activeCabins, value);
+        }
+
+        private int _totalCapacity;
+        public int TotalCapacity
+        {
+            get => _totalCapacity;
+            set => SetProperty(ref _totalCapacity, value);
+        }
+
+        private decimal _averagePrice;
+        public decimal AveragePrice
+        {
+            get => _averagePrice;
+            set => SetProperty(ref _averagePrice, value);
+        }
+
+        private int _totalBookings;
+        public int TotalBookings
+        {
+            get => _totalBookings;
+            set => SetProperty(ref _totalBookings, value);
+        }
+
+        private decimal _totalRevenue;
+        public decimal TotalRevenue
+        {
+            get => _totalRevenue;
+            set => SetProperty(ref _totalRevenue, value);
+        }
+
+        private string _searchQuery;
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                if (SetProperty(ref _searchQuery, value))
+                {
+                    ApplySearch();
+                }
+            }
         }
 
         private string _newCabinName;
@@ -60,6 +109,7 @@ namespace AgroCulture.ViewModels
 
         public CabinsManagementViewModel()
         {
+            _allCabins = new ObservableCollection<Cabins>();
             CabinsList = new ObservableCollection<Cabins>();
 
             AddCabinCommand = new RelayCommand(_ => AddCabin());
@@ -85,13 +135,29 @@ namespace AgroCulture.ViewModels
                         .OrderBy(c => c.Name)
                         .ToList();
 
-                    CabinsList.Clear();
+                    _allCabins.Clear();
                     foreach (var cabin in cabins)
                     {
-                        CabinsList.Add(cabin);
+                        _allCabins.Add(cabin);
                     }
 
+                    // Базовая статистика
                     TotalCabins = cabins.Count;
+                    ActiveCabins = cabins.Count(c => c.IsActive);
+                    TotalCapacity = cabins.Sum(c => c.MaxGuests);
+                    AveragePrice = cabins.Any() ? cabins.Average(c => c.PricePerNight) : 0;
+
+                    // Статистика бронирований
+                    var bookings = context.Bookings
+                        .Where(b => b.Status == "active" || b.Status == "completed")
+                        .ToList();
+
+                    TotalBookings = bookings.Count;
+                    TotalRevenue = bookings
+                        .Where(b => b.Status == "completed")
+                        .Sum(b => (decimal?)b.TotalPrice) ?? 0;
+
+                    ApplySearch();
                 }
             }
             catch (Exception ex)
@@ -100,23 +166,50 @@ namespace AgroCulture.ViewModels
             }
         }
 
+        private void ApplySearch()
+        {
+            CabinsList.Clear();
+
+            var filtered = _allCabins.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                var query = SearchQuery.Trim().ToLower();
+                filtered = filtered.Where(c =>
+                    (c.Name != null && c.Name.ToLower().Contains(query)) ||
+                    (c.Description != null && c.Description.ToLower().Contains(query))
+                );
+            }
+
+            foreach (var cabin in filtered)
+            {
+                CabinsList.Add(cabin);
+            }
+        }
+
         private void AddCabin()
         {
-            if (string.IsNullOrWhiteSpace(NewCabinName))
+            // ✅ Валидация названия через ValidationService
+            var nameValidation = Services.ValidationService.ValidateCabinName(NewCabinName);
+            if (!nameValidation.isValid)
             {
-                ShowNotificationEvent("❌ Введите название", false);
+                ShowNotificationEvent(nameValidation.errorMessage, false);
                 return;
             }
 
-            if (NewCabinCapacity <= 0)
+            // ✅ Валидация вместимости через ValidationService
+            var capacityValidation = Services.ValidationService.ValidateCabinCapacity(NewCabinCapacity);
+            if (!capacityValidation.isValid)
             {
-                ShowNotificationEvent("❌ Вместимость > 0", false);
+                ShowNotificationEvent(capacityValidation.errorMessage, false);
                 return;
             }
 
-            if (NewCabinPrice <= 0)
+            // ✅ Валидация цены через ValidationService
+            var priceValidation = Services.ValidationService.ValidateCabinPrice(NewCabinPrice);
+            if (!priceValidation.isValid)
             {
-                ShowNotificationEvent("❌ Цена > 0", false);
+                ShowNotificationEvent(priceValidation.errorMessage, false);
                 return;
             }
 
@@ -128,12 +221,10 @@ namespace AgroCulture.ViewModels
                     {
                         Name = NewCabinName.Trim(),
                         Description = NewCabinDescription?.Trim() ?? "",
-                        Capacity = NewCabinCapacity,
+                        MaxGuests = NewCabinCapacity,
                         PricePerNight = NewCabinPrice,
                         ImageUrl = "",
-                        IsAvailable = true,
-                        IsActive = true,
-                        CreatedAt = DateTime.Now
+                        IsActive = true
                     };
 
                     context.Cabins.Add(cabin);

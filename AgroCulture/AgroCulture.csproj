@@ -162,6 +162,8 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToColorConverter.cs" />
+    <Compile Include="Converters\BoolToStatusConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\RowNumberConverter.cs" />
@@ -189,7 +191,9 @@
     <Compile Include="Services\Guests.cs" />
     <Compile Include="Services\NameParser.cs" />
     <Compile Include="Services\PasswordHasher.cs" />
+    <Compile Include="Services\PhoneValidator.cs" />
     <Compile Include="Services\Users.cs" />
+    <Compile Include="Services\ValidationService.cs" />
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

@@ -11,14 +11,14 @@ namespace AgroCulture
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class CabinsStatistics
     {
         public int CabinId { get; set; }
         public string Name { get; set; }
-        public int Capacity { get; set; }
+        public int MaxGuests { get; set; }
         public decimal PricePerNight { get; set; }
-        public bool IsAvailable { get; set; }
+        public bool IsActive { get; set; }
         public string Amenities { get; set; }
         public Nullable<int> TotalBookings { get; set; }
         public Nullable<int> ActiveBookings { get; set; }

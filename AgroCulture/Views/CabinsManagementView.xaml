@@ -178,6 +178,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <!-- HEADER -->
@@ -190,20 +191,48 @@
                         </Border.Background>
 
                         <Grid>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="HomeGroup" Width="24" Height="24" 
-                                                        Foreground="White" VerticalAlignment="Center"/>
-                                <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Text="Все домики" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
-                                    <TextBlock x:Name="TxtTotalInfo" Text="Загрузка..." FontSize="12" Foreground="#D1FAE5" Margin="0,4,0,0"/>
-                                </StackPanel>
-                            </StackPanel>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="16"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                            <Border Background="White" CornerRadius="12" Padding="12,6" 
-                                   HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding TotalCabins, StringFormat='{}Всего: {0}'}" 
-                                          FontSize="14" FontWeight="SemiBold" Foreground="#059669"/>
-                            </Border>
+                            <!-- Заголовок -->
+                            <Grid Grid.Row="0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="HomeGroup" Width="24" Height="24"
+                                                            Foreground="White" VerticalAlignment="Center"/>
+                                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Все домики" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
+                                        <TextBlock x:Name="TxtTotalInfo" Text="Загрузка..." FontSize="12" Foreground="#D1FAE5" Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <Border Background="White" CornerRadius="12" Padding="12,6"
+                                       HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding TotalCabins, StringFormat='{}Всего: {0}'}"
+                                              FontSize="14" FontWeight="SemiBold" Foreground="#059669"/>
+                                </Border>
+                            </Grid>
+
+                            <!-- Поиск -->
+                            <Grid Grid.Row="2">
+                                <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        materialDesign:HintAssist.Hint="🔍 Поиск по названию или описанию..."
+                                        Height="48"
+                                        Padding="44,0,12,0"
+                                        FontSize="14"
+                                        Background="White"
+                                        VerticalContentAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Magnify"
+                                                        Width="20" Height="20"
+                                                        Foreground="#9CA3AF"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left"
+                                                        Margin="12,0,0,0"
+                                                        IsHitTestVisible="False"/>
+                            </Grid>
                         </Grid>
                     </Border>
 
@@ -260,7 +289,7 @@
                             <!-- Вместимость -->
                             <DataGridTextColumn Header="👥 Место" Width="90">
                                 <DataGridTextColumn.Binding>
-                                    <Binding Path="Capacity" StringFormat="{}{0} чел"/>
+                                    <Binding Path="MaxGuests" StringFormat="{}{0} чел"/>
                                 </DataGridTextColumn.Binding>
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -328,6 +357,96 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+
+                    <!-- ════════════════════════════════════════════════════════════ -->
+                    <!-- СТАТИСТИКА -->
+                    <!-- ════════════════════════════════════════════════════════════ -->
+                    <Border Grid.Row="2" Background="#F9FAFB" BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" CornerRadius="0,0,12,12" Padding="28,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Активных домиков -->
+                            <Border Grid.Column="0" Background="White" CornerRadius="12" Padding="16" Margin="0,0,8,0">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="0.08" Color="Black"/>
+                                </Border.Effect>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="HomeCheck" Width="24" Height="24" Foreground="#10B981" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Активных" FontSize="12" Foreground="#6B7280" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding ActiveCabins}" FontSize="28" FontWeight="Bold" Foreground="#059669" Margin="0,8,0,0"/>
+                                    <TextBlock Text="домиков" FontSize="11" Foreground="#9CA3AF"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Общая вместимость -->
+                            <Border Grid.Column="1" Background="White" CornerRadius="12" Padding="16" Margin="0,0,8,0">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="0.08" Color="Black"/>
+                                </Border.Effect>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="AccountGroup" Width="24" Height="24" Foreground="#3B82F6" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Вместимость" FontSize="12" Foreground="#6B7280" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding TotalCapacity}" FontSize="28" FontWeight="Bold" Foreground="#2563EB" Margin="0,8,0,0"/>
+                                    <TextBlock Text="человек" FontSize="11" Foreground="#9CA3AF"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Средняя цена -->
+                            <Border Grid.Column="2" Background="White" CornerRadius="12" Padding="16" Margin="0,0,8,0">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="0.08" Color="Black"/>
+                                </Border.Effect>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CurrencyRub" Width="24" Height="24" Foreground="#F59E0B" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Ср. цена" FontSize="12" Foreground="#6B7280" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding AveragePrice, StringFormat='{}{0:N0}'}" FontSize="28" FontWeight="Bold" Foreground="#D97706" Margin="0,8,0,0"/>
+                                    <TextBlock Text="₽ / ночь" FontSize="11" Foreground="#9CA3AF"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Бронирований -->
+                            <Border Grid.Column="3" Background="White" CornerRadius="12" Padding="16" Margin="0,0,8,0">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="0.08" Color="Black"/>
+                                </Border.Effect>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CalendarCheck" Width="24" Height="24" Foreground="#8B5CF6" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Бронирований" FontSize="12" Foreground="#6B7280" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding TotalBookings}" FontSize="28" FontWeight="Bold" Foreground="#7C3AED" Margin="0,8,0,0"/>
+                                    <TextBlock Text="всего" FontSize="11" Foreground="#9CA3AF"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Выручка -->
+                            <Border Grid.Column="4" Background="White" CornerRadius="12" Padding="16">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="0.08" Color="Black"/>
+                                </Border.Effect>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CashMultiple" Width="24" Height="24" Foreground="#EF4444" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Выручка" FontSize="12" Foreground="#6B7280" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding TotalRevenue, StringFormat='{}{0:N0}'}" FontSize="28" FontWeight="Bold" Foreground="#DC2626" Margin="0,8,0,0"/>
+                                    <TextBlock Text="₽" FontSize="11" Foreground="#9CA3AF"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
                 </Grid>
             </materialDesign:Card>
         </Grid>

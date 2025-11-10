@@ -43,11 +43,9 @@
           <Property Name="CabinId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
-          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="MaxGuests" Type="int" Nullable="false" />
           <Property Name="PricePerNight" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
-          <Property Name="IsAvailable" Type="bit" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Guests">
@@ -102,7 +100,6 @@
             <PropertyRef Name="CabinId" />
             <PropertyRef Name="CabinName" />
             <PropertyRef Name="PricePerNight" />
-            <PropertyRef Name="Capacity" />
             <PropertyRef Name="GuestId" />
             <PropertyRef Name="GuestSurname" />
             <PropertyRef Name="GuestFirstName" />
@@ -121,7 +118,6 @@
           <Property Name="CabinId" Type="int" Nullable="false" />
           <Property Name="CabinName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PricePerNight" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="Capacity" Type="int" Nullable="false" />
           <Property Name="GuestId" Type="int" Nullable="false" />
           <Property Name="GuestSurname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="GuestFirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -141,15 +137,15 @@
           <Key>
             <PropertyRef Name="CabinId" />
             <PropertyRef Name="Name" />
-            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="MaxGuests" />
             <PropertyRef Name="PricePerNight" />
-            <PropertyRef Name="IsAvailable" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="CabinId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="MaxGuests" Type="int" Nullable="false" />
           <Property Name="PricePerNight" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="Amenities" Type="nvarchar" MaxLength="4000" />
           <Property Name="TotalBookings" Type="int" />
           <Property Name="ActiveBookings" Type="int" />
@@ -163,19 +159,18 @@
           <Key>
             <PropertyRef Name="CabinId" />
             <PropertyRef Name="Name" />
-            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="MaxGuests" />
             <PropertyRef Name="PricePerNight" />
-            <PropertyRef Name="IsAvailable" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="CabinId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
-          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="MaxGuests" Type="int" Nullable="false" />
           <Property Name="PricePerNight" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
-          <Property Name="IsAvailable" Type="bit" Nullable="false" />
-          <Property Name="AmenitiesList" Type="nvarchar" MaxLength="4000" />
-          <Property Name="AmenitiesIcons" Type="nvarchar" MaxLength="4000" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Amenities" Type="nvarchar" MaxLength="4000" />
         </EntityType>
         <Association Name="FK__CabinAmen__Ameni__5165187F">
           <End Role="Amenities" Type="Self.Amenities" Multiplicity="1">
@@ -336,31 +331,30 @@
     FROM [dbo].[BookingsDetails] AS [BookingsDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="CabinsStatistics" EntityType="Self.CabinsStatistics" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CabinsStatistics].[CabinId] AS [CabinId], 
-    [CabinsStatistics].[Name] AS [Name], 
-    [CabinsStatistics].[Capacity] AS [Capacity], 
-    [CabinsStatistics].[PricePerNight] AS [PricePerNight], 
-    [CabinsStatistics].[IsAvailable] AS [IsAvailable], 
-    [CabinsStatistics].[Amenities] AS [Amenities], 
-    [CabinsStatistics].[TotalBookings] AS [TotalBookings], 
-    [CabinsStatistics].[ActiveBookings] AS [ActiveBookings], 
-    [CabinsStatistics].[CompletedBookings] AS [CompletedBookings], 
-    [CabinsStatistics].[TotalRevenue] AS [TotalRevenue], 
+            <DefiningQuery>SELECT
+    [CabinsStatistics].[CabinId] AS [CabinId],
+    [CabinsStatistics].[Name] AS [Name],
+    [CabinsStatistics].[MaxGuests] AS [MaxGuests],
+    [CabinsStatistics].[PricePerNight] AS [PricePerNight],
+    [CabinsStatistics].[IsActive] AS [IsActive],
+    [CabinsStatistics].[Amenities] AS [Amenities],
+    [CabinsStatistics].[TotalBookings] AS [TotalBookings],
+    [CabinsStatistics].[ActiveBookings] AS [ActiveBookings],
+    [CabinsStatistics].[CompletedBookings] AS [CompletedBookings],
+    [CabinsStatistics].[TotalRevenue] AS [TotalRevenue],
     [CabinsStatistics].[TotalNightsBooked] AS [TotalNightsBooked]
     FROM [dbo].[CabinsStatistics] AS [CabinsStatistics]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="CabinsWithAmenities" EntityType="Self.CabinsWithAmenities" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CabinsWithAmenities].[CabinId] AS [CabinId], 
-    [CabinsWithAmenities].[Name] AS [Name], 
-    [CabinsWithAmenities].[Description] AS [Description], 
-    [CabinsWithAmenities].[Capacity] AS [Capacity], 
-    [CabinsWithAmenities].[PricePerNight] AS [PricePerNight], 
-    [CabinsWithAmenities].[ImageUrl] AS [ImageUrl], 
-    [CabinsWithAmenities].[IsAvailable] AS [IsAvailable], 
-    [CabinsWithAmenities].[AmenitiesList] AS [AmenitiesList], 
-    [CabinsWithAmenities].[AmenitiesIcons] AS [AmenitiesIcons]
+            <DefiningQuery>SELECT
+    [CabinsWithAmenities].[CabinId] AS [CabinId],
+    [CabinsWithAmenities].[Name] AS [Name],
+    [CabinsWithAmenities].[Description] AS [Description],
+    [CabinsWithAmenities].[MaxGuests] AS [MaxGuests],
+    [CabinsWithAmenities].[PricePerNight] AS [PricePerNight],
+    [CabinsWithAmenities].[ImageUrl] AS [ImageUrl],
+    [CabinsWithAmenities].[IsActive] AS [IsActive],
+    [CabinsWithAmenities].[Amenities] AS [Amenities]
     FROM [dbo].[CabinsWithAmenities] AS [CabinsWithAmenities]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__CabinAmen__Ameni__5165187F" Association="Self.FK__CabinAmen__Ameni__5165187F">
@@ -443,15 +437,12 @@
           <Property Name="CabinId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="MaxGuests" Type="Int32" Nullable="false" />
           <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Bookings" Relationship="Self.FK_Bookings_Cabins" FromRole="Cabins" ToRole="Bookings" />
           <NavigationProperty Name="CabinAmenities" Relationship="Self.FK__CabinAmen__Cabin__52593CB8" FromRole="Cabins" ToRole="CabinAmenities" />
-          <NavigationProperty Name="CabinAmenities1" Relationship="Self.FK_CabinAmenities_Cabins" FromRole="Cabins" ToRole="CabinAmenities" />
         </EntityType>
         <EntityType Name="Guests">
           <Key>
@@ -505,7 +496,6 @@
             <PropertyRef Name="CabinId" />
             <PropertyRef Name="CabinName" />
             <PropertyRef Name="PricePerNight" />
-            <PropertyRef Name="Capacity" />
             <PropertyRef Name="GuestId" />
             <PropertyRef Name="GuestSurname" />
             <PropertyRef Name="GuestFirstName" />
@@ -524,7 +514,6 @@
           <Property Name="CabinId" Type="Int32" Nullable="false" />
           <Property Name="CabinName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="Capacity" Type="Int32" Nullable="false" />
           <Property Name="GuestId" Type="Int32" Nullable="false" />
           <Property Name="GuestSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="GuestFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -542,15 +531,15 @@
           <Key>
             <PropertyRef Name="CabinId" />
             <PropertyRef Name="Name" />
-            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="MaxGuests" />
             <PropertyRef Name="PricePerNight" />
-            <PropertyRef Name="IsAvailable" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="CabinId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="MaxGuests" Type="Int32" Nullable="false" />
           <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="Amenities" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="TotalBookings" Type="Int32" />
           <Property Name="ActiveBookings" Type="Int32" />
@@ -562,19 +551,18 @@
           <Key>
             <PropertyRef Name="CabinId" />
             <PropertyRef Name="Name" />
-            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="MaxGuests" />
             <PropertyRef Name="PricePerNight" />
-            <PropertyRef Name="IsAvailable" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="CabinId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="MaxGuests" Type="Int32" Nullable="false" />
           <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
-          <Property Name="AmenitiesList" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="AmenitiesIcons" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Amenities" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__CabinAmen__Ameni__5165187F">
           <End Role="Amenities" Type="Self.Amenities" Multiplicity="1">
@@ -794,11 +782,9 @@
                 <ScalarProperty Name="CabinId" ColumnName="CabinId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="MaxGuests" ColumnName="MaxGuests" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -857,7 +843,6 @@
                 <ScalarProperty Name="CabinId" ColumnName="CabinId" />
                 <ScalarProperty Name="CabinName" ColumnName="CabinName" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
                 <ScalarProperty Name="GuestId" ColumnName="GuestId" />
                 <ScalarProperty Name="GuestSurname" ColumnName="GuestSurname" />
                 <ScalarProperty Name="GuestFirstName" ColumnName="GuestFirstName" />
@@ -878,9 +863,9 @@
               <MappingFragment StoreEntitySet="CabinsStatistics">
                 <ScalarProperty Name="CabinId" ColumnName="CabinId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="MaxGuests" ColumnName="MaxGuests" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Amenities" ColumnName="Amenities" />
                 <ScalarProperty Name="TotalBookings" ColumnName="TotalBookings" />
                 <ScalarProperty Name="ActiveBookings" ColumnName="ActiveBookings" />
@@ -896,12 +881,11 @@
                 <ScalarProperty Name="CabinId" ColumnName="CabinId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="MaxGuests" ColumnName="MaxGuests" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="AmenitiesList" ColumnName="AmenitiesList" />
-                <ScalarProperty Name="AmenitiesIcons" ColumnName="AmenitiesIcons" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Amenities" ColumnName="Amenities" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

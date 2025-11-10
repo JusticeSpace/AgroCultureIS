@@ -20,6 +20,10 @@ namespace AgroCulture
         public MainWindow()
         {
             InitializeComponent();
+
+            // Устанавливаем DataContext для биндингов
+            DataContext = this;
+
             Loaded += MainWindow_Loaded;
         }
 
@@ -86,7 +90,7 @@ namespace AgroCulture
                     CabinsTabButton.Visibility = Visibility.Collapsed;
                     StaffTabButton.Visibility = Visibility.Collapsed;
                     BookingTabButton.Visibility = Visibility.Visible;      // 1️⃣ Каталог
-                    ListTabButton.Visibility = Visibility.Visible;         // 2️⃣ Список
+                    ListTabButton.Visibility = Visibility.Collapsed;       // ❌ Гость НЕ видит список
                     ProfileButton.Visibility = Visibility.Collapsed;
                     UserNameCard.Visibility = Visibility.Collapsed;
 
@@ -221,6 +225,18 @@ namespace AgroCulture
             UserRoleText.Text = roleText;
             UserRoleBadge.Background = new SolidColorBrush(roleBgColor);
             UserRoleText.Foreground = new SolidColorBrush(roleFgColor);
+        }
+
+        /// <summary>
+        /// Обновление отображения данных пользователя (вызывается из ProfilePage)
+        /// </summary>
+        public void UpdateUserDisplay()
+        {
+            if (App.CurrentUser != null)
+            {
+                UserNameText.Text = App.CurrentUser.FullName;
+                System.Diagnostics.Debug.WriteLine($"[MAIN] Обновлено отображение пользователя: {App.CurrentUser.FullName}");
+            }
         }
 
         private string GetRoleDisplayName(string role)

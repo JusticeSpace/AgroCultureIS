@@ -49,7 +49,7 @@ namespace AgroCulture.Views
 
                     TxtName.Text = cabin.Name;
                     TxtDescription.Text = cabin.Description ?? "";
-                    TxtCapacity.Text = cabin.Capacity.ToString();
+                    TxtCapacity.Text = cabin.MaxGuests.ToString();
                     TxtPrice.Text = cabin.PricePerNight.ToString();
                     CmbStatus.SelectedIndex = cabin.IsActive ? 0 : 1;
 
@@ -87,25 +87,49 @@ namespace AgroCulture.Views
 
         private bool ValidateForm()
         {
-            if (string.IsNullOrWhiteSpace(TxtName.Text))
+            // ✅ Валидация названия через ValidationService
+            var nameValidation = Services.ValidationService.ValidateCabinName(TxtName.Text);
+            if (!nameValidation.isValid)
             {
-                MessageBox.Show("Введите название домика", "Ошибка",
+                MessageBox.Show(nameValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtName.Focus();
                 return false;
             }
 
-            if (!int.TryParse(TxtCapacity.Text, out int capacity) || capacity <= 0)
+            // ✅ Парсинг и валидация вместимости
+            var capacityParse = Services.ValidationService.TryParseInt(TxtCapacity.Text, "Вместимость");
+            if (!capacityParse.success)
             {
-                MessageBox.Show("Вместимость должна быть > 0", "Ошибка",
+                MessageBox.Show(capacityParse.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtCapacity.Focus();
                 return false;
             }
 
-            if (!decimal.TryParse(TxtPrice.Text, out decimal price) || price <= 0)
+            var capacityValidation = Services.ValidationService.ValidateCabinCapacity(capacityParse.value);
+            if (!capacityValidation.isValid)
             {
-                MessageBox.Show("Цена должна быть > 0", "Ошибка",
+                MessageBox.Show(capacityValidation.errorMessage, "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtCapacity.Focus();
+                return false;
+            }
+
+            // ✅ Парсинг и валидация цены
+            var priceParse = Services.ValidationService.TryParseDecimal(TxtPrice.Text, "Цена");
+            if (!priceParse.success)
+            {
+                MessageBox.Show(priceParse.errorMessage, "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtPrice.Focus();
+                return false;
+            }
+
+            var priceValidation = Services.ValidationService.ValidateCabinPrice(priceParse.value);
+            if (!priceValidation.isValid)
+            {
+                MessageBox.Show(priceValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtPrice.Focus();
                 return false;
@@ -133,7 +157,7 @@ namespace AgroCulture.Views
 
                     cabin.Name = TxtName.Text.Trim();
                     cabin.Description = TxtDescription.Text.Trim();
-                    cabin.Capacity = int.Parse(TxtCapacity.Text);
+                    cabin.MaxGuests = int.Parse(TxtCapacity.Text);
                     cabin.PricePerNight = decimal.Parse(TxtPrice.Text);
                     cabin.IsActive = CmbStatus.SelectedIndex == 0;
 

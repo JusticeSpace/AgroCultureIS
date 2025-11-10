@@ -192,44 +192,76 @@ namespace AgroCulture.ViewModels
         {
             System.Diagnostics.Debug.WriteLine("[STAFF VM] Попытка добавить сотрудника...");
 
-            // Валидация
+            // Валидация роли
             if (string.IsNullOrWhiteSpace(SelectedRole))
             {
-                ShowNotificationEvent("Выберите роль", false);
+                ShowNotificationEvent("❌ Выберите роль", false);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewLogin))
+            // ✅ Валидация логина через ValidationService
+            var usernameValidation = Services.ValidationService.ValidateUsername(NewLogin);
+            if (!usernameValidation.isValid)
             {
-                ShowNotificationEvent("Введите логин", false);
+                ShowNotificationEvent(usernameValidation.errorMessage, false);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewSurname))
+            // ✅ Валидация ФИО
+            var surnameValidation = Services.ValidationService.ValidateName(NewSurname, "Фамилия");
+            if (!surnameValidation.isValid)
             {
-                ShowNotificationEvent("Введите фамилию", false);
+                ShowNotificationEvent(surnameValidation.errorMessage, false);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewFirstName))
+            var firstNameValidation = Services.ValidationService.ValidateName(NewFirstName, "Имя");
+            if (!firstNameValidation.isValid)
             {
-                ShowNotificationEvent("Введите имя", false);
+                ShowNotificationEvent(firstNameValidation.errorMessage, false);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewPassword) || NewPassword.Length < 4)
+            // Отчество опционально, но если заполнено - валидируем
+            if (!string.IsNullOrWhiteSpace(NewMiddleName))
             {
-                ShowNotificationEvent("Пароль должен содержать минимум 4 символа", false);
-                return;
+                var middleNameValidation = Services.ValidationService.ValidateName(NewMiddleName, "Отчество");
+                if (!middleNameValidation.isValid)
+                {
+                    ShowNotificationEvent(middleNameValidation.errorMessage, false);
+                    return;
+                }
             }
 
-            // ✅ НОВОЕ: Опциональная валидация Email
-            if (!string.IsNullOrWhiteSpace(NewEmail) && !IsValidEmail(NewEmail))
+            // ✅ Валидация пароля через ValidationService
+            var passwordValidation = Services.ValidationService.ValidatePassword(NewPassword);
+            if (!passwordValidation.isValid)
             {
-                ShowNotificationEvent("Некорректный формат Email", false);
+                ShowNotificationEvent(passwordValidation.errorMessage, false);
                 return;
             }
 
+            // ✅ Валидация Email (опционально)
+            if (!string.IsNullOrWhiteSpace(NewEmail))
+            {
+                var emailValidation = Services.ValidationService.ValidateEmail(NewEmail);
+                if (!emailValidation.isValid)
+                {
+                    ShowNotificationEvent(emailValidation.errorMessage, false);
+                    return;
+                }
+            }
+
+            // ✅ Валидация телефона (опционально)
+            if (!string.IsNullOrWhiteSpace(NewPhone))
+            {
+                var phoneValidation = Services.ValidationService.ValidatePhone(NewPhone);
+                if (!phoneValidation.isValid)
+                {
+                    ShowNotificationEvent(phoneValidation.errorMessage, false);
+                    return;
+                }
+            }
 
             try
             {
@@ -245,7 +277,7 @@ namespace AgroCulture.ViewModels
                     var newUser = new Users
                     {
                         Username = NewLogin.Trim(),
-                        PasswordHash = NewPassword,
+                        PasswordHash = Services.PasswordHasher.HashPassword(NewPassword),
                         Role = SelectedRole,
                         Surname = NewSurname.Trim(),
                         FirstName = NewFirstName.Trim(),
@@ -399,20 +431,6 @@ namespace AgroCulture.ViewModels
         {
             System.Diagnostics.Debug.WriteLine($"[STAFF VM] Уведомление: {message}");
             ShowNotification?.Invoke(message, isSuccess);
-        }
-
-        // ✅ НОВОЕ: Валидация Email
-        private bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

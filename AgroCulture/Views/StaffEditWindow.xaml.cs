@@ -73,43 +73,79 @@ namespace AgroCulture.Views
         {
             if (CmbRole.SelectedItem == null)
             {
-                MessageBox.Show("Выберите роль", "Ошибка",
+                MessageBox.Show("❌ Выберите роль", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 CmbRole.Focus();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(TxtUsername.Text))
+            // ✅ Валидация логина через ValidationService
+            var usernameValidation = Services.ValidationService.ValidateUsername(TxtUsername.Text);
+            if (!usernameValidation.isValid)
             {
-                MessageBox.Show("Введите логин", "Ошибка",
+                MessageBox.Show(usernameValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtUsername.Focus();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(TxtSurname.Text))
+            // ✅ Валидация фамилии через ValidationService
+            var surnameValidation = Services.ValidationService.ValidateName(TxtSurname.Text, "Фамилия");
+            if (!surnameValidation.isValid)
             {
-                MessageBox.Show("Введите фамилию", "Ошибка",
+                MessageBox.Show(surnameValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtSurname.Focus();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(TxtFirstName.Text))
+            // ✅ Валидация имени через ValidationService
+            var firstNameValidation = Services.ValidationService.ValidateName(TxtFirstName.Text, "Имя");
+            if (!firstNameValidation.isValid)
             {
-                MessageBox.Show("Введите имя", "Ошибка",
+                MessageBox.Show(firstNameValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtFirstName.Focus();
                 return false;
             }
 
-            // ✅ НОВОЕ: Валидация Email если заполнен
-            if (!string.IsNullOrWhiteSpace(TxtEmail.Text) && !IsValidEmail(TxtEmail.Text))
+            // ✅ Валидация отчества (опционально)
+            if (!string.IsNullOrWhiteSpace(TxtMiddleName.Text))
             {
-                MessageBox.Show("Некорректный формат Email", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                TxtEmail.Focus();
-                return false;
+                var middleNameValidation = Services.ValidationService.ValidateName(TxtMiddleName.Text, "Отчество");
+                if (!middleNameValidation.isValid)
+                {
+                    MessageBox.Show(middleNameValidation.errorMessage, "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TxtMiddleName.Focus();
+                    return false;
+                }
+            }
+
+            // ✅ Валидация Email через ValidationService (если заполнен)
+            if (!string.IsNullOrWhiteSpace(TxtEmail.Text))
+            {
+                var emailValidation = Services.ValidationService.ValidateEmail(TxtEmail.Text);
+                if (!emailValidation.isValid)
+                {
+                    MessageBox.Show(emailValidation.errorMessage, "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TxtEmail.Focus();
+                    return false;
+                }
+            }
+
+            // ✅ Валидация телефона через ValidationService (если заполнен)
+            if (!string.IsNullOrWhiteSpace(TxtPhone.Text))
+            {
+                var phoneValidation = Services.ValidationService.ValidatePhone(TxtPhone.Text);
+                if (!phoneValidation.isValid)
+                {
+                    MessageBox.Show(phoneValidation.errorMessage, "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TxtPhone.Focus();
+                    return false;
+                }
             }
 
             return true;
@@ -180,20 +216,6 @@ namespace AgroCulture.Views
         {
             DialogResultSuccess = false;
             this.Close();
-        }
-
-        // ✅ НОВОЕ: Валидация Email
-        private bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

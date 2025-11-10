@@ -71,9 +71,10 @@ namespace AgroCulture.Views
             }
 
             // Аватар
-            TxtAvatarInitial.Text = string.IsNullOrWhiteSpace(_currentUser.Surname)
-                    ? "?"   
-                    : _currentUser.Surname.Trim().Substring(0, 1).ToUpper();  // ← Trim() перед Substring()
+            string trimmedSurname = _currentUser.Surname?.Trim() ?? "";
+            TxtAvatarInitial.Text = string.IsNullOrWhiteSpace(trimmedSurname) || trimmedSurname.Length == 0
+                    ? "?"
+                    : trimmedSurname.Substring(0, 1).ToUpper();
         }
 
         private string GetRoleDisplayName(string role)
@@ -170,21 +171,37 @@ namespace AgroCulture.Views
             string firstName = TxtFirstNameEdit.Text.Trim();
             string middleName = TxtMiddleNameEdit.Text.Trim();
 
-            // Валидация
-            if (string.IsNullOrWhiteSpace(surname))
+            // ✅ Валидация фамилии через ValidationService
+            var surnameValidation = Services.ValidationService.ValidateName(surname, "Фамилия");
+            if (!surnameValidation.isValid)
             {
-                MessageBox.Show("Фамилия не может быть пустой", "Ошибка",
+                MessageBox.Show(surnameValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtSurnameEdit.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(firstName))
+            // ✅ Валидация имени через ValidationService
+            var firstNameValidation = Services.ValidationService.ValidateName(firstName, "Имя");
+            if (!firstNameValidation.isValid)
             {
-                MessageBox.Show("Имя не может быть пустым", "Ошибка",
+                MessageBox.Show(firstNameValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtFirstNameEdit.Focus();
                 return;
+            }
+
+            // ✅ Валидация отчества (опционально)
+            if (!string.IsNullOrWhiteSpace(middleName))
+            {
+                var middleNameValidation = Services.ValidationService.ValidateName(middleName, "Отчество");
+                if (!middleNameValidation.isValid)
+                {
+                    MessageBox.Show(middleNameValidation.errorMessage, "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TxtMiddleNameEdit.Focus();
+                    return;
+                }
             }
 
             try
@@ -215,7 +232,9 @@ namespace AgroCulture.Views
                         TxtFirstNameView.Text = firstName;
                         TxtMiddleNameView.Text = middleName;
                         TxtUserFullName.Text = user.FullName;
-                        TxtAvatarInitial.Text = surname.Substring(0, 1).ToUpper();
+                        TxtAvatarInitial.Text = !string.IsNullOrWhiteSpace(surname) && surname.Length > 0
+                            ? surname.Substring(0, 1).ToUpper()
+                            : "?";
 
                         // Возвращаем в режим просмотра
                         GridViewFullName.Visibility = Visibility.Visible;
@@ -263,6 +282,19 @@ namespace AgroCulture.Views
         private void BtnSavePhone_Click(object sender, RoutedEventArgs e)
         {
             string newPhone = TxtPhoneEdit.Text.Trim();
+
+            // ✅ Валидация телефона через ValidationService (если не пустой)
+            if (!string.IsNullOrWhiteSpace(newPhone))
+            {
+                var phoneValidation = Services.ValidationService.ValidatePhone(newPhone);
+                if (!phoneValidation.isValid)
+                {
+                    MessageBox.Show(phoneValidation.errorMessage, "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TxtPhoneEdit.Focus();
+                    return;
+                }
+            }
 
             try
             {
@@ -320,6 +352,19 @@ namespace AgroCulture.Views
         {
             string newEmail = TxtEmailEdit.Text.Trim();
 
+            // ✅ Валидация email через ValidationService (если не пустой)
+            if (!string.IsNullOrWhiteSpace(newEmail))
+            {
+                var emailValidation = Services.ValidationService.ValidateEmail(newEmail);
+                if (!emailValidation.isValid)
+                {
+                    MessageBox.Show(emailValidation.errorMessage, "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TxtEmailEdit.Focus();
+                    return;
+                }
+            }
+
             try
             {
                 using (var context = new AgroCultureEntities())
@@ -376,22 +421,27 @@ namespace AgroCulture.Views
 
             if (string.IsNullOrWhiteSpace(currentPassword))
             {
-                MessageBox.Show("Введите текущий пароль", "Ошибка",
+                MessageBox.Show("❌ Введите текущий пароль", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtCurrentPassword.Focus();
                 return;
             }
 
-            if (newPassword.Length < 4)
+            // ✅ Валидация нового пароля через ValidationService
+            var passwordValidation = Services.ValidationService.ValidatePassword(newPassword);
+            if (!passwordValidation.isValid)
             {
-                MessageBox.Show("Новый пароль должен содержать минимум 4 символа", "Ошибка",
+                MessageBox.Show(passwordValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtNewPassword.Focus();
                 return;
             }
 
             if (newPassword != confirmPassword)
             {
-                MessageBox.Show("Пароли не совпадают", "Ошибка",
+                MessageBox.Show("❌ Пароли не совпадают", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtConfirmPassword.Focus();
                 return;
             }
 
@@ -408,14 +458,14 @@ namespace AgroCulture.Views
                         return;
                     }
 
-                    if (user.PasswordHash != currentPassword)
+                    if (!Services.PasswordHasher.VerifyPassword(currentPassword, user.PasswordHash))
                     {
                         MessageBox.Show("Неверный текущий пароль", "Ошибка",
                             MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
-                    user.PasswordHash = newPassword;
+                    user.PasswordHash = Services.PasswordHasher.HashPassword(newPassword);
                     context.SaveChanges();
 
                     TxtCurrentPassword.Clear();

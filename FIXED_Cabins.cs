@@ -11,7 +11,7 @@ namespace AgroCulture
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Cabins
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace AgroCulture
             this.Bookings = new HashSet<Bookings>();
             this.CabinAmenities = new HashSet<CabinAmenities>();
         }
-    
+
         public int CabinId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -28,7 +28,7 @@ namespace AgroCulture
         public decimal PricePerNight { get; set; }
         public string ImageUrl { get; set; }
         public bool IsActive { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bookings> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
