@@ -24,7 +24,7 @@ namespace AgroCulture
         public int CabinId { get; set; }
         public string CabinName { get; set; }
         public decimal PricePerNight { get; set; }
-        public int Capacity { get; set; }
+        public int MaxGuests { get; set; }
         public int GuestId { get; set; }
         public string GuestSurname { get; set; }
         public string GuestFirstName { get; set; }
