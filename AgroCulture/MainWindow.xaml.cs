@@ -90,7 +90,7 @@ namespace AgroCulture
                     CabinsTabButton.Visibility = Visibility.Collapsed;
                     StaffTabButton.Visibility = Visibility.Collapsed;
                     BookingTabButton.Visibility = Visibility.Visible;      // 1️⃣ Каталог
-                    ListTabButton.Visibility = Visibility.Visible;         // 2️⃣ Список
+                    ListTabButton.Visibility = Visibility.Collapsed;       // ❌ Гость НЕ видит список
                     ProfileButton.Visibility = Visibility.Collapsed;
                     UserNameCard.Visibility = Visibility.Collapsed;
 
