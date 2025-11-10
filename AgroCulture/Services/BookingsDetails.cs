@@ -4,32 +4,31 @@ namespace AgroCulture
 {
     /// <summary>
     /// Partial класс для View BookingsDetails
+    /// ✅ Правильная обработка ФИО
     /// </summary>
     public partial class BookingsDetails
     {
         /// <summary>
-        /// Имя гостя (для обратной совместимости)
+        /// Имя гостя - использует NameParser для правильной сборки
         /// </summary>
         [NotMapped]
         public string GuestName
         {
             get
             {
-                // Если есть GuestFullName из View - используем его
+                // Приоритет 1: Если есть GuestFullName из View
                 if (!string.IsNullOrEmpty(GuestFullName))
                 {
                     return GuestFullName;
                 }
 
-                // Fallback - собираем из частей
-                if (!string.IsNullOrEmpty(GuestSurname) &&
-                    !string.IsNullOrEmpty(GuestFirstName) &&
-                    !string.IsNullOrEmpty(GuestMiddleName))
-                {
-                    return $"{GuestSurname} {GuestFirstName} {GuestMiddleName}".Trim();
-                }
+                // Приоритет 2: Собираем из частей (поддерживаем неполные ФИО)
+                string builtName = AgroCulture.Services.NameParser.Compose(
+                    GuestSurname ?? "",
+                    GuestFirstName ?? "",
+                    GuestMiddleName ?? "");
 
-                return "Не указано";
+                return !string.IsNullOrEmpty(builtName) ? builtName : "Не указано";
             }
         }
     }

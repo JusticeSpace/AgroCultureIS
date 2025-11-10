@@ -355,6 +355,13 @@
                                         Text="{Binding GuestPhone, UpdateSourceTrigger=PropertyChanged}"
                                         Height="48" 
                                         Margin="0,0,0,16"/>
+                                <!-- ✅ НОВОЕ: Email (опционально) -->
+                                <TextBlock Text="Email (опционально)" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
+                                <TextBox x:Name="TxtGuestEmail"
+    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+    materialDesign:HintAssist.Hint="gost@example.com"
+    Text="{Binding GuestEmail, UpdateSourceTrigger=PropertyChanged}"
+    Height="48" Margin="0,0,0,16"/>
                             </StackPanel>
 
                             <!-- 5. Даты заезда/выезда (ВИДНО ВСЕМ) -->

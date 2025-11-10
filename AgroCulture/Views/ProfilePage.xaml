@@ -398,7 +398,7 @@
                                         IsReadOnly="True" 
                                         Background="#F9FAFB" 
                                         Height="56"
-                                        Padding="16,0"
+                                        Padding="10,0"
                                         VerticalContentAlignment="Center"
                                         FontSize="14"
                                         Visibility="Visible"/>

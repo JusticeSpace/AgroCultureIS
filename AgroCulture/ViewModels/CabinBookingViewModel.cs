@@ -50,6 +50,14 @@ namespace AgroCulture.ViewModels
             set => SetProperty(ref _guestPhone, value);
         }
 
+        // ✅ НОВОЕ: Email гостя
+        private string _guestEmail;
+        public string GuestEmail
+        {
+            get => _guestEmail;
+            set => SetProperty(ref _guestEmail, value);
+        }
+
         private DateTime? _checkInDate;
         public DateTime? CheckInDate
         {
@@ -62,6 +70,8 @@ namespace AgroCulture.ViewModels
                 }
             }
         }
+
+        private bool _isCreatingBooking = false;
 
         private DateTime? _checkOutDate;
         public DateTime? CheckOutDate
@@ -270,10 +280,17 @@ namespace AgroCulture.ViewModels
 
         private void CreateBooking()
         {
+            if (_isCreatingBooking)
+            {
+                ShowNotification?.Invoke("⏳ Бронирование уже создается...", false);
+                return;
+            }
+
             if (IsGuestMode)
             {
                 MessageBox.Show(
-                    "В гостевом режиме создание бронирований недоступно.\n\nОбратитесь к администратору или менеджеру.",
+                    "В гостевом режиме создание бронирований недоступно.\n\n" +
+                    "Обратитесь к администратору или менеджеру.",
                     "Доступ ограничен",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -311,26 +328,38 @@ namespace AgroCulture.ViewModels
                     }
 
                     int currentUserId = App.CurrentUser.UserId;
+                    DateTime checkIn = CheckInDate.Value;
+                    DateTime checkOut = CheckOutDate.Value;
 
-                    // ─────────────────────────────────────────────────────
-                    // ШАГ 1: Создать/найти гостя
-                    // ─────────────────────────────────────────────────────
                     System.Diagnostics.Debug.WriteLine($"[BOOKING] Поиск гостя: {GuestPhone}");
 
+                    // ✅ ШАГ 1: Создать/найти гостя с правильным парсингом ФИО
                     var guest = context.Guests.FirstOrDefault(g => g.Phone == GuestPhone.Trim());
 
                     if (guest == null)
                     {
                         System.Diagnostics.Debug.WriteLine("[BOOKING] Создание нового гостя...");
 
+                        string guestName = GuestName?.Trim() ?? "";  // ← Защита от null
+
+                        if (string.IsNullOrWhiteSpace(guestName) && !IsGuestMode)
+                        {
+                            // ошибка валидации
+                            return;
+                        }
+
+                        var (surname, firstName, middleName) = NameParser.Parse(guestName);
+
                         guest = new Guests
                         {
-                            Surname = NameParser.GetSurname(GuestName.Trim()) ?? "",
-                            FirstName = NameParser.GetFirstName(GuestName.Trim()) ?? "",
-                            MiddleName = NameParser.GetMiddleName(GuestName.Trim()) ?? "",
+                            Surname = surname,
+                            FirstName = firstName,
+                            MiddleName = middleName,
                             Phone = GuestPhone.Trim(),
-                            Email = ""
+                            Email = GuestEmail?.Trim() ?? "",
+                            CreatedAt = DateTime.Now
                         };
+
                         context.Guests.Add(guest);
                         context.SaveChanges();
 
@@ -341,56 +370,49 @@ namespace AgroCulture.ViewModels
                         System.Diagnostics.Debug.WriteLine($"[BOOKING] ✅ Гость найден: ID={guest.GuestId}");
 
                         // Обновить данные гостя
-                        guest.Surname = NameParser.GetSurname(GuestName.Trim()) ?? "";
-                        guest.FirstName = NameParser.GetFirstName(GuestName.Trim()) ?? "";
-                        guest.MiddleName = NameParser.GetMiddleName(GuestName.Trim()) ?? "";
+                        string guestName = GuestName?.Trim() ?? "";  // ← Защита от null
+
+                        if (string.IsNullOrWhiteSpace(guestName) && !IsGuestMode)
+                        {
+                            // ошибка валидации
+                            return;
+                        }
+
+                        var (surname, firstName, middleName) = NameParser.Parse(guestName);
+
+                        guest.Surname = surname;
+                        guest.FirstName = firstName;
+                        guest.MiddleName = middleName;
+                        guest.Phone = GuestPhone.Trim();
                         context.SaveChanges();
                     }
 
-                    // ─────────────────────────────────────────────────────
-                    // ШАГ 2: Создать бронирование ЧЕРЕЗ SQL
-                    // ─────────────────────────────────────────────────────
-                    string checkInStr = CheckInDate.Value.ToString("yyyy-MM-dd");
-                    string checkOutStr = CheckOutDate.Value.ToString("yyyy-MM-dd");
-                    string createdAtStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                    System.Diagnostics.Debug.WriteLine("[BOOKING] ═══ Создание бронирования (SQL) ═══");
+                    // ✅ ШАГ 2: Создать бронирование - БЕЗ SQL, через Entity Framework
+                    System.Diagnostics.Debug.WriteLine("[BOOKING] ═══ Создание бронирования ═══");
                     System.Diagnostics.Debug.WriteLine($"  CabinId: {SelectedCabin.CabinId}");
                     System.Diagnostics.Debug.WriteLine($"  GuestId: {guest.GuestId}");
-                    System.Diagnostics.Debug.WriteLine($"  CheckInDate: {checkInStr}");
-                    System.Diagnostics.Debug.WriteLine($"  CheckOutDate: {checkOutStr}");
+                    System.Diagnostics.Debug.WriteLine($"  CheckIn: {checkIn:yyyy-MM-dd}");
+                    System.Diagnostics.Debug.WriteLine($"  CheckOut: {checkOut:yyyy-MM-dd}");
                     System.Diagnostics.Debug.WriteLine($"  Nights: {Nights}");
                     System.Diagnostics.Debug.WriteLine($"  TotalPrice: {TotalPrice}");
-                    System.Diagnostics.Debug.WriteLine($"  Status: active");
-                    System.Diagnostics.Debug.WriteLine($"  CreatedBy: {currentUserId}");
-                    System.Diagnostics.Debug.WriteLine($"  CreatedAt: {createdAtStr}");
 
-                    // ✅ ИСПРАВЛЕННЫЙ SQL: date для CheckIn/CheckOut, datetime для CreatedAt
-                    string sql = @"
-                INSERT INTO Bookings 
-                    (CabinId, GuestId, CheckInDate, CheckOutDate, Nights, TotalPrice, Status, CreatedBy, CreatedAt)
-                VALUES 
-                    (@p0, @p1, CAST(@p2 AS date), CAST(@p3 AS date), @p4, @p5, @p6, @p7, CAST(@p8 AS datetime));
-                
-                SELECT CAST(SCOPE_IDENTITY() as int);";
-
-                    int newBookingId = context.Database.SqlQuery<int>(
-                        sql,
-                        SelectedCabin.CabinId,           // @p0
-                        guest.GuestId,                   // @p1
-                        checkInStr,                      // @p2 → date
-                        checkOutStr,                     // @p3 → date
-                        Nights,                          // @p4
-                        TotalPrice,                      // @p5
-                        "active",                        // @p6
-                        currentUserId,                   // @p7
-                        createdAtStr                     // @p8 → datetime
-                    ).FirstOrDefault();
-
-                    if (newBookingId <= 0)
+                    var booking = new Bookings
                     {
-                        throw new Exception("Не удалось получить ID созданного бронирования");
-                    }
+                        CabinId = SelectedCabin.CabinId,
+                        GuestId = guest.GuestId,
+                        CheckInDate = checkIn,
+                        CheckOutDate = checkOut,
+                        Nights = Nights,
+                        TotalPrice = TotalPrice,
+                        Status = "active",
+                        CreatedBy = currentUserId,
+                        CreatedAt = DateTime.Now
+                    };
+
+                    context.Bookings.Add(booking);
+                    context.SaveChanges();
+
+                    int newBookingId = booking.BookingId;
 
                     System.Diagnostics.Debug.WriteLine($"[BOOKING] ✅✅✅ УСПЕХ! BookingId={newBookingId}");
 
@@ -401,15 +423,18 @@ namespace AgroCulture.ViewModels
                         $"✅ Бронирование успешно создано!\n\n" +
                         $"📋 ID: {newBookingId}\n" +
                         $"🏠 Домик: {SelectedCabin.Name}\n" +
-                        $"👤 Гость: {GuestName}\n" +
-                        $"📅 Период: {CheckInDate.Value:dd.MM.yyyy} - {CheckOutDate.Value:dd.MM.yyyy}\n" +
+                        $"👤 Гость: {guest.FullName}\n" +
+                        $"📱 Телефон: {guest.Phone}\n" +
+                        $"📅 Период: {checkIn:dd.MM.yyyy} - {checkOut:dd.MM.yyyy}\n" +
                         $"🌙 Ночей: {Nights}\n" +
                         $"💰 Сумма: {TotalPrice:N0} ₽";
 
                     MessageBox.Show(successMessage, "Успех",
                         MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    ShowNotification?.Invoke($"✅ Бронирование #{newBookingId} создано! Сумма: {TotalPrice:N0} ₽", true);
+                    ShowNotification?.Invoke(
+                        $"✅ Бронирование #{newBookingId} создано! Сумма: {TotalPrice:N0} ₽",
+                        true);
 
                     ClearForm();
                 }
@@ -417,19 +442,8 @@ namespace AgroCulture.ViewModels
             catch (System.Data.SqlClient.SqlException sqlEx)
             {
                 System.Diagnostics.Debug.WriteLine($"[BOOKING] ❌ SQL ошибка: {sqlEx.Message}");
-                System.Diagnostics.Debug.WriteLine($"[BOOKING] SQL Number: {sqlEx.Number}");
 
-                string errorMsg = sqlEx.Message;
-                if (sqlEx.Number == 547) // FK constraint
-                {
-                    errorMsg = "Ошибка связи данных. Проверьте, что домик и пользователь существуют в БД.";
-                }
-                else if (sqlEx.Number == 242) // datetime conversion
-                {
-                    errorMsg = "Ошибка формата даты. Попробуйте выбрать другие даты.";
-                }
-
-                MessageBox.Show($"❌ Ошибка БД:\n\n{errorMsg}\n\n{sqlEx.Message}", "Ошибка",
+                MessageBox.Show($"❌ Ошибка БД:\n\n{sqlEx.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
 
                 ShowNotification?.Invoke("❌ Ошибка сохранения в БД", false);
@@ -443,6 +457,10 @@ namespace AgroCulture.ViewModels
                     MessageBoxButton.OK, MessageBoxImage.Error);
 
                 ShowNotification?.Invoke("❌ Ошибка создания бронирования", false);
+            }
+            finally
+            {
+                _isCreatingBooking = false;  // ← ВЫКЛЮЧАЕМ ФЛАГ
             }
         }
 
@@ -530,7 +548,7 @@ namespace AgroCulture.ViewModels
                 return false;
             }
 
-            // ✅ ИЗМЕНЕНО: Валидация ФИО и телефона ТОЛЬКО для admin/manager
+            // ✅ ИСПРАВЛЕНО: Валидация ФИО и телефона ТОЛЬКО для admin/manager
             if (!IsGuestMode)
             {
                 if (string.IsNullOrWhiteSpace(GuestName))
@@ -545,6 +563,15 @@ namespace AgroCulture.ViewModels
                 {
                     ShowNotification?.Invoke("❌ Введите телефон", false);
                     MessageBox.Show("Введите телефон гостя", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                // ✅ НОВОЕ: Опциональная валидация Email
+                if (!string.IsNullOrWhiteSpace(GuestEmail) && !IsValidEmail(GuestEmail))
+                {
+                    ShowNotification?.Invoke("❌ Некорректный формат Email", false);
+                    MessageBox.Show("Некорректный формат Email", "Ошибка",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
@@ -583,6 +610,7 @@ namespace AgroCulture.ViewModels
             return true;
         }
 
+
         // ═══════════════════════════════════════════════════════════
         // ОЧИСТКА ФОРМЫ
         // ═══════════════════════════════════════════════════════════
@@ -592,6 +620,7 @@ namespace AgroCulture.ViewModels
             SelectedCabin = null;
             GuestName = string.Empty;
             GuestPhone = string.Empty;
+            GuestEmail = string.Empty;
             CheckInDate = null;
             CheckOutDate = null;
             Nights = 0;
@@ -599,6 +628,18 @@ namespace AgroCulture.ViewModels
             ShowTotalPrice = false;
 
             UpdateCabinSelection(null);
+        }
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

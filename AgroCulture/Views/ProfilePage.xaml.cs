@@ -72,8 +72,8 @@ namespace AgroCulture.Views
 
             // Аватар
             TxtAvatarInitial.Text = string.IsNullOrWhiteSpace(_currentUser.Surname)
-                ? "?"
-                : _currentUser.Surname.Substring(0, 1).ToUpper();
+                    ? "?"   
+                    : _currentUser.Surname.Trim().Substring(0, 1).ToUpper();  // ← Trim() перед Substring()
         }
 
         private string GetRoleDisplayName(string role)

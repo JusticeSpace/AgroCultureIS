@@ -3,34 +3,34 @@
 namespace AgroCulture
 {
     /// <summary>
-    /// Partial класс для Users с computed свойством FullName
+    /// Partial класс для Users с правильным FullName
     /// </summary>
     public partial class Users
     {
         /// <summary>
-        /// Полное имя (ФИО) - вычисляемое свойство для обратной совместимости
+        /// Полное имя (ФИО) - вычисляемое свойство
+        /// ✅ Поддерживает случаи когда нет отчества
         /// </summary>
         [NotMapped]
         public string FullName
         {
             get
             {
-                // Проверяем, есть ли новые поля (после миграции)
-                if (!string.IsNullOrEmpty(Surname) &&
-                    !string.IsNullOrEmpty(FirstName) &&
-                    !string.IsNullOrEmpty(MiddleName))
+                // Собираем только непустые поля
+                if (string.IsNullOrWhiteSpace(Surname) &&
+                    string.IsNullOrWhiteSpace(FirstName))
                 {
-                    return $"{Surname} {FirstName} {MiddleName}".Trim();
+                    return "Не указано";
                 }
 
-                // Fallback (если .edmx ещё не обновлён)
-                return "Не указано";
+                // Используем NameParser для правильной сборки
+                return AgroCulture.Services.NameParser.Compose(
+                    Surname ?? "",
+                    FirstName ?? "",
+                    MiddleName ?? "");
             }
         }
 
-        /// <summary>
-        /// ✅ НОВОЕ: Порядковый номер для отображения в таблице
-        /// </summary>
         [NotMapped]
         public int RowNumber { get; set; }
     }

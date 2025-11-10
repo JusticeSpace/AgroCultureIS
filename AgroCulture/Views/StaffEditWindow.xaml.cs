@@ -42,11 +42,13 @@ namespace AgroCulture.Views
                         return;
                     }
 
-                    // ✅ Загружаем отдельные поля
+                    // ✅ Загружаем все поля
                     TxtUsername.Text = user.Username;
                     TxtSurname.Text = user.Surname ?? "";
                     TxtFirstName.Text = user.FirstName ?? "";
                     TxtMiddleName.Text = user.MiddleName ?? "";
+                    TxtPhone.Text = user.Phone ?? "";              // ✅ НОВОЕ
+                    TxtEmail.Text = user.Email ?? "";              // ✅ НОВОЕ
 
                     // Роль
                     if (user.Role == "admin")
@@ -85,7 +87,6 @@ namespace AgroCulture.Views
                 return false;
             }
 
-            // ✅ Проверяем отдельные поля
             if (string.IsNullOrWhiteSpace(TxtSurname.Text))
             {
                 MessageBox.Show("Введите фамилию", "Ошибка",
@@ -99,6 +100,15 @@ namespace AgroCulture.Views
                 MessageBox.Show("Введите имя", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtFirstName.Focus();
+                return false;
+            }
+
+            // ✅ НОВОЕ: Валидация Email если заполнен
+            if (!string.IsNullOrWhiteSpace(TxtEmail.Text) && !IsValidEmail(TxtEmail.Text))
+            {
+                MessageBox.Show("Некорректный формат Email", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtEmail.Focus();
                 return false;
             }
 
@@ -135,12 +145,14 @@ namespace AgroCulture.Views
                         return;
                     }
 
-                    // ✅ Сохраняем отдельные поля
+                    // ✅ Сохраняем все поля
                     user.Role = role;
                     user.Username = username;
                     user.Surname = TxtSurname.Text.Trim();
                     user.FirstName = TxtFirstName.Text.Trim();
                     user.MiddleName = TxtMiddleName.Text.Trim();
+                    user.Phone = TxtPhone.Text.Trim();             // ✅ НОВОЕ
+                    user.Email = TxtEmail.Text.Trim();             // ✅ НОВОЕ
 
                     context.SaveChanges();
 
@@ -168,6 +180,20 @@ namespace AgroCulture.Views
         {
             DialogResultSuccess = false;
             this.Close();
+        }
+
+        // ✅ НОВОЕ: Валидация Email
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

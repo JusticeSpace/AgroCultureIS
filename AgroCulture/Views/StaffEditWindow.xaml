@@ -140,18 +140,53 @@
                     <StackPanel Margin="0,0,0,24">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <materialDesign:PackIcon Kind="AccountDetails" Width="16" Height="16" 
-                                Foreground="#6B7280" VerticalAlignment="Center"/>
+            Foreground="#6B7280" VerticalAlignment="Center"/>
                             <TextBlock Text="Отчество" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
                         </StackPanel>
 
                         <TextBox x:Name="TxtMiddleName" 
-                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                materialDesign:HintAssist.Hint="Иванович (необязательно)"
-                                Height="56"
-                                Padding="16,0"
-                                FontSize="14"
-                                VerticalContentAlignment="Center"/>
+        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+        materialDesign:HintAssist.Hint="Иванович (необязательно)"
+        Height="56"
+        Padding="16,0"
+        FontSize="14"
+        VerticalContentAlignment="Center"/>
                     </StackPanel>
+
+                    <!-- ✅ НОВОЕ: Телефон -->
+                    <StackPanel Margin="0,0,0,24">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="Phone" Width="16" Height="16" 
+            Foreground="#6B7280" VerticalAlignment="Center"/>
+                            <TextBlock Text="Телефон" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
+                        </StackPanel>
+
+                        <TextBox x:Name="TxtPhone" 
+        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+        materialDesign:HintAssist.Hint="+7 (999) 123-45-67"
+        Height="56"
+        Padding="16,0"
+        FontSize="14"
+        VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- ✅ НОВОЕ: Email -->
+                    <StackPanel Margin="0,0,0,24">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="Email" Width="16" Height="16" 
+            Foreground="#6B7280" VerticalAlignment="Center"/>
+                            <TextBlock Text="Email" FontSize="14" Foreground="#6B7280" Margin="8,0,0,0"/>
+                        </StackPanel>
+
+                        <TextBox x:Name="TxtEmail" 
+        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+        materialDesign:HintAssist.Hint="example@mail.ru"
+        Height="56"
+        Padding="16,0"
+        FontSize="14"
+        VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
                     <!-- Подсказка -->
                     <Border Background="#EFF6FF" BorderBrush="#BFDBFE" BorderThickness="1"
                            CornerRadius="8" Padding="16">

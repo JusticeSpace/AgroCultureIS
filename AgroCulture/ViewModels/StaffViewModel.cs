@@ -34,7 +34,7 @@ namespace AgroCulture.ViewModels
             set { _newLogin = value; OnPropertyChanged(); }
         }
 
-        // ✅ НОВЫЕ: Отдельные поля для ФИО
+        // ✅ Отдельные поля для ФИО
         private string _newSurname;
         public string NewSurname
         {
@@ -61,6 +61,21 @@ namespace AgroCulture.ViewModels
         {
             get => _newPassword;
             set { _newPassword = value; OnPropertyChanged(); }
+        }
+
+        // ✅ НОВОЕ: Поля для контактной информации
+        private string _newPhone;
+        public string NewPhone
+        {
+            get => _newPhone;
+            set { _newPhone = value; OnPropertyChanged(); }
+        }
+
+        private string _newEmail;
+        public string NewEmail
+        {
+            get => _newEmail;
+            set { _newEmail = value; OnPropertyChanged(); }
         }
 
         // ════════════════════════════════════════════════════════════
@@ -118,7 +133,6 @@ namespace AgroCulture.ViewModels
         {
             StaffList = new ObservableCollection<Users>();
 
-            // ✅ ИСПРАВЛЕНО: Оборачиваем в лямбды для совместимости с RelayCommand
             AddStaffCommand = new RelayCommand(_ => AddStaff());
             EditStaffCommand = new RelayCommand<Users>(EditStaff);
             DeleteStaffCommand = new RelayCommand<Users>(DeleteStaff);
@@ -191,7 +205,6 @@ namespace AgroCulture.ViewModels
                 return;
             }
 
-            // ✅ ВАЛИДАЦИЯ ОТДЕЛЬНЫХ ПОЛЕЙ ФИО
             if (string.IsNullOrWhiteSpace(NewSurname))
             {
                 ShowNotificationEvent("Введите фамилию", false);
@@ -210,6 +223,14 @@ namespace AgroCulture.ViewModels
                 return;
             }
 
+            // ✅ НОВОЕ: Опциональная валидация Email
+            if (!string.IsNullOrWhiteSpace(NewEmail) && !IsValidEmail(NewEmail))
+            {
+                ShowNotificationEvent("Некорректный формат Email", false);
+                return;
+            }
+
+
             try
             {
                 using (var context = new AgroCultureEntities())
@@ -221,7 +242,6 @@ namespace AgroCulture.ViewModels
                         return;
                     }
 
-                    // ✅ Создание нового пользователя с отдельными полями
                     var newUser = new Users
                     {
                         Username = NewLogin.Trim(),
@@ -232,8 +252,8 @@ namespace AgroCulture.ViewModels
                         MiddleName = string.IsNullOrWhiteSpace(NewMiddleName) ? "" : NewMiddleName.Trim(),
                         IsActive = true,
                         CreatedAt = DateTime.Now,
-                        Phone = "",
-                        Email = ""
+                        Phone = NewPhone?.Trim() ?? "",      // ✅ НОВОЕ
+                        Email = NewEmail?.Trim() ?? ""       // ✅ НОВОЕ
                     };
 
                     context.Users.Add(newUser);
@@ -249,6 +269,8 @@ namespace AgroCulture.ViewModels
                     NewFirstName = string.Empty;
                     NewMiddleName = string.Empty;
                     NewPassword = string.Empty;
+                    NewPhone = string.Empty;      // ✅ НОВОЕ
+                    NewEmail = string.Empty;      // ✅ НОВОЕ
                     SelectedRole = "manager";
 
                     RefreshData();
@@ -287,14 +309,16 @@ namespace AgroCulture.ViewModels
         }
 
         // ════════════════════════════════════════════════════════════
-        // УДАЛЕНИЕ СОТРУДНИКА
+        // ЗАМЕНИ этот метод в StaffViewModel.cs
         // ════════════════════════════════════════════════════════════
 
         private void DeleteStaff(Users user)
         {
+            // ✅ НОВОЕ: Проверка на null
             if (user == null)
             {
                 System.Diagnostics.Debug.WriteLine("[STAFF VM] ❌ DeleteStaff: user == null");
+                ShowNotificationEvent("Ошибка: пользователь не выбран", false);
                 return;
             }
 
@@ -304,9 +328,11 @@ namespace AgroCulture.ViewModels
             if (App.CurrentUser != null && user.UserId == App.CurrentUser.UserId)
             {
                 ShowNotificationEvent("Нельзя удалить свою учетную запись", false);
+                System.Diagnostics.Debug.WriteLine("[STAFF VM] ❌ Попытка удалить свой аккаунт!");
                 return;
             }
 
+            // Подтверждение удаления
             var result = MessageBox.Show(
                 $"Вы действительно хотите удалить сотрудника:\n\n{user.FullName} ({user.Username})?",
                 "Подтверждение удаления",
@@ -323,29 +349,44 @@ namespace AgroCulture.ViewModels
             {
                 using (var context = new AgroCultureEntities())
                 {
+                    // ✅ Ищем сотрудника в БД
                     var userToDelete = context.Users.FirstOrDefault(u => u.UserId == user.UserId);
 
                     if (userToDelete != null)
                     {
-                        // Мягкое удаление (деактивация)
+                        System.Diagnostics.Debug.WriteLine($"[STAFF VM] Найден пользователь в БД: {userToDelete.Username}");
+
+                        // ✅ Мягкое удаление (деактивация)
                         userToDelete.IsActive = false;
+
+                        System.Diagnostics.Debug.WriteLine("[STAFF VM] Устанавливаем IsActive = false");
+
+                        // ✅ Сохраняем в БД
                         context.SaveChanges();
 
-                        System.Diagnostics.Debug.WriteLine($"[STAFF VM] ✅ Сотрудник деактивирован: {user.FullName}");
+                        System.Diagnostics.Debug.WriteLine($"[STAFF VM] ✅ Изменения сохранены в БД");
 
+                        // ✅ КРИТИЧНО: Обновляем UI немедленно!
+                        System.Diagnostics.Debug.WriteLine("[STAFF VM] Начинаем перезагрузку данных...");
+                        RefreshData();  // ← ЭТО САМОЕ ВАЖНОЕ!
+                        System.Diagnostics.Debug.WriteLine("[STAFF VM] ✅ Данные перезагружены");
+
+                        // Показываем уведомление
                         ShowNotificationEvent($"Сотрудник {user.FullName} успешно удалён", true);
 
-                        RefreshData();
+                        System.Diagnostics.Debug.WriteLine($"[STAFF VM] ✅✅✅ УСПЕШНО УДАЛЁН: {user.FullName}");
                     }
                     else
                     {
-                        ShowNotificationEvent("Сотрудник не найден", false);
+                        System.Diagnostics.Debug.WriteLine($"[STAFF VM] ❌ Сотрудник НЕ НАЙДЕН в БД (ID: {user.UserId})");
+                        ShowNotificationEvent("Сотрудник не найден в базе данных", false);
                     }
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[STAFF VM] ❌ Ошибка удаления: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[STAFF VM] ❌ ОШИБКА при удалении: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[STAFF VM] StackTrace: {ex.StackTrace}");
                 ShowNotificationEvent($"Ошибка удаления: {ex.Message}", false);
             }
         }
@@ -358,6 +399,20 @@ namespace AgroCulture.ViewModels
         {
             System.Diagnostics.Debug.WriteLine($"[STAFF VM] Уведомление: {message}");
             ShowNotification?.Invoke(message, isSuccess);
+        }
+
+        // ✅ НОВОЕ: Валидация Email
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

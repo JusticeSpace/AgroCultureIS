@@ -3,27 +3,31 @@
 namespace AgroCulture
 {
     /// <summary>
-    /// Partial класс для Guests с computed свойством FullName
+    /// Partial класс для Guests с правильным FullName
     /// </summary>
     public partial class Guests
     {
         /// <summary>
-        /// Полное имя (ФИО) - вычисляемое свойство для обратной совместимости
+        /// Полное имя (ФИО) - вычисляемое свойство
+        /// ✅ Поддерживает случаи когда нет отчества
         /// </summary>
         [NotMapped]
         public string FullName
         {
             get
             {
-                // Проверяем, есть ли новые поля (после миграции)
-                if (!string.IsNullOrEmpty(Surname) &&
-                    !string.IsNullOrEmpty(FirstName) &&
-                    !string.IsNullOrEmpty(MiddleName))
+                // Собираем только непустые поля
+                if (string.IsNullOrWhiteSpace(Surname) &&
+                    string.IsNullOrWhiteSpace(FirstName))
                 {
-                    return $"{Surname} {FirstName} {MiddleName}".Trim();
+                    return "Не указано";
                 }
 
-                return "Не указано";
+                // Используем NameParser для правильной сборки
+                return AgroCulture.Services.NameParser.Compose(
+                    Surname ?? "",
+                    FirstName ?? "",
+                    MiddleName ?? "");
             }
         }
     }
