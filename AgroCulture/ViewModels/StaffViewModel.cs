@@ -192,49 +192,75 @@ namespace AgroCulture.ViewModels
         {
             System.Diagnostics.Debug.WriteLine("[STAFF VM] Попытка добавить сотрудника...");
 
-            // Валидация
+            // Валидация роли
             if (string.IsNullOrWhiteSpace(SelectedRole))
             {
-                ShowNotificationEvent("Выберите роль", false);
+                ShowNotificationEvent("❌ Выберите роль", false);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewLogin))
+            // ✅ Валидация логина через ValidationService
+            var usernameValidation = Services.ValidationService.ValidateUsername(NewLogin);
+            if (!usernameValidation.isValid)
             {
-                ShowNotificationEvent("Введите логин", false);
+                ShowNotificationEvent(usernameValidation.errorMessage, false);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewSurname))
+            // ✅ Валидация ФИО
+            var surnameValidation = Services.ValidationService.ValidateName(NewSurname, "Фамилия");
+            if (!surnameValidation.isValid)
             {
-                ShowNotificationEvent("Введите фамилию", false);
+                ShowNotificationEvent(surnameValidation.errorMessage, false);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewFirstName))
+            var firstNameValidation = Services.ValidationService.ValidateName(NewFirstName, "Имя");
+            if (!firstNameValidation.isValid)
             {
-                ShowNotificationEvent("Введите имя", false);
+                ShowNotificationEvent(firstNameValidation.errorMessage, false);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewPassword) || NewPassword.Length < 4)
+            // Отчество опционально, но если заполнено - валидируем
+            if (!string.IsNullOrWhiteSpace(NewMiddleName))
             {
-                ShowNotificationEvent("Пароль должен содержать минимум 4 символа", false);
+                var middleNameValidation = Services.ValidationService.ValidateName(NewMiddleName, "Отчество");
+                if (!middleNameValidation.isValid)
+                {
+                    ShowNotificationEvent(middleNameValidation.errorMessage, false);
+                    return;
+                }
+            }
+
+            // ✅ Валидация пароля через ValidationService
+            var passwordValidation = Services.ValidationService.ValidatePassword(NewPassword);
+            if (!passwordValidation.isValid)
+            {
+                ShowNotificationEvent(passwordValidation.errorMessage, false);
                 return;
             }
 
-            // ✅ НОВОЕ: Опциональная валидация Email
-            if (!string.IsNullOrWhiteSpace(NewEmail) && !IsValidEmail(NewEmail))
+            // ✅ Валидация Email (опционально)
+            if (!string.IsNullOrWhiteSpace(NewEmail))
             {
-                ShowNotificationEvent("Некорректный формат Email", false);
-                return;
+                var emailValidation = Services.ValidationService.ValidateEmail(NewEmail);
+                if (!emailValidation.isValid)
+                {
+                    ShowNotificationEvent(emailValidation.errorMessage, false);
+                    return;
+                }
             }
 
-            // ✅ Валидация формата телефона (опциональная)
-            if (!string.IsNullOrWhiteSpace(NewPhone) && !Services.PhoneValidator.IsValidPhone(NewPhone))
+            // ✅ Валидация телефона (опционально)
+            if (!string.IsNullOrWhiteSpace(NewPhone))
             {
-                ShowNotificationEvent("Некорректный формат телефона. Пример: +7 (999) 999-99-99", false);
-                return;
+                var phoneValidation = Services.ValidationService.ValidatePhone(NewPhone);
+                if (!phoneValidation.isValid)
+                {
+                    ShowNotificationEvent(phoneValidation.errorMessage, false);
+                    return;
+                }
             }
 
             try

@@ -300,19 +300,41 @@ namespace AgroCulture.ViewModels
             if (!ValidateBooking())
                 return;
 
-            if (!IsCabinAvailable(SelectedCabin.CabinId, CheckInDate.Value, CheckOutDate.Value))
+            // ✅ Проверка доступности домика через ValidationService
+            try
             {
-                var conflicts = GetConflictingBookings(SelectedCabin.CabinId, CheckInDate.Value, CheckOutDate.Value);
-                string message = $"❌ Домик «{SelectedCabin.Name}» уже забронирован в эти даты!\n\n";
-                message += "Конфликтующие бронирования:\n";
-                foreach (var conflict in conflicts)
+                using (var context = new AgroCultureEntities())
                 {
-                    message += $"• {conflict.CheckInDate:dd.MM.yyyy} - {conflict.CheckOutDate:dd.MM.yyyy}\n";
-                }
-                message += "\nПожалуйста, выберите другие даты или другой домик.";
+                    var availabilityCheck = Services.ValidationService.CheckCabinAvailability(
+                        SelectedCabin.CabinId,
+                        CheckInDate.Value,
+                        CheckOutDate.Value,
+                        context,
+                        null); // Новое бронирование, поэтому excludeBookingId = null
 
-                MessageBox.Show(message, "Домик недоступен",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                    if (availabilityCheck.hasOverlap)
+                    {
+                        // Получаем детали конфликтующих бронирований для подробного отображения
+                        var conflicts = GetConflictingBookings(SelectedCabin.CabinId, CheckInDate.Value, CheckOutDate.Value);
+                        string message = $"❌ Домик «{SelectedCabin.Name}» уже забронирован в эти даты!\n\n";
+                        message += "Конфликтующие бронирования:\n";
+                        foreach (var conflict in conflicts)
+                        {
+                            message += $"• {conflict.CheckInDate:dd.MM.yyyy} - {conflict.CheckOutDate:dd.MM.yyyy}\n";
+                        }
+                        message += "\nПожалуйста, выберите другие даты или другой домик.";
+
+                        MessageBox.Show(message, "Домик недоступен",
+                            MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[BOOKING] ❌ Ошибка проверки доступности: {ex.Message}");
+                MessageBox.Show($"❌ Ошибка проверки доступности домика:\n{ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -559,30 +581,27 @@ namespace AgroCulture.ViewModels
                     return false;
                 }
 
-                if (string.IsNullOrWhiteSpace(GuestPhone))
+                // ✅ Валидация телефона через ValidationService
+                var phoneValidation = Services.ValidationService.ValidatePhone(GuestPhone);
+                if (!phoneValidation.isValid)
                 {
-                    ShowNotification?.Invoke("❌ Введите телефон", false);
-                    MessageBox.Show("Введите телефон гостя", "Ошибка",
+                    ShowNotification?.Invoke(phoneValidation.errorMessage, false);
+                    MessageBox.Show(phoneValidation.errorMessage, "Ошибка",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
 
-                // ✅ Валидация формата телефона
-                if (!Services.PhoneValidator.IsValidPhone(GuestPhone))
+                // ✅ Валидация Email через ValidationService (опционально)
+                if (!string.IsNullOrWhiteSpace(GuestEmail))
                 {
-                    ShowNotification?.Invoke("❌ Некорректный формат телефона", false);
-                    MessageBox.Show("Некорректный формат номера телефона.\n\nПримеры правильного формата:\n+7 (999) 999-99-99\n89999999999\n+79999999999", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
-
-                // ✅ НОВОЕ: Опциональная валидация Email
-                if (!string.IsNullOrWhiteSpace(GuestEmail) && !IsValidEmail(GuestEmail))
-                {
-                    ShowNotification?.Invoke("❌ Некорректный формат Email", false);
-                    MessageBox.Show("Некорректный формат Email", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
+                    var emailValidation = Services.ValidationService.ValidateEmail(GuestEmail);
+                    if (!emailValidation.isValid)
+                    {
+                        ShowNotification?.Invoke(emailValidation.errorMessage, false);
+                        MessageBox.Show(emailValidation.errorMessage, "Ошибка",
+                            MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return false;
+                    }
                 }
             }
 
@@ -594,25 +613,13 @@ namespace AgroCulture.ViewModels
                 return false;
             }
 
-            if (CheckInDate.Value.Date < DateTime.Today)
+            // ✅ Валидация дат через ValidationService
+            var dateValidation = Services.ValidationService.ValidateBookingDates(CheckInDate.Value, CheckOutDate.Value);
+            if (!dateValidation.isValid)
             {
-                ShowNotification?.Invoke("❌ Дата заезда в прошлом", false);
-                MessageBox.Show("Дата заезда не может быть в прошлом", "Ошибка",
+                ShowNotification?.Invoke(dateValidation.errorMessage, false);
+                MessageBox.Show(dateValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            if (CheckOutDate <= CheckInDate)
-            {
-                ShowNotification?.Invoke("❌ Некорректные даты", false);
-                MessageBox.Show("Дата выезда должна быть позже даты заезда", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            if (Nights <= 0)
-            {
-                ShowNotification?.Invoke("❌ Некорректное количество ночей", false);
                 return false;
             }
 

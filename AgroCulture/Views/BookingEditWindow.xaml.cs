@@ -129,15 +129,17 @@ namespace AgroCulture.Views
         {
             if (string.IsNullOrWhiteSpace(TxtGuestName.Text))
             {
-                MessageBox.Show("Введите имя гостя", "Ошибка",
+                MessageBox.Show("❌ Введите имя гостя", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtGuestName.Focus();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(TxtGuestPhone.Text))
+            // ✅ Валидация телефона через ValidationService
+            var phoneValidation = Services.ValidationService.ValidatePhone(TxtGuestPhone.Text);
+            if (!phoneValidation.isValid)
             {
-                MessageBox.Show("Введите телефон", "Ошибка",
+                MessageBox.Show(phoneValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 TxtGuestPhone.Focus();
                 return false;
@@ -145,28 +147,64 @@ namespace AgroCulture.Views
 
             if (DateCheckIn.SelectedDate == null)
             {
-                MessageBox.Show("Выберите дату заезда", "Ошибка",
+                MessageBox.Show("❌ Выберите дату заезда", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
 
             if (DateCheckOut.SelectedDate == null)
             {
-                MessageBox.Show("Выберите дату выезда", "Ошибка",
+                MessageBox.Show("❌ Выберите дату выезда", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
 
-            if (DateCheckOut.SelectedDate <= DateCheckIn.SelectedDate)
+            // ✅ Валидация дат через ValidationService
+            var dateValidation = Services.ValidationService.ValidateBookingDates(
+                DateCheckIn.SelectedDate.Value,
+                DateCheckOut.SelectedDate.Value);
+
+            if (!dateValidation.isValid)
             {
-                MessageBox.Show("Дата выезда должна быть позже даты заезда", "Ошибка",
+                MessageBox.Show(dateValidation.errorMessage, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // ✅ Проверка на пересечение с другими бронированиями
+            try
+            {
+                using (var context = new AgroCultureEntities())
+                {
+                    var booking = context.Bookings.FirstOrDefault(b => b.BookingId == EditBookingId);
+                    if (booking != null && _currentCabin != null)
+                    {
+                        var availabilityCheck = Services.ValidationService.CheckCabinAvailability(
+                            _currentCabin.CabinId,
+                            DateCheckIn.SelectedDate.Value,
+                            DateCheckOut.SelectedDate.Value,
+                            context,
+                            EditBookingId); // Исключаем текущее бронирование
+
+                        if (availabilityCheck.hasOverlap)
+                        {
+                            MessageBox.Show(availabilityCheck.errorMessage, "Ошибка",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"❌ Ошибка проверки доступности: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
             if (CmbStatus.SelectedItem == null)
             {
-                MessageBox.Show("Выберите статус", "Ошибка",
+                MessageBox.Show("❌ Выберите статус", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
