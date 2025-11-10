@@ -432,19 +432,5 @@ namespace AgroCulture.ViewModels
             System.Diagnostics.Debug.WriteLine($"[STAFF VM] Уведомление: {message}");
             ShowNotification?.Invoke(message, isSuccess);
         }
-
-        // ✅ НОВОЕ: Валидация Email
-        private bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
     }
 }
