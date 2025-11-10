@@ -43,11 +43,9 @@
           <Property Name="CabinId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
-          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="MaxGuests" Type="int" Nullable="false" />
           <Property Name="PricePerNight" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
-          <Property Name="IsAvailable" Type="bit" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Guests">
@@ -443,15 +441,12 @@
           <Property Name="CabinId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="MaxGuests" Type="Int32" Nullable="false" />
           <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Bookings" Relationship="Self.FK_Bookings_Cabins" FromRole="Cabins" ToRole="Bookings" />
           <NavigationProperty Name="CabinAmenities" Relationship="Self.FK__CabinAmen__Cabin__52593CB8" FromRole="Cabins" ToRole="CabinAmenities" />
-          <NavigationProperty Name="CabinAmenities1" Relationship="Self.FK_CabinAmenities_Cabins" FromRole="Cabins" ToRole="CabinAmenities" />
         </EntityType>
         <EntityType Name="Guests">
           <Key>
@@ -794,11 +789,9 @@
                 <ScalarProperty Name="CabinId" ColumnName="CabinId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="MaxGuests" ColumnName="MaxGuests" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
