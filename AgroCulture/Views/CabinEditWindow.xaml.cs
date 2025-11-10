@@ -49,7 +49,7 @@ namespace AgroCulture.Views
 
                     TxtName.Text = cabin.Name;
                     TxtDescription.Text = cabin.Description ?? "";
-                    TxtCapacity.Text = cabin.Capacity.ToString();
+                    TxtCapacity.Text = cabin.MaxGuests.ToString();
                     TxtPrice.Text = cabin.PricePerNight.ToString();
                     CmbStatus.SelectedIndex = cabin.IsActive ? 0 : 1;
 
@@ -133,7 +133,7 @@ namespace AgroCulture.Views
 
                     cabin.Name = TxtName.Text.Trim();
                     cabin.Description = TxtDescription.Text.Trim();
-                    cabin.Capacity = int.Parse(TxtCapacity.Text);
+                    cabin.MaxGuests = int.Parse(TxtCapacity.Text);
                     cabin.PricePerNight = decimal.Parse(TxtPrice.Text);
                     cabin.IsActive = CmbStatus.SelectedIndex == 0;
 
