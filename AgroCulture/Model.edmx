@@ -844,7 +844,6 @@
                 <ScalarProperty Name="CabinId" ColumnName="CabinId" />
                 <ScalarProperty Name="CabinName" ColumnName="CabinName" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
                 <ScalarProperty Name="GuestId" ColumnName="GuestId" />
                 <ScalarProperty Name="GuestSurname" ColumnName="GuestSurname" />
                 <ScalarProperty Name="GuestFirstName" ColumnName="GuestFirstName" />
@@ -883,12 +882,11 @@
                 <ScalarProperty Name="CabinId" ColumnName="CabinId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="MaxGuests" ColumnName="MaxGuests" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="AmenitiesList" ColumnName="AmenitiesList" />
-                <ScalarProperty Name="AmenitiesIcons" ColumnName="AmenitiesIcons" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Amenities" ColumnName="Amenities" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
