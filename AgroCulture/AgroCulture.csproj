@@ -189,6 +189,7 @@
     <Compile Include="Services\Guests.cs" />
     <Compile Include="Services\NameParser.cs" />
     <Compile Include="Services\PasswordHasher.cs" />
+    <Compile Include="Services\PhoneValidator.cs" />
     <Compile Include="Services\Users.cs" />
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
