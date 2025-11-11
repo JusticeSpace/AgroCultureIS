@@ -130,18 +130,21 @@ namespace AgroCulture.ViewModels
             {
                 using (var context = new AgroCultureEntities())
                 {
+                    // ✅ ИСПРАВЛЕНО: Правильная загрузка связей
                     var cabins = context.Cabins
-                        .Include("CabinAmenities.Amenities")
+                        .Include("CabinAmenities.Amenities")  // Загружаем связанные данные
                         .OrderBy(c => c.Name)
                         .ToList();
 
                     _allCabins.Clear();
                     foreach (var cabin in cabins)
                     {
+                        // ✅ Загружаем удобства для каждого домика
+                        cabin.LoadAmenities(context);
                         _allCabins.Add(cabin);
                     }
 
-                    // Базовая статистика
+                    // Статистика
                     TotalCabins = cabins.Count;
                     ActiveCabins = cabins.Count(c => c.IsActive);
                     TotalCapacity = cabins.Sum(c => c.MaxGuests);
@@ -158,10 +161,34 @@ namespace AgroCulture.ViewModels
                         .Sum(b => (decimal?)b.TotalPrice) ?? 0;
 
                     ApplySearch();
+
+                    System.Diagnostics.Debug.WriteLine($"[CABINS VM] ✅ Загружено {cabins.Count} домиков");
                 }
+            }
+            catch (System.Data.Entity.Core.EntityCommandExecutionException sqlEx)
+            {
+                var innerMsg = sqlEx.InnerException?.Message ?? sqlEx.Message;
+
+                System.Diagnostics.Debug.WriteLine($"[CABINS VM] ❌ SQL Ошибка: {innerMsg}");
+
+                ShowNotificationEvent(
+                    "❌ Ошибка загрузки данных из БД\n\n" +
+                    "Проверьте подключение к серверу и структуру базы данных.",
+                    false);
+
+                System.Windows.MessageBox.Show(
+                    $"Ошибка загрузки домиков:\n\n{innerMsg}\n\n" +
+                    "Проверьте:\n" +
+                    "• Подключение к SQL Server\n" +
+                    "• Наличие таблиц Cabins, CabinAmenities, Amenities\n" +
+                    "• Наличие представления BookingsDetails",
+                    "Ошибка БД",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[CABINS VM] ❌ Ошибка: {ex.Message}");
                 ShowNotificationEvent($"❌ Ошибка: {ex.Message}", false);
             }
         }

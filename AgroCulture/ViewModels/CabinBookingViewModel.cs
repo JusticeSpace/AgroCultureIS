@@ -183,9 +183,10 @@ namespace AgroCulture.ViewModels
         // ЗАГРУЗКА ДОМИКОВ
         // ═══════════════════════════════════════════════════════════
 
+        // В методе LoadCabins() после загрузки домиков:
+
         private void LoadCabins()
         {
-            // ✅ Дополнительная защита
             if (IsInDesignMode())
             {
                 System.Diagnostics.Debug.WriteLine("[CABIN VM] LoadCabins пропущен - режим дизайна");
@@ -196,6 +197,7 @@ namespace AgroCulture.ViewModels
             {
                 using (var context = new AgroCultureEntities())
                 {
+                    // ✅ Загружаем с удобствами через Include
                     var cabins = context.Cabins
                         .Include("CabinAmenities.Amenities")
                         .Where(c => c.IsActive)
@@ -205,21 +207,46 @@ namespace AgroCulture.ViewModels
                     Cabins.Clear();
                     foreach (var cabin in cabins)
                     {
+                        // ✅ НОВОЕ: Явная загрузка удобств для каждого домика
+                        cabin.LoadAmenities(context);
                         Cabins.Add(cabin);
                     }
 
                     System.Diagnostics.Debug.WriteLine($"[CABIN VM] Загружено {cabins.Count} домиков");
                 }
             }
-            catch (Exception ex)
+            catch (System.Data.Entity.Core.EntityCommandExecutionException sqlEx)
             {
-                System.Diagnostics.Debug.WriteLine($"[CABIN VM] ❌ Ошибка загрузки домиков: {ex.Message}");
+                var innerMsg = sqlEx.InnerException?.Message ?? sqlEx.Message;
 
-                // В режиме дизайна НЕ показываем MessageBox
+                System.Diagnostics.Debug.WriteLine($"[CABIN VM] ❌ SQL Ошибка: {innerMsg}");
+                System.Diagnostics.Debug.WriteLine($"[CABIN VM] StackTrace: {sqlEx.StackTrace}");
+
                 if (!IsInDesignMode())
                 {
-                    MessageBox.Show($"Ошибка загрузки домиков:\n{ex.Message}", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    System.Windows.MessageBox.Show(
+                        "❌ Ошибка подключения к базе данных!\n\n" +
+                        "Проверьте:\n" +
+                        "1️⃣ Строку подключения в App.config\n" +
+                        "2️⃣ Доступность SQL Server\n" +
+                        "3️⃣ Наличие всех таблиц (Cabins, CabinAmenities, Amenities)\n\n" +
+                        $"Техническая информация:\n{innerMsg}",
+                        "Ошибка БД",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[CABIN VM] ❌ Общая ошибка: {ex.Message}");
+
+                if (!IsInDesignMode())
+                {
+                    System.Windows.MessageBox.Show(
+                        $"Ошибка загрузки домиков:\n{ex.Message}",
+                        "Ошибка",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
                 }
             }
         }

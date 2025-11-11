@@ -10,33 +10,68 @@ namespace AgroCulture
     /// </summary>
     public partial class Cabins : INotifyPropertyChanged
     {
+        // ✅ НОВОЕ: Кэшированный список удобств
+        private List<string> _amenitiesListCache;
+        private bool _amenitiesLoaded = false;
+
         /// <summary>
         /// Список удобств для отображения в UI
+        /// ✅ С кэшированием для избежания множественных запросов к БД
         /// </summary>
         public List<string> AmenitiesList
         {
             get
             {
-                try
+                // Если уже загружено - возвращаем кэш
+                if (_amenitiesLoaded && _amenitiesListCache != null)
                 {
-                    using (var context = new AgroCultureEntities())
-                    {
-                        var cabin = context.Cabins
-                            .Include("CabinAmenities.Amenities")  // Eager loading
-                            .FirstOrDefault(c => c.CabinId == this.CabinId);
-
-                        if (cabin == null || cabin.CabinAmenities == null)
-                            return new List<string>();
-
-                        return cabin.CabinAmenities
-                            .Select(ca => ca.Amenities.Name)
-                            .ToList();
-                    }
+                    return _amenitiesListCache;
                 }
-                catch
+
+                // Если есть загруженные связи - используем их
+                if (CabinAmenities != null && CabinAmenities.Count > 0)
                 {
-                    return new List<string>();
+                    _amenitiesListCache = CabinAmenities
+                        .Where(ca => ca.Amenities != null)
+                        .Select(ca => ca.Amenities.Name)
+                        .ToList();
+                    _amenitiesLoaded = true;
+                    return _amenitiesListCache;
                 }
+
+                // Иначе возвращаем пустой список (загрузка должна быть в ViewModel)
+                return new List<string>();
+            }
+        }
+
+        /// <summary>
+        /// ✅ НОВЫЙ МЕТОД: Загрузка удобств из контекста
+        /// Вызывается явно из ViewModel после загрузки домика
+        /// </summary>
+        public void LoadAmenities(AgroCultureEntities context)
+        {
+            if (_amenitiesLoaded) return;
+
+            try
+            {
+                var cabin = context.Cabins
+                    .Include("CabinAmenities.Amenities")
+                    .FirstOrDefault(c => c.CabinId == this.CabinId);
+
+                if (cabin?.CabinAmenities != null)
+                {
+                    _amenitiesListCache = cabin.CabinAmenities
+                        .Where(ca => ca.Amenities != null)
+                        .Select(ca => ca.Amenities.Name)
+                        .ToList();
+                    _amenitiesLoaded = true;
+                    OnPropertyChanged(nameof(AmenitiesList));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[CABIN] Ошибка загрузки удобств: {ex.Message}");
+                _amenitiesListCache = new List<string>();
             }
         }
 
