@@ -11,7 +11,24 @@ namespace AgroCulture.Views
         public int EditCabinId { get; set; }
         public bool DialogResultSuccess { get; private set; } = false;
 
-        private ObservableCollection<Amenities> _selectedAmenities = new ObservableCollection<Amenities>();
+        private ObservableCollection<AmenityViewModel> _selectedAmenities = new ObservableCollection<AmenityViewModel>();
+        private ObservableCollection<AmenityViewModel> _availableAmenities = new ObservableCollection<AmenityViewModel>();
+
+        // Вспомогательный класс для отображения удобств
+        public class AmenityViewModel
+        {
+            public int AmenityId { get; set; }
+            public string Name { get; set; }
+            public string Icon { get; set; }
+            public string DisplayName => $"{Icon} {Name}";
+
+            public AmenityViewModel(Amenities amenity)
+            {
+                AmenityId = amenity.AmenityId;
+                Name = amenity.Name;
+                Icon = amenity.Icon ?? "📌";
+            }
+        }
 
         public CabinEditWindow()
         {
@@ -27,6 +44,7 @@ namespace AgroCulture.Views
         private void CabinEditWindow_Loaded(object sender, RoutedEventArgs e)
         {
             LoadCabinData();
+            LoadAvailableAmenities();
         }
 
         private void LoadCabinData()
@@ -47,6 +65,7 @@ namespace AgroCulture.Views
                         return;
                     }
 
+                    // Загружаем основные данные
                     TxtName.Text = cabin.Name;
                     TxtDescription.Text = cabin.Description ?? "";
                     TxtCapacity.Text = cabin.MaxGuests.ToString();
@@ -55,13 +74,18 @@ namespace AgroCulture.Views
 
                     TxtCabinInfo.Text = $"ID: {cabin.CabinId} • {cabin.Name}";
 
+                    // Загружаем выбранные удобства
                     _selectedAmenities.Clear();
                     foreach (var amenity in cabin.CabinAmenities.Select(ca => ca.Amenities).Distinct())
                     {
-                        _selectedAmenities.Add(amenity);
+                        if (amenity != null)
+                        {
+                            _selectedAmenities.Add(new AmenityViewModel(amenity));
+                        }
                     }
 
                     AmenitiesListBox.ItemsSource = _selectedAmenities;
+                    UpdateAmenitiesVisibility();
                 }
             }
             catch (Exception ex)
@@ -69,6 +93,95 @@ namespace AgroCulture.Views
                 MessageBox.Show($"Ошибка загрузки:\n{ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 this.Close();
+            }
+        }
+
+        private void LoadAvailableAmenities()
+        {
+            try
+            {
+                using (var context = new AgroCultureEntities())
+                {
+                    // Загружаем все доступные удобства
+                    var allAmenities = context.Amenities.OrderBy(a => a.Name).ToList();
+
+                    _availableAmenities.Clear();
+                    foreach (var amenity in allAmenities)
+                    {
+                        _availableAmenities.Add(new AmenityViewModel(amenity));
+                    }
+
+                    UpdateAvailableAmenitiesComboBox();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки удобств:\n{ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void UpdateAvailableAmenitiesComboBox()
+        {
+            // Фильтруем доступные удобства - показываем только те, которые еще не выбраны
+            var selectedIds = _selectedAmenities.Select(a => a.AmenityId).ToList();
+            var availableToAdd = _availableAmenities.Where(a => !selectedIds.Contains(a.AmenityId)).ToList();
+
+            CmbAmenities.ItemsSource = availableToAdd;
+            CmbAmenities.SelectedIndex = -1;
+
+            // Деактивируем кнопку добавления если нет доступных удобств
+            BtnAddAmenity.IsEnabled = availableToAdd.Any();
+
+            if (!availableToAdd.Any())
+            {
+                CmbAmenities.Text = "Все удобства уже добавлены";
+            }
+        }
+
+        private void UpdateAmenitiesVisibility()
+        {
+            // Обновляем видимость плейсхолдера
+            if (_selectedAmenities.Any())
+            {
+                NoAmenitiesPlaceholder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                NoAmenitiesPlaceholder.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BtnAddAmenity_Click(object sender, RoutedEventArgs e)
+        {
+            if (CmbAmenities.SelectedItem is AmenityViewModel selectedAmenity)
+            {
+                // Добавляем удобство в список выбранных
+                _selectedAmenities.Add(selectedAmenity);
+
+                // Обновляем UI
+                UpdateAvailableAmenitiesComboBox();
+                UpdateAmenitiesVisibility();
+
+                // Показываем уведомление
+                var snackbar = new MaterialDesignThemes.Wpf.Snackbar
+                {
+                    Message = new MaterialDesignThemes.Wpf.SnackbarMessage
+                    {
+                        Content = $"✅ Добавлено: {selectedAmenity.Name}"
+                    },
+                    IsActive = true
+                };
+
+                // Анимация добавления (опционально)
+                System.Windows.Media.Animation.DoubleAnimation fadeIn =
+                    new System.Windows.Media.Animation.DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(300));
+                AmenitiesListBox.BeginAnimation(OpacityProperty, fadeIn);
+            }
+            else
+            {
+                MessageBox.Show("Выберите удобство для добавления", "Внимание",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -81,6 +194,10 @@ namespace AgroCulture.Views
                 if (amenity != null)
                 {
                     _selectedAmenities.Remove(amenity);
+
+                    // Обновляем UI
+                    UpdateAvailableAmenitiesComboBox();
+                    UpdateAmenitiesVisibility();
                 }
             }
         }
@@ -155,12 +272,14 @@ namespace AgroCulture.Views
                         return;
                     }
 
+                    // Обновляем основные данные
                     cabin.Name = TxtName.Text.Trim();
                     cabin.Description = TxtDescription.Text.Trim();
                     cabin.MaxGuests = int.Parse(TxtCapacity.Text);
                     cabin.PricePerNight = decimal.Parse(TxtPrice.Text);
                     cabin.IsActive = CmbStatus.SelectedIndex == 0;
 
+                    // Удаляем старые связи с удобствами
                     var existing = context.CabinAmenities
                         .Where(ca => ca.CabinId == EditCabinId).ToList();
 
@@ -169,6 +288,7 @@ namespace AgroCulture.Views
                         context.CabinAmenities.Remove(item);
                     }
 
+                    // Добавляем новые связи с удобствами
                     foreach (var amenity in _selectedAmenities)
                     {
                         context.CabinAmenities.Add(new CabinAmenities
@@ -180,8 +300,10 @@ namespace AgroCulture.Views
 
                     context.SaveChanges();
 
-                    MessageBox.Show("Успешно сохранено!", "Успех",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"✅ Домик \"{cabin.Name}\" успешно обновлен!\n" +
+                                  $"Добавлено удобств: {_selectedAmenities.Count}",
+                                  "Успех",
+                                  MessageBoxButton.OK, MessageBoxImage.Information);
 
                     DialogResultSuccess = true;
                     this.Close();
@@ -196,14 +318,20 @@ namespace AgroCulture.Views
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            DialogResultSuccess = false;
-            this.Close();
+            var result = MessageBox.Show("Вы уверены, что хотите отменить изменения?",
+                                        "Подтверждение",
+                                        MessageBoxButton.YesNo,
+                                        MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                DialogResultSuccess = false;
+                this.Close();
+            }
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            DialogResultSuccess = false;
-            this.Close();
+            BtnCancel_Click(sender, e);
         }
     }
 }

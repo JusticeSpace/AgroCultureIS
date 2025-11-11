@@ -237,7 +237,7 @@
                     </Border>
 
                     <!-- DATAGRID -->
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding CabinsList}" AutoGenerateColumns="False"
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding CabinsList}" AutoGenerateColumns="False" Margin="8,0,0,0"
                              CanUserAddRows="False" IsReadOnly="True" RowHeight="64" SelectionMode="Single"
                              GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F3F4F6"
                              Background="White">
@@ -378,7 +378,7 @@
                                 </Border.Effect>
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="HomeCheck" Width="24" Height="24" Foreground="#10B981" VerticalAlignment="Center"/>
+                                        <materialDesign:PackIcon Width="24" Height="24" Foreground="#10B981" VerticalAlignment="Center"/>
                                         <TextBlock Text="Активных" FontSize="12" Foreground="#6B7280" Margin="8,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <TextBlock Text="{Binding ActiveCabins}" FontSize="28" FontWeight="Bold" Foreground="#059669" Margin="0,8,0,0"/>

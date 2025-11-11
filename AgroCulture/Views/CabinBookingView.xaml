@@ -342,7 +342,7 @@
                                 <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                         materialDesign:HintAssist.Hint="Иванов Иван Иванович"
                                         Text="{Binding GuestName, UpdateSourceTrigger=PropertyChanged}"
-                                        Height="48" 
+                                        Height="56" 
                                         Margin="0,0,0,16"/>
 
                                 <!-- 4. Телефон -->
@@ -353,15 +353,15 @@
                                 <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                         materialDesign:HintAssist.Hint="+7 (999) 123-45-67"
                                         Text="{Binding GuestPhone, UpdateSourceTrigger=PropertyChanged}"
-                                        Height="48" 
+                                        Height="56" 
                                         Margin="0,0,0,16"/>
                                 <!-- ✅ НОВОЕ: Email (опционально) -->
                                 <TextBlock Text="Email (опционально)" FontSize="14" Foreground="#424242" Margin="0,0,0,8"/>
-                                <TextBox x:Name="TxtGuestEmail"
-    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-    materialDesign:HintAssist.Hint="gost@example.com"
-    Text="{Binding GuestEmail, UpdateSourceTrigger=PropertyChanged}"
-    Height="48" Margin="0,0,0,16"/>
+                                        <TextBox x:Name="TxtGuestEmail"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        materialDesign:HintAssist.Hint="gost@example.com"
+                                        Text="{Binding GuestEmail, UpdateSourceTrigger=PropertyChanged}"
+                                        Height="56" Margin="0,0,0,16"/>
                             </StackPanel>
 
                             <!-- 5. Даты заезда/выезда (ВИДНО ВСЕМ) -->
@@ -380,7 +380,7 @@
                                               Margin="0,0,0,8"/>
                                     <DatePicker SelectedDate="{Binding CheckInDate, Mode=TwoWay}"
                                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                                               Height="48"/>
+                                               Height="56"/>
                                 </StackPanel>
 
                                 <!-- Дата выезда -->
@@ -391,7 +391,7 @@
                                               Margin="0,0,0,8"/>
                                     <DatePicker SelectedDate="{Binding CheckOutDate, Mode=TwoWay}"
                                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                                               Height="48"/>
+                                               Height="56"/>
                                 </StackPanel>
                             </Grid>
 
